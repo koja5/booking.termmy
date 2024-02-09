@@ -1,0 +1,21 @@
+.back-button {
+  
+  margin: 12px;
+  font-size: 30px;
+  color: var(--primary);
+  cursor: pointer;
+  border-radius: 50%;
+  border: 1px solid;
+  padding: 5px;
+  width: 44px;
+  height: 44px;
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  border: 1px solid lightgray;
+}
+
+.back-button:hover {
+  background: var(--primary);
+  color: var(--light);
+}

@@ -1,0 +1,14 @@
+{
+    "lang": "en",
+    "data": {
+        "general": {
+            "poweredBy": "Powered by"
+        },
+        "calendarTime": {
+            "noFreeTimeReservation": "No free time reservation!"
+        },
+        "service": {
+            "selectService": "Select a service"
+        }
+    }
+}

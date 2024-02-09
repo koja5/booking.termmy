@@ -1,0 +1,16 @@
+{
+    "lang": "fr",
+    "data": {
+        "navigations": {
+            "home": "Maison",
+            "settings": "Paramètres",
+            "allUsers": "Tous les utilisateurs",
+            "myLocations": "Mes emplacements",
+            "myServices": "Mes services"
+        },
+        "SAMPLE": {
+            "CONGRATULATIONS": "Toutes nos félicitations",
+            "BADGE": "Vous avez remporté la médaille d'or"
+        }
+    }
+}

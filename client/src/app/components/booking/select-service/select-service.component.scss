@@ -1,0 +1,30 @@
+.service-card {
+  border: 1px solid lightgray;
+  padding: 10px;
+  border-radius: 17px;
+  box-shadow: 0px 0px 5px 0px lightgray;
+}
+
+.service-card:hover {
+  border: 1px solid var(--primary);
+}
+
+.service-name {
+  font-weight: bolder;
+}
+
+.description-info {
+  position: absolute;
+  display: block;
+  top: 10px;
+  right: 10px;
+  border-radius: 67%;
+  border: 1px solid var(--primary);
+  width: 23px;
+  height: 23px;
+  text-align: center;
+  margin: auto;
+  padding-top: 1px;
+  padding-left: 1px;
+  cursor: pointer;
+}

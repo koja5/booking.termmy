@@ -1,0 +1,62 @@
+<div class="profile">
+
+    <div class="profile-card__img">
+        <img src="../../../../../assets/images/icons/company.png" alt="profile card">
+    </div>
+
+    <div class="profile-card__cnt js-profile-cnt">
+        <div class="profile-card__name">{{config.company_name}}</div>
+        <div class="profile-card__txt">{{config.company_description}}</div>
+        <div class="profile-card-loc">
+            <span class="profile-card-loc__txt">
+                {{config.business_address}}
+            </span>
+        </div>
+
+        <div class="profile-card-social">
+            <a *ngIf="config.facebook" href="https://www.facebook.com/{{config.facebook}}"
+                class="profile-card-social__item facebook" target="_blank">
+                <span class="icon-font">
+                    <span class="fa-brands fa-facebook"></span>
+                </span>
+            </a>
+
+            <a *ngIf="config.twitter" href="https://twitter.com/{{config.twitter}}"
+                class="profile-card-social__item twitter" target="_blank">
+                <span class="icon-font">
+                    <span class="fa-brands fa-twitter"></span>
+                </span>
+            </a>
+
+            <a *ngIf="config.instagram" href="https://www.instagram.com/{{config.instagram}}"
+                class="profile-card-social__item instagram" target="_blank">
+                <span class="icon-font">
+                    <span class="fa-brands fa-instagram"></span>
+                </span>
+            </a>
+
+            <a *ngIf="config.youtube" href="https://www.youtube.com/{{config.youtube}}"
+                class="profile-card-social__item behance" target="_blank">
+                <span class="icon-font">
+                    <span class="fa-brands fa-youtube"></span>
+                </span>
+            </a>
+
+            <a *ngIf="config.tiktok" href="https://tiktok.com/{{config.tiktok}}"
+                class="profile-card-social__item github" target="_blank">
+                <span class="icon-font">
+                    <span class="fa-brands fa-tiktok"></span>
+                </span>
+            </a>
+
+
+            <a *ngIf="config.website" href="{{config.website}}" class="profile-card-social__item link" target="_blank">
+                <span class="icon-font">
+                    <span class="fa fa-globe"></span>
+                </span>
+            </a>
+
+        </div>
+
+    </div>
+</div>

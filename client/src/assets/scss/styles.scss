@@ -1,0 +1,207 @@
+@import "syncfusion-calendar.scss";
+
+:root {
+  --dark: #283046;
+  --light: #b4b7bd;
+  --white: #fff;
+}
+
+.form-custom {
+  display: inline-block;
+}
+
+.hidden,
+.hide {
+  display: none !important;
+}
+
+.d-contents {
+  display: contents;
+}
+
+.date-none .e-date-icon {
+  display: none !important;
+}
+
+.pointer-event-none {
+  pointer-events: none;
+}
+
+.must-label {
+  font-size: 12px;
+}
+
+.e-outline.e-input-group:not(.e-input-focus),
+.e-outline.e-input-group:not(.e-success):not(.e-warning):not(.e-error):not(
+    .e-float-icon-left
+  ):not(.e-input-focus),
+.e-outline.e-input-group.e-control-wrapper:not(.e-success):not(.e-warning):not(
+    .e-error
+  ):not(.e-float-icon-left):not(.e-input-focus),
+.e-outline.e-input-group.e-float-icon-left:not(.e-input-focus),
+.e-outline.e-input-group.e-control-wrapper.e-float-icon-left:not(
+    .e-input-focus
+  ) {
+  border-color: #d8d6de !important;
+}
+
+.dark-layout .e-outline.e-input-group:not(.e-input-focus),
+.dark-layout
+  .e-outline.e-input-group:not(.e-success):not(.e-warning):not(.e-error):not(
+    .e-float-icon-left
+  ):not(.e-input-focus),
+.dark-layout
+  .e-outline.e-input-group.e-control-wrapper:not(.e-success):not(
+    .e-warning
+  ):not(.e-error):not(.e-float-icon-left):not(.e-input-focus),
+.dark-layout .e-outline.e-input-group.e-float-icon-left:not(.e-input-focus),
+.dark-layout
+  .e-outline.e-input-group.e-control-wrapper.e-float-icon-left:not(
+    .e-input-focus
+  ) {
+  border-color: #3b4253 !important;
+}
+
+.dark-layout .e-input-group .e-input-group-icon,
+.e-input-group.e-control-wrapper .e-input-group-icon {
+  color: var(--light) !important;
+}
+
+.e-outline.e-input-group.e-input-focus:hover:not(.e-success):not(
+    .e-warning
+  ):not(.e-error):not(.e-disabled):not(.e-float-icon-left),
+.e-outline.e-input-group.e-input-focus.e-control-wrapper:hover:not(
+    .e-success
+  ):not(.e-warning):not(.e-error):not(.e-disabled):not(.e-float-icon-left),
+.e-outline.e-float-input.e-input-focus.e-control-wrapper:hover:not(
+    .e-success
+  ):not(.e-warning):not(.e-error):not(.e-disabled):not(.e-float-icon-left),
+.e-outline.e-float-input.e-input-focus:hover:not(.e-success):not(
+    .e-warning
+  ):not(.e-error):not(.e-disabled):not(.e-float-icon-left),
+.e-outline.e-float-input.e-input-focus:hover:not(.e-input-group):not(
+    .e-success
+  ):not(.e-warning):not(.e-error):not(.e-disabled),
+.e-outline.e-float-input.e-input-focus.e-control-wrapper:hover:not(
+    .e-input-group
+  ):not(.e-success):not(.e-warning):not(.e-error):not(.e-disabled),
+.e-outline.e-input-group.e-input-focus:not(.e-success):not(.e-warning):not(
+    .e-error
+  ):not(.e-disabled),
+.e-outline.e-input-group.e-control-wrapper.e-input-focus:not(.e-success):not(
+    .e-warning
+  ):not(.e-error):not(.e-disabled),
+.e-outline.e-float-input.e-input-focus:not(.e-success):not(.e-warning):not(
+    .e-error
+  ):not(.e-disabled),
+.e-outline.e-float-input.e-control-wrapper.e-input-focus:not(.e-success):not(
+    .e-warning
+  ):not(.e-error):not(.e-disabled) {
+  border-color: #7367f0 !important;
+  box-shadow: none !important;
+}
+
+.dark-layout .e-outline.e-input-group,
+.dark-layout .e-outline.e-input-group.e-control-wrapper,
+.dark-layout .e-outline.e-float-input,
+.dark-layout .e-outline.e-float-input.e-input-group,
+.dark-layout .e-outline.e-float-input.e-control-wrapper,
+.dark-layout .e-outline.e-float-input.e-input-group.e-control-wrapper,
+.dark-layout
+  .e-outline.e-input-group
+  .e-input-group-icon
+  + .e-input-group-icon:last-child,
+.dark-layout
+  .e-outline.e-input-group.e-bigger
+  .e-input-group-icon
+  + .e-input-group-icon:last-child,
+.dark-layout
+  .e-outline.e-input-group
+  .e-input-group-icon.e-bigger
+  + .e-input-group-icon.e-bigger:last-child,
+.dark-layout
+  .e-bigger
+  .e-outline.e-input-group
+  .e-input-group-icon
+  + .e-input-group-icon:last-child,
+.dark-layout
+  .e-outline.e-input-group.e-small
+  .e-input-group-icon
+  + .e-input-group-icon:last-child,
+.dark-layout
+  .e-outline.e-input-group.e-small.e-bigger
+  .e-input-group-icon
+  + .e-input-group-icon:last-child,
+.dark-layout
+  .e-outline.e-input-group.e-small
+  .e-input-group-icon.e-bigger
+  + .e-input-group-icon.e-bigger:last-child,
+.dark-layout
+  .e-outline.e-input-group.e-control-wrapper
+  .e-input-group-icon
+  + .e-input-group-icon:last-child,
+.dark-layout
+  .e-outline.e-input-group.e-control-wrapper.e-bigger
+  .e-input-group-icon
+  + .e-input-group-icon:last-child,
+.dark-layout
+  .e-outline.e-input-group.e-control-wrapper
+  .e-input-group-icon.e-bigger
+  + .e-input-group-icon.e-bigger:last-child,
+.dark-layout
+  .e-outline.e-input-group.e-control-wrapper.e-small
+  .e-input-group-icon
+  + .e-input-group-icon:last-child,
+.dark-layout
+  .e-outline.e-input-group.e-control-wrapper.e-small.e-bigger
+  .e-input-group-icon
+  + .e-input-group-icon:last-child,
+.dark-layout
+  .e-outline.e-input-group.e-control-wrapper.e-small
+  .e-input-group-icon.e-bigger
+  + .e-input-group-icon.e-bigger:last-child,
+.dark-layout
+  .e-bigger
+  .e-outline.e-input-group.e-control-wrapper.e-small
+  .e-input-group-icon
+  + .e-input-group-icon:last-child,
+.dark-layout
+  .e-bigger
+  .e-outline.e-input-group.e-small
+  .e-input-group-icon
+  + .e-input-group-icon:last-child {
+  color: var(--light) !important;
+}
+
+.dark-layout .ng-select.error .ng-select-container,
+.dark-layout .ng-select.ng-select-single .ng-select-container {
+  background: var(--dark);
+}
+
+.white-space-break {
+  white-space: break-spaces;
+}
+
+.badge {
+  white-space: break-spaces;
+}
+
+@media (min-width: 992px) {
+  .modal-slide-in .modal-dialog {
+    width: 42rem !important;
+  }
+}
+
+@media (max-width: 991px) {
+  .footer {
+    display: none !important;
+  }
+}
+
+.modal-slide-in .modal-dialog {
+  width: 100%;
+}
+
+:host ::ng-deep .ngx-datatable .datatable-body .datatable-scroll {
+  display: inherit;
+}

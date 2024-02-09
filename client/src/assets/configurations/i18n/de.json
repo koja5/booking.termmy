@@ -1,0 +1,16 @@
+{
+    "lang": "de",
+    "data": {
+        "navigations": {
+            "home": "Heim",
+            "settings": "Einstellungen",
+            "allUsers": "Alle Benutzer",
+            "myLocations": "Meine Standorte",
+            "myServices": "Meine Dienste"
+        },
+        "SAMPLE": {
+            "CONGRATULATIONS": "Herzliche Glückwünsche",
+            "BADGE": "Sie haben die Goldmedaille gewonnen"
+        }
+    }
+}

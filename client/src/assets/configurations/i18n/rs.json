@@ -1,0 +1,32 @@
+{
+    "lang": "rs",
+    "data": {
+        "form": {
+            "mustFillThisField": "Molimo Vas popunite polje"
+        },
+        "allUsers": {
+            "name": "Ime"
+        },
+        "myLocations": {
+            "name": "Ime lokacije"
+        },
+        "myServices": {
+            "name": "Ime usluge",
+            "timeDuration": "Vreme trajanja terapije",
+            "price": "Cena",
+            "min": "minuta",
+            "currency": "RSD"
+        },
+        "navigations": {
+            "home": "Početna",
+            "settings": "Podešavanja",
+            "allUsers": "Svi korisnici",
+            "myLocations": "Moje lokacije",
+            "myServices": "Moje usluge"
+        },
+        "SAMPLE": {
+            "CONGRATULATIONS": "Congratulations",
+            "BADGE": "You have won gold medal"
+        }
+    }
+}

@@ -1,0 +1,31 @@
+<div class="wrapper">
+
+    <div class="profile-card js-profile-card" *ngIf="config">
+
+
+        <a _ngcontent-ng-c796926968="" href="/?utm_campaign=sign_up&amp;utm_medium=badge&amp;utm_source=invitee"
+            target="_blank" class="copyright VJL48qbQzWENTFAh1Knk e9TS9yoMqqIN2PqBo1QG _i6SG2jlTfccH2ZZblil">
+            <div _ngcontent-ng-c796926968="" data-id="branding"
+                class="copyright-container jWSwi_R_Xl7kPjUhuQoo _igrKj_5lj_5nWQu8DPw">
+                <div _ngcontent-ng-c796926968="" class="V7YfvNqWv0XKYKys7N7K __d5yUqDgBEjoX7J2dql copyright-text1">
+                    {{'general.poweredBy' | translate}}
+                </div>
+                <div _ngcontent-ng-c796926968="" class="HvybhIo63ZbBJxHh7Ann RK3ps09FjZwzHTaYDakl copyright-text2">
+                    Termmy
+                </div>
+            </div>
+        </a>
+
+
+        <app-profile-company *ngIf="!_helpService.isObjectEmpty(view)" [config]="config"></app-profile-company>
+
+        <div class="container">
+
+            <app-select-service *ngIf="!_helpService.isObjectEmpty(view)"></app-select-service>
+            <app-calendar-time *ngIf="view.service" [config]="config"></app-calendar-time>
+        </div>
+
+
+    </div>
+
+</div>
