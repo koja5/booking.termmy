@@ -29,6 +29,11 @@ a:hover {
   text-decoration: none;
 }
 
+.form-control:focus, ngx-intl-tel-input input:focus {
+  box-shadow: none !important;
+  border-color: var(--primary) !important;
+}
+
 .icon {
   display: inline-block;
   width: 1em;
@@ -434,4 +439,119 @@ a:hover {
 .btn-custom:hover {
   background: var(--primary);
   color: var(--light);
+}
+
+@media (max-width: 992px) {
+  .container-left {
+    border-bottom: 1px solid lightgray;
+    text-align: center;
+    position: fixed;
+    background: #fff;
+  }
+
+  .container-right {
+    margin-top: 170px;
+  }
+}
+
+@media (min-width: 993px) {
+  .container-left {
+    border-right: 1px solid lightgray;
+  }
+}
+
+.container-right {
+  padding: 30px;
+}
+
+.iti {
+  display: block !important;
+}
+
+.iti .dropdown-menu.country-dropdown {
+  border-top-left-radius: 0px;
+  border-top-right-radius: 0px;
+  border-color: #c7cace;
+  margin-top: -1px;
+}
+
+.iti__flag-container {
+  height: 44px;
+}
+
+.iti .iti__country-list {
+  box-shadow: none;
+  font-size: 14px;
+  margin-left: 0;
+  width: 244px;
+  max-height: 170px;
+}
+
+.iti__flag-container.open + input {
+  border-bottom-left-radius: 0px;
+  border-bottom-right-radius: 0px;
+}
+
+.iti .search-container input {
+  font-size: 14px;
+  border-color: #c7cace;
+  border-radius: 0;
+  padding: 5px 10px;
+}
+
+.iti .search-container input:focus {
+  outline: none;
+}
+
+@media screen and (max-width: 479px) {
+  .iti .iti__country-list {
+    width: 88.3vw;
+  }
+}
+
+ngx-intl-tel-input input {
+  height: 44px;
+  width: 100%;
+  margin-bottom: 20px;
+  padding: 10px;
+  padding-left: 50px;
+  border-style: solid;
+  border-width: 1px;
+  border-color: #c7cace;
+  border-radius: 4px;
+  font-size: 18px;
+}
+
+ngx-intl-tel-input.ng-invalid.ng-touched input {
+  border: 1px solid #c0392b;
+}
+
+ngx-intl-tel-input input:hover {
+  box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.24);
+}
+
+ngx-intl-tel-input input:focus {
+  outline: none !important;
+  border-color: #3498db;
+  box-shadow: 0 0 0 0 #000;
+}
+
+ngx-intl-tel-input input::-webkit-input-placeholder {
+  color: #bac2c7;
+}
+
+ngx-intl-tel-input input:-ms-input-placeholder {
+  color: #bac2c7;
+}
+
+ngx-intl-tel-input input::-ms-input-placeholder {
+  color: #bac2c7;
+}
+
+ngx-intl-tel-input input::placeholder {
+  color: #bac2c7;
+}
+
+ngx-intl-tel-input input[disabled] {
+  background-color: #e5eaf1;
 }

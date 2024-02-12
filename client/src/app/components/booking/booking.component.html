@@ -20,9 +20,9 @@
         <app-profile-company *ngIf="!_helpService.isObjectEmpty(view)" [config]="config"></app-profile-company>
 
         <div class="container">
-
             <app-select-service *ngIf="!_helpService.isObjectEmpty(view)"></app-select-service>
-            <app-calendar-time *ngIf="view.service" [config]="config"></app-calendar-time>
+            <app-calendar-time *ngIf="view.service&&!view.appointment" [config]="config"></app-calendar-time>
+            <app-customer-data *ngIf="view.appointment" [config]="config"></app-customer-data>
         </div>
 
 

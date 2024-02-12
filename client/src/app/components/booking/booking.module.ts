@@ -10,6 +10,9 @@ import { SelectServiceComponent } from './select-service/select-service.componen
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { BackButtonComponent } from './common/back-button/back-button.component';
 import { PreviewInformationComponent } from './common/preview-information/preview-information.component';
+import { CustomerDataComponent } from './customer-data/customer-data.component';
+import { NgxIntlTelInputModule } from 'ngx-intl-tel-input';
+import { ReactiveFormsModule } from '@angular/forms';
 
 const routes = [
   {
@@ -19,12 +22,22 @@ const routes = [
 ];
 
 @NgModule({
-  declarations: [BookingComponent, CalendarTimeComponent, ProfileCompanyComponent, SelectServiceComponent, BackButtonComponent, PreviewInformationComponent],
+  declarations: [
+    BookingComponent,
+    CalendarTimeComponent,
+    ProfileCompanyComponent,
+    SelectServiceComponent,
+    BackButtonComponent,
+    PreviewInformationComponent,
+    CustomerDataComponent,
+  ],
   imports: [
     CommonModule,
     TranslateModule,
     RouterModule.forChild(routes),
-    NgbModule
+    NgbModule,
+    ReactiveFormsModule,
+    NgxIntlTelInputModule,
   ],
   providers: [],
   bootstrap: [],

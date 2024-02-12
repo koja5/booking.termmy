@@ -9,6 +9,13 @@
         },
         "service": {
             "selectService": "Select a service"
+        },
+        "customerData": {
+            "enterYourInformation": "Enter your information",
+            "firstname": "Firstname",
+            "lastname": "Lastname",
+            "email": "Email",
+            "telephone": "Telephone"
         }
     }
 }

@@ -1,26 +1,25 @@
 <div class="row">
-    <div class="col-md-3 col-12 appointment-container-left">
+    <div class="col-md-3 col-12 container-left">
         <app-back-button></app-back-button>
 
         <app-preview-information [config]="config"></app-preview-information>
     </div>
-    <div class="col-md-9 col-12 appointment-container-right">
-
+    <div class="col-md-9 col-12 container-right" *ngIf="!loader">
         <div *ngFor="let item of days; let k = index">
             <div class="calendar2-container row">
                 <div class="{{item.today ? 'today' : ''}} col-md-2 col-xs-12 calendar2-days">
                     {{item.name}}
                     {{item.day}}.{{item.month}}.{{item.year}}
                 </div>
-                <div *ngIf="!item.appointment || item.appointment.length === 0"
+                <div *ngIf="!allAppointments[item.date] || allAppointments[item.date].length === 0;"
                     class="calendar2-times col-md-10 col-xs-12 row">
                     <span class="no-free-time">{{'calendarTime.noFreeTimeReservation' | translate}}</span>
 
                 </div>
-                <div *ngIf="allAppointments[item.index] && allAppointments[item.index].length > 0;"
+                <div *ngIf="allAppointments[item.date] && allAppointments[item.date].length > 0;"
                     class="calendar2-times col-md-10 col-xs-12 row">
-                    <span *ngFor="let appointment of allAppointments[item.index].sort(); let i = index"
-                        class="col-lg-1 col-md-2 col-sm-2 col-5"
+                    <span *ngFor="let appointment of allAppointments[item.date].sort(); let i = index"
+                        class="col-lg-2 col-md-2 col-sm-2 col-5 {{isSelected(appointment.time) ? 'selected' : ''}}"
                         (click)="selectTime(item.date, appointment.time, appointment.user_id, k, i)">
                         {{appointment.time | date:
                         'HH:mm'}}

@@ -77,32 +77,6 @@ html body {
   }
 }
 
-@media (max-width: 992px) {
-  .appointment-container-left {
-    border-bottom: 1px solid lightgray;
-    text-align: center;
-    position: fixed;
-    background: #fff;
-  }
-
-  .appointment-container-right {
-    margin-top: 170px;
-  }
-}
-
-@media (min-width: 993px) {
-  .appointment-container-left {
-    border-right: 1px solid lightgray;
-  }
-}
-
-.appointment-container {
-  margin-top: 55px;
-}
-
-.appointment-container-right {
-  padding: 30px;
-}
 
 .appointment-user-wrapper {
   background: #2c3153;
