@@ -1,0 +1,53 @@
+<div class="mb-4">
+    <h3>{{'payment.title' | translate}}</h3>
+</div>
+<div class="container-right-content">
+    <div class="panel panel-default" (click)="isCollapsePayByCreditCard = false; isCollapsePayOnArrival = true"
+        [attr.aria-expanded]="!isCollapsePayByCreditCard" aria-controls="collapseExample">
+        <div class="panel-heading" role="tab" id="headingOne">
+            <h4 class="panel-title">
+                <a role="button">
+                    <img class="payment-option-icon" src="../../../../assets/images/icons/credit-card.png">
+                    {{'payment.payByCreditCard' | translate}}
+                </a>
+                <div class="arrow-icon">
+                    <span class="fa fa-angle-{{!isCollapsePayByCreditCard ? 'up' : 'down'}}"></span>
+                </div>
+            </h4>
+        </div>
+        <div class="panel-body" #collapse="ngbCollapse" [(ngbCollapse)]="isCollapsePayByCreditCard">
+            <div class="card b-none">
+                <div class="card-body">
+                    <app-preview-booking-information></app-preview-booking-information>
+                    <div class="mt-5 mb-2 credit-card-container w-75 m-auto text-center">
+                        <h5 class="mb-4">{{'payment.fillCreditCardInformation' | translate}}</h5>
+                        <stripe-card #stripeCard (tokenChange)="setStripeToken($event)" (catch)="onStripeError($event)"
+                            [options]="{hidePostalCode: true, style: { base: { fontSize: '18px' }}}"></stripe-card>
+
+                        <button (click)="payAndBooked()" class="btn btn-primary mt-5 w-75">{{'payment.payAndBooked' |
+                            translate}}</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="panel panel-default" (click)="isCollapsePayOnArrival = false; isCollapsePayByCreditCard = true"
+        [attr.aria-expanded]="!isCollapsePayOnArrival" aria-controls="collapseExample">
+        <div class="panel-heading" role="tab" id="headingOne">
+            <h4 class="panel-title">
+                <a role="button">
+                    <img class="payment-option-icon" src="../../../../assets/images/icons/pay-on-arrival.png">
+                    {{'payment.payOnArrival' | translate}}
+                </a>
+                <div class="arrow-icon">
+                    <span class="fa fa-angle-{{!isCollapsePayOnArrival ? 'up' : 'down'}}"></span>
+                </div>
+            </h4>
+        </div>
+        <div class="panel-body" #collapse="ngbCollapse" [(ngbCollapse)]="isCollapsePayOnArrival">
+            <div class="card b-none">
+                <div class="card-body">You can collapse this card by clicking one Toggle button</div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,58 @@
+body {
+  text-align: center;
+  font-family: verdana;
+  width: 99%;
+}
+
+.ball-loader {
+  width: 80px;
+  height: 16.6666666667px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translateX(-50%) translateY(-50%);
+  transform: translateX(-50%) translateY(-50%);
+}
+
+.ball-loader-ball {
+  will-change: transform;
+  height: 16.6666666667px;
+  width: 16.6666666667px;
+  border-radius: 50%;
+  background-color: var(--primary);
+  position: absolute;
+  -webkit-animation: grow 0.7s ease-in-out infinite alternate;
+  animation: grow 0.7s ease-in-out infinite alternate;
+}
+
+.ball-loader-ball.ball1 {
+  left: 0;
+  -webkit-transform-origin: 100% 50%;
+  transform-origin: 100% 50%;
+}
+.ball-loader-ball.ball2 {
+  left: 50%;
+  -webkit-transform: translateX(-50%) scale(1);
+  transform: translateX(-50%) scale(1);
+  -webkit-animation-delay: 0.33s;
+  animation-delay: 0.33s;
+}
+.ball-loader-ball.ball3 {
+  right: 0;
+  -webkit-animation-delay: 0.66s;
+  animation-delay: 0.66s;
+}
+
+@-webkit-keyframes grow {
+  to {
+    -webkit-transform: translateX(-50%) scale(0);
+    transform: translateX(-50%) scale(0);
+  }
+}
+
+@keyframes grow {
+  to {
+    -webkit-transform: translateX(-50%) scale(0);
+    transform: translateX(-50%) scale(0);
+  }
+}

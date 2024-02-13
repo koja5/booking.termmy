@@ -1,10 +1,11 @@
-<div class="row">
-    <div class="col-md-3 col-12 container-left">
-        <app-back-button></app-back-button>
-
-        <app-preview-information [config]="config"></app-preview-information>
+<div class="mb-4">
+    <h3>{{'calendarTime.selectDateAndTime' | translate}}</h3>
+</div>
+<div class="container-right-content">
+    <div *ngIf="loader">
+        <app-loader></app-loader>
     </div>
-    <div class="col-md-9 col-12 container-right" *ngIf="!loader">
+    <div *ngIf="!loader" class="{{loader ? 'loader-opacity' : ''}}">
         <div *ngFor="let item of days; let k = index">
             <div class="calendar2-container row">
                 <div class="{{item.today ? 'today' : ''}} col-md-2 col-xs-12 calendar2-days">

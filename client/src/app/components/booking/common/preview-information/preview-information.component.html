@@ -1,15 +1,16 @@
-<div class="pt-2 text-center">
-    <h6 *ngIf="config.company_name">{{config.company_name}}</h6>
+<div class="pt-2">
+    <h6 class="mb-0" *ngIf="config.company_name">{{config.company_name}}</h6>
     <h3 class="service-name">{{data.service}}</h3>
-    <div class="d-flex justify-content-around text-center">
-        <div>
-            <span class="fa fa-clock"></span>
-            <h6>{{data.time}} min</h6>
-        </div>
-        <div></div>
-        <div>
-            <span class="fa fa-money-bill"></span>
-            <h6>{{data.price}} €</h6>
-        </div>
+    <div class="d-none d-md-flex">
+        <h5 class="fa fa-clock"></h5>
+        <h6 class="ms-2">{{data.time}} min</h6>
+    </div>
+    <div class="d-none d-md-flex">
+        <h5 class="fa fa-money-bill"></h5>
+        <h6 class="ms-2">{{data.price}} €</h6>
+    </div>
+    <div *ngIf="data.appointment" class="d-flex">
+        <h5 class="fa fa-calendar"></h5>
+        <h6 class="ms-2">{{data.appointment | date: 'HH:mm, EEEE, MMMM d, yyyy'}}</h6>
     </div>
 </div>

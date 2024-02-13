@@ -4,11 +4,11 @@ import * as moment from 'moment';
 import { CallApiService } from 'src/app/services/call-api.service';
 
 @Component({
-  selector: 'app-calendar-time',
-  templateUrl: './calendar-time.component.html',
-  styleUrls: ['./calendar-time.component.scss'],
+  selector: 'app-select-time',
+  templateUrl: './select-time.component.html',
+  styleUrls: ['./select-time.component.scss'],
 })
-export class CalendarTimeComponent {
+export class SelectTimeComponent {
   @Input() config: any;
 
   public week: any;
@@ -85,7 +85,6 @@ export class CalendarTimeComponent {
       now.add(1, 'days');
       i++;
     }
-    this.loader = false;
   }
 
   getWorkTime() {
@@ -99,9 +98,7 @@ export class CalendarTimeComponent {
         this.worktime = data;
         if (data && data.length) {
           this.packWorkTimePerDays(data[0]);
-          setTimeout(() => {
-            this.loader = false;
-          }, 1000);
+          this.loader = false;
         }
       });
   }
@@ -217,7 +214,7 @@ export class CalendarTimeComponent {
     this.selectedTime = time;
     this._router.navigate(['.'], {
       relativeTo: this._activatedRouter.parent,
-      queryParams: { appointment: time, user: user_id },
+      queryParams: { step: 2, appointment: time, user: user_id },
       queryParamsHandling: 'merge',
     });
   }
@@ -225,7 +222,6 @@ export class CalendarTimeComponent {
   isSelected(time: any) {
     console.log(this.selectedTime.toDate(), time.toDate());
     if (this.selectedTime.toDate() === time.toDate()) {
-      console.log("USAO!!!!!!!!!!!");
       return true;
     }
     return false;

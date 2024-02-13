@@ -16,13 +16,23 @@
             </div>
         </a>
 
-
-        <app-profile-company *ngIf="!_helpService.isObjectEmpty(view)" [config]="config"></app-profile-company>
-
-        <div class="container">
+        <div *ngIf="!_helpService.isObjectEmpty(view)">
+            <app-profile-company [config]="config"></app-profile-company>
             <app-select-service *ngIf="!_helpService.isObjectEmpty(view)"></app-select-service>
-            <app-calendar-time *ngIf="view.service&&!view.appointment" [config]="config"></app-calendar-time>
-            <app-customer-data *ngIf="view.appointment" [config]="config"></app-customer-data>
+        </div>
+        <div class="container booking-container" *ngIf="_helpService.isObjectEmpty(view)">
+            <div class="row">
+                <div class="col-md-4 col-12 container-left">
+                    <app-back-button></app-back-button>
+
+                    <app-preview-information [config]="config"></app-preview-information>
+                </div>
+                <div class="col-md-8 col-12 container-right">
+                    <app-select-time *ngIf="view.service&&!view.appointment" [config]="config"></app-select-time>
+                    <app-customer-form *ngIf="view.appointment&&!view.customer" [config]="config"></app-customer-form>
+                    <app-select-payment *ngIf="view.customer" [config]="config"></app-select-payment>
+                </div>
+            </div>
         </div>
 
 

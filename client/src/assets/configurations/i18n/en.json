@@ -5,17 +5,38 @@
             "poweredBy": "Powered by"
         },
         "calendarTime": {
-            "noFreeTimeReservation": "No free time reservation!"
+            "noFreeTimeReservation": "No free time reservation!",
+            "selectDateAndTime": "Select a date & time"
         },
         "service": {
             "selectService": "Select a service"
         },
         "customerData": {
-            "enterYourInformation": "Enter your information",
-            "firstname": "Firstname",
-            "lastname": "Lastname",
-            "email": "Email",
-            "telephone": "Telephone"
+            "enterYourInformation": "Enter details",
+            "firstname": "Firstname *",
+            "firstnamePlaceholder": "",
+            "lastname": "Lastname *",
+            "lastnamePlaceholder": "",
+            "email": "Email *",
+            "emailPlaceholder": "",
+            "phone": "Phone *",
+            "description": "Please share anything that will help prepare for our meeting.",
+            "descriptionPlaceholder": "",
+            "fillFirstname": "Please fill your firstname",
+            "fillLastname": "Please fill your lastname",
+            "fillEmail": "Please fill your email",
+            "fillPhone": "Please fill your phone"
+        },
+        "payment": {
+            "title": "Payment",
+            "payByCreditCard": "Pay by credit card",
+            "payOnArrival": "Pay on arrival",
+            "fillCreditCardInformation": "Fill credit card information",
+            "payAndBooked": "Pay and booked"
+        },
+        "previewBookingInformation": {
+            "yourPersonalData": "Your personal data",
+            "bookingInfo": "Booking info"
         }
     }
 }

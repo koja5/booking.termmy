@@ -1,0 +1,57 @@
+<div class="mb-4">
+    <h3>{{'customerData.enterYourInformation' | translate}}</h3>
+</div>
+<div class="container-right-content">
+    <form #f="ngForm" [formGroup]="data" (submit)="submitForm($event)">
+        <div class="row">
+            <div class="col-12 mb-3">
+                <label>{{'customerData.firstname' | translate}}</label>
+                <input type="text" class="form-control"
+                    placeholder="{{'customerData.firstnamePlaceholder' | translate}}" formControlName="firstname">
+                <span *ngIf="submited&&!data.controls.firstname.valid" class="error">
+                    {{'customerData.fillFirstname' | translate}}
+                </span>
+            </div>
+            <div class="col-12 mb-3">
+                <label>{{'customerData.lastname' | translate}}</label>
+                <input type="text" class="form-control" placeholder="{{'customerData.lastnamePlaceholder' | translate}}"
+                    formControlName="lastname">
+                <div *ngIf="submited&&!data.controls.lastname.valid" class="error">
+                    {{'customerData.fillLastname' | translate}}
+                </div>
+            </div>
+            <div class="col-12 mb-3">
+                <label>{{'customerData.email' | translate}}</label>
+                <input type="text" class="form-control" placeholder="{{'customerData.emailPlaceholder' | translate}}"
+                    formControlName="email">
+                <div *ngIf="submited&&!data.controls.email.valid" class="error">
+                    {{'customerData.fillEmail' | translate}}
+                </div>
+            </div>
+            <div class="col-12 mb-3">
+                <label>{{'customerData.phone' | translate}}</label>
+                <ngx-intl-tel-input [cssClass]="'custom'" [preferredCountries]="preferredCountries"
+                    [enableAutoCountrySelect]="true" [enablePlaceholder]="true" [searchCountryFlag]="true"
+                    [searchCountryField]="[
+                  SearchCountryField.Iso2,
+                  SearchCountryField.Name
+                ]" [selectFirstCountry]="false" [selectedCountryISO]="CountryISO.Austria" [maxLength]="15"
+                    [phoneValidation]="true" [separateDialCode]="separateDialCode"
+                    [numberFormat]="PhoneNumberFormat.National" name="phone" formControlName="phone">
+                </ngx-intl-tel-input>
+                <div *ngIf="submited&&!data.controls.phone.valid" class="error">
+                    {{'customerData.fillPhone' | translate}}
+                </div>
+            </div>
+            <div class="col-12 mb-3">
+                <label>{{'customerData.description' | translate}}</label>
+                <textarea type="text" class="form-control"
+                    placeholder="{{'customerData.descriptionPlaceholder' | translate}}" formControlName="description"
+                    rows="3"></textarea>
+            </div>
+        </div>
+        <div class="col-12 text-right">
+            <button class="btn btn-primary" type="submit">Submit form</button>
+        </div>
+    </form>
+</div>

@@ -1,0 +1,18 @@
+<div class="row text-center">
+    <div class="col-md-6 col-12">
+        <h5>
+            {{customer.firstname}} {{customer.lastname}}
+        </h5>
+        <p>
+            {{customer.email}}
+        </p>
+        <p>
+            {{customer.phone.internationalNumber}}
+        </p>
+    </div>
+    <div class="col-md-6 col-12">
+        <h5>{{queryParams.service}}</h5>
+        <p>{{queryParams.price}} EUR</p>
+        <p>{{queryParams.appointment | date: 'HH:mm, EEEE, MMMM d, yyyy'}}</p>
+    </div>
+</div>

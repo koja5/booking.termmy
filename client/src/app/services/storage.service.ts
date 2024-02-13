@@ -17,12 +17,16 @@ export class StorageService {
     sessionStorage.setItem(key, JSON.stringify(value));
   }
 
-  getSessionStorageSimple(key: string) {
-    return sessionStorage.getItem(key);
-  }
-
-  getSessionStorageObject(key: string) {
-    return JSON.parse(JSON.stringify(sessionStorage.getItem(key)));
+  getSessionStorage(key: string) {
+    if (
+      sessionStorage.getItem(key) &&
+      sessionStorage.getItem(key)?.startsWith('{') &&
+      sessionStorage.getItem(key)?.endsWith('}')
+    ) {
+      return JSON.parse(sessionStorage.getItem(key)!);
+    } else {
+      sessionStorage.getItem(key);
+    }
   }
 
   removeAllSessionStorage() {
