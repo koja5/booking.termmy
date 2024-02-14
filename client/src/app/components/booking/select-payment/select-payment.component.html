@@ -20,7 +20,7 @@
                 <div class="card-body">
                     <app-preview-booking-information></app-preview-booking-information>
                     <div class="mt-5 mb-2 credit-card-container w-75 m-auto text-center">
-                        <h5 class="mb-4">{{'payment.fillCreditCardInformation' | translate}}</h5>
+                        <h5 class="mb-5">{{'payment.fillCreditCardInformation' | translate}}</h5>
                         <stripe-card #stripeCard (tokenChange)="setStripeToken($event)" (catch)="onStripeError($event)"
                             [options]="{hidePostalCode: true, style: { base: { fontSize: '18px' }}}"></stripe-card>
 
