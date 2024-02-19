@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, ElementRef, Input } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { CallApiService } from 'src/app/services/call-api.service';
 
@@ -9,8 +9,4 @@ import { CallApiService } from 'src/app/services/call-api.service';
 })
 export class ProfileCompanyComponent {
   @Input() config: any;
-
-  constructor() {}
-
-  ngOnInit() {}
 }

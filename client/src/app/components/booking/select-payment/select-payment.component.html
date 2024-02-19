@@ -2,6 +2,98 @@
     <h3>{{'payment.title' | translate}}</h3>
 </div>
 <div class="container-right-content">
+    <div class="panel panel-default" (click)="isCollapsePayOnArrival = false; isCollapsePayByCreditCard = true"
+        [attr.aria-expanded]="!isCollapsePayOnArrival" aria-controls="collapseExample">
+        <div class="panel-heading" role="tab" id="headingOne">
+            <h4 class="panel-title">
+                <a role="button">
+                    <img class="payment-option-icon" src="../../../../assets/images/icons/pay-on-arrival.png">
+                    {{'payment.payOnArrival' | translate}}
+                </a>
+                <div class="arrow-icon">
+                    <span class="fa fa-angle-{{!isCollapsePayOnArrival ? 'up' : 'down'}}"></span>
+                </div>
+            </h4>
+        </div>
+        <div class="panel-body" #collapse="ngbCollapse" [(ngbCollapse)]="isCollapsePayOnArrival">
+            <div class="card b-none">
+                <div class="card-body">
+                    <div class="mb-2 credit-card-container w-75 m-auto">
+                        <div class="mb-4">
+                            {{'payment.payOnArrivalText' | translate}}
+                        </div>
+
+                        <form #f="ngForm" [formGroup]="clientData">
+                            <div class="row">
+                                <div class="col-6 mb-2">
+                                    <label>{{'clientData.firstname' | translate}}</label>
+                                    <input type="text" class="form-control"
+                                        placeholder="{{'clientData.firstnamePlaceholder' | translate}}"
+                                        formControlName="firstname">
+                                    <span *ngIf="!clientData.controls.firstname.valid" class="error">
+                                        {{'clientData.fillFirstname' | translate}}
+                                    </span>
+                                </div>
+                                <div class="col-6 mb-2">
+                                    <label>{{'clientData.lastname' | translate}}</label>
+                                    <input type="text" class="form-control"
+                                        placeholder="{{'clientData.lastnamePlaceholder' | translate}}"
+                                        formControlName="lastname">
+                                    <div *ngIf="!clientData.controls.lastname.valid" class="error">
+                                        {{'clientData.fillLastname' | translate}}
+                                    </div>
+                                </div>
+                                <div class="col-12 mb-2">
+                                    <label>{{'clientData.email' | translate}}</label>
+                                    <input type="text" class="form-control"
+                                        placeholder="{{'clientData.emailPlaceholder' | translate}}"
+                                        formControlName="email">
+                                    <div *ngIf="!clientData.controls.email.valid" class="error">
+                                        {{'clientData.fillEmail' | translate}}
+                                    </div>
+                                </div>
+                                <div class="col-12 mb-3">
+                                    <label>{{'clientData.telephone' | translate}}</label>
+                                    <ngx-intl-tel-input [cssClass]="'custom'" [preferredCountries]="preferredCountries"
+                                        [enableAutoCountrySelect]="true" [enablePlaceholder]="true"
+                                        [searchCountryFlag]="true" [searchCountryField]="[
+                                  SearchCountryField.Iso2,
+                                  SearchCountryField.Name
+                                ]" [selectFirstCountry]="false" [selectedCountryISO]="CountryISO.Austria"
+                                        [maxLength]="15" [phoneValidation]="true" [separateDialCode]="separateDialCode"
+                                        [numberFormat]="PhoneNumberFormat.National" name="telephone"
+                                        formControlName="telephone">
+                                    </ngx-intl-tel-input>
+                                    <div *ngIf="!clientData.controls.telephone.valid" class="error">
+                                        {{'clientData.fillPhone' | translate}}
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+
+
+                        <div class="form-check accept-terms-privacy">
+                            <input class="form-check-input" type="checkbox" id="accept" [(ngModel)]="accept">
+                            <label class="form-check-label" for="flexCheckDefault">
+                                {{'payment.acceptTermsAndPrivacyPolicy' | translate}}
+                            </label>
+                        </div>
+
+                        <div class="text-center mt-4 mb-4">
+                            <button (click)="payAndBooked()" class="btn btn-primary w-75 payment"
+                                [disabled]="paying || (submitted&&!accept) ? true : false">
+                                <app-loader-small *ngIf="paying"></app-loader-small>
+                                {{'payment.payAndBooked'
+                                |
+                                translate}}</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
     <div class="panel panel-default" (click)="isCollapsePayByCreditCard = false; isCollapsePayOnArrival = true"
         [attr.aria-expanded]="!isCollapsePayByCreditCard" aria-controls="collapseExample">
         <div class="panel-heading" role="tab" id="headingOne">
@@ -18,36 +110,91 @@
         <div class="panel-body" #collapse="ngbCollapse" [(ngbCollapse)]="isCollapsePayByCreditCard">
             <div class="card b-none">
                 <div class="card-body">
-                    <app-preview-booking-information></app-preview-booking-information>
-                    <div class="mt-5 mb-2 credit-card-container w-75 m-auto text-center">
-                        <h5 class="mb-5">{{'payment.fillCreditCardInformation' | translate}}</h5>
-                        <stripe-card #stripeCard (tokenChange)="setStripeToken($event)" (catch)="onStripeError($event)"
-                            [options]="{hidePostalCode: true, style: { base: { fontSize: '18px' }}}"></stripe-card>
+                    <div class="mb-2 credit-card-container w-75 m-auto">
+                        <h5 class="mb-5 text-center">{{'payment.fillCreditCardInformation' | translate}}</h5>
 
-                        <button (click)="payAndBooked()" class="btn btn-primary mt-5 w-75">{{'payment.payAndBooked' |
-                            translate}}</button>
+                        <div class="client-data">
+                            <form #f="ngForm" [formGroup]="clientData">
+                                <div class="row">
+                                    <div class="col-6 mb-2">
+                                        <label>{{'clientData.firstname' | translate}}</label>
+                                        <input type="text" class="form-control"
+                                            placeholder="{{'clientData.firstnamePlaceholder' | translate}}"
+                                            formControlName="firstname">
+                                        <span *ngIf="!clientData.controls.firstname.valid" class="error">
+                                            {{'clientData.fillFirstname' | translate}}
+                                        </span>
+                                    </div>
+                                    <div class="col-6 mb-2">
+                                        <label>{{'clientData.lastname' | translate}}</label>
+                                        <input type="text" class="form-control"
+                                            placeholder="{{'clientData.lastnamePlaceholder' | translate}}"
+                                            formControlName="lastname">
+                                        <div *ngIf="!clientData.controls.lastname.valid" class="error">
+                                            {{'clientData.fillLastname' | translate}}
+                                        </div>
+                                    </div>
+                                    <div class="col-12 mb-2">
+                                        <label>{{'clientData.email' | translate}}</label>
+                                        <input type="text" class="form-control"
+                                            placeholder="{{'clientData.emailPlaceholder' | translate}}"
+                                            formControlName="email">
+                                        <div *ngIf="!clientData.controls.email.valid" class="error">
+                                            {{'clientData.fillEmail' | translate}}
+                                        </div>
+                                    </div>
+                                    <div class="col-12 mb-3">
+                                        <label>{{'clientData.telephone' | translate}}</label>
+                                        <ngx-intl-tel-input [cssClass]="'custom'"
+                                            [preferredCountries]="preferredCountries" [enableAutoCountrySelect]="true"
+                                            [enablePlaceholder]="true" [searchCountryFlag]="true" [searchCountryField]="[
+                                          SearchCountryField.Iso2,
+                                          SearchCountryField.Name
+                                        ]" [selectFirstCountry]="false" [selectedCountryISO]="CountryISO.Austria"
+                                            [maxLength]="15" [phoneValidation]="true"
+                                            [separateDialCode]="separateDialCode"
+                                            [numberFormat]="PhoneNumberFormat.National" name="telephone"
+                                            formControlName="telephone">
+                                        </ngx-intl-tel-input>
+                                        <div *ngIf="!clientData.controls.telephone.valid" class="error">
+                                            {{'clientData.fillPhone' | translate}}
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+
+
+                        <div *ngIf="!elementsOptions.clientSecret">
+                            <app-loader></app-loader>
+                        </div>
+                        <div *ngIf="elementsOptions.clientSecret" style="margin-bottom: 10px">
+
+                            <ngx-stripe-elements [stripe]="stripe" [elementsOptions]="elementsOptions">
+                                <ngx-stripe-payment [appearance]="appearance" />
+                            </ngx-stripe-elements>
+                        </div>
+                        <div class="form-check accept-terms-privacy">
+                            <input class="form-check-input" type="checkbox" id="accept" [(ngModel)]="accept">
+                            <label class="form-check-label" for="flexCheckDefault">
+                                {{'payment.acceptTermsAndPrivacyPolicy' | translate}}
+                            </label>
+                        </div>
+                        <div *ngIf="submitted&&!accept" class="error">
+                            {{'payment.needAcceptTermsAndPrivacyPolicy' | translate}}
+                        </div>
+                        <div class="text-center mt-4">
+                            <button (click)="payAndBooked()" class="btn btn-primary w-75 payment"
+                                [disabled]="paying || (submitted&&!accept) ? true : false">
+                                <app-loader-small *ngIf="paying"></app-loader-small>
+                                {{'payment.payAndBooked'
+                                |
+                                translate}}</button>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <div class="panel panel-default" (click)="isCollapsePayOnArrival = false; isCollapsePayByCreditCard = true"
-        [attr.aria-expanded]="!isCollapsePayOnArrival" aria-controls="collapseExample">
-        <div class="panel-heading" role="tab" id="headingOne">
-            <h4 class="panel-title">
-                <a role="button">
-                    <img class="payment-option-icon" src="../../../../assets/images/icons/pay-on-arrival.png">
-                    {{'payment.payOnArrival' | translate}}
-                </a>
-                <div class="arrow-icon">
-                    <span class="fa fa-angle-{{!isCollapsePayOnArrival ? 'up' : 'down'}}"></span>
-                </div>
-            </h4>
-        </div>
-        <div class="panel-body" #collapse="ngbCollapse" [(ngbCollapse)]="isCollapsePayOnArrival">
-            <div class="card b-none">
-                <div class="card-body">You can collapse this card by clicking one Toggle button</div>
-            </div>
-        </div>
-    </div>
+
 </div>

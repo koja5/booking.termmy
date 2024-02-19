@@ -7,6 +7,8 @@ const cookieParser = require("cookie-parser");
 
 //API
 const bookingApi = require("./providers/booking-api");
+const googleApi = require("./providers/google-api");
+const paymentApi = require("./providers/payment-api");
 //END API
 
 const sqlDatabase = require("./providers/config/sql-database");
@@ -51,6 +53,8 @@ app.use(cookieParser());
 
 //providers
 app.use("/api/booking", bookingApi);
+app.use("/api/google", googleApi);
+app.use("/api/payment", paymentApi);
 
 app.use(express.static(path.join(__dirname, "../client/src")));
 

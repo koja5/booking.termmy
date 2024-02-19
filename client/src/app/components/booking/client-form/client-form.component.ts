@@ -9,11 +9,11 @@ import {
 import { StorageService } from 'src/app/services/storage.service';
 
 @Component({
-  selector: 'app-customer-form',
-  templateUrl: './customer-form.component.html',
-  styleUrls: ['./customer-form.component.scss'],
+  selector: 'app-client-form',
+  templateUrl: './client-form.component.html',
+  styleUrls: ['./client-form.component.scss'],
 })
-export class CustomerFormComponent {
+export class ClientFormComponent {
   @Input() config: any;
 
   constructor(
@@ -35,14 +35,15 @@ export class CustomerFormComponent {
     firstname: new FormControl('', Validators.required),
     lastname: new FormControl('', Validators.required),
     email: new FormControl('', [Validators.required, Validators.email]),
-    phone: new FormControl('', [Validators.required]),
+    telephone: new FormControl('', [Validators.required]),
     description: new FormControl(''),
   });
   public submited = false;
 
   ngOnInit() {
-    if (this._storageService.getSessionStorage('customer')) {
-      this.data.setValue(this._storageService.getSessionStorage('customer'));
+    const bookingValue = this._storageService.getAppointmentFromCookie();
+    if (bookingValue && bookingValue.client) {
+      this.data.setValue(bookingValue.client);
     }
   }
 
@@ -53,7 +54,10 @@ export class CustomerFormComponent {
   submitForm(event: any) {
     this.submited = true;
     if (this.data.valid) {
-      this._storageService.setSessionStorage('customer', this.data.value);
+      this._storageService.setAppointmentToCookie(
+        'client',
+        this.data.value
+      );
       this.navigateToNextStep();
     }
   }
@@ -62,7 +66,7 @@ export class CustomerFormComponent {
     this._router.navigate(['.'], {
       relativeTo: this._activatedRouter.parent,
       queryParams: {
-        customer: this.data.value.firstname + ' ' + this.data.value.lastname,
+        client: this.data.value.firstname + ' ' + this.data.value.lastname,
       },
       queryParamsHandling: 'merge',
     });

@@ -1,16 +1,23 @@
 <div class="m-3">
-    <h6 class="mb-0" *ngIf="config.company_name">{{config.company_name}}</h6>
-    <h3 class="service-name">{{data.service}}</h3>
-    <div class="d-none d-md-flex">
-        <h5 class="fa fa-clock"></h5>
-        <h6 class="ms-2">{{data.time}} min</h6>
-    </div>
-    <div class="d-none d-md-flex">
-        <h5 class="fa fa-money-bill"></h5>
-        <h6 class="ms-2">{{data.price}} €</h6>
-    </div>
-    <div *ngIf="data.appointment" class="d-flex">
-        <h5 class="fa fa-calendar"></h5>
-        <h6 class="ms-2">{{data.appointment | date: 'HH:mm, EEEE, MMMM d, yyyy'}}</h6>
+    <h6 class="mb-0" *ngIf="config && config.company_name">{{config.company_name}}</h6>
+    <div *ngIf="appointment && appointment.service">
+        <h3 class="service-name">{{appointment.service.name}}</h3>
+        <div class="d-none d-md-flex">
+            <h5 class="fa fa-clock"></h5>
+            <h6 class="ms-2">{{appointment.service.time_duration}} min</h6>
+        </div>
+        <div class="d-none d-md-flex">
+            <h5 class="fa fa-money-bill"></h5>
+            <h6 class="ms-2">{{appointment.service.price}} €</h6>
+        </div>
+        <div *ngIf="data.appointment" class="d-flex appointment-time">
+            <h5 class="fa fa-calendar"></h5>
+            <h6 class="ms-2">{{data.appointment | date: 'HH:mm'}} - {{endTime | date: 'HH:mm'}}, {{data.appointment |
+                date: 'EEEE, MMMM d, yyyy'}}</h6>
+        </div>
+        <div *ngIf="data.client" class="d-flex client-info">
+            <h5 class="fa fa-user"></h5>
+            <h6 class="ms-2">{{data.client}}</h6>
+        </div>
     </div>
 </div>

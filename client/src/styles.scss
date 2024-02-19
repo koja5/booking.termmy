@@ -1,10 +1,11 @@
 /* You can add global styles to this file, and also import other style files */
 @import url("https://fonts.googleapis.com/css?family=Quicksand:400,500,700&subset=latin-ext");
-// @import "@core/scss/core.scss";
+@import url("./assets/scss/style-custom.scss");
+// @import "@core/scss/core.scss";::
 
 :root {
-  --primary: var(--primary);
-  --secondary: #ff2846;
+  --primary: #fff;
+  --secondary: #fff;
   --light: #ebebeb;
   --dark: #333333;
 }
@@ -16,6 +17,10 @@ html {
 
 * {
   box-sizing: border-box;
+}
+
+*:focus {
+  box-shadow: none !important;
 }
 
 body {
@@ -30,17 +35,23 @@ a:hover {
 }
 
 .btn-primary {
-  background: var(--primary);
-  border: none;
-  border-radius: 2px;
+  background: var(--primary) !important;
+  border: none !important;
+  border-radius: 2px !important;
 }
 
 .text-right {
   text-align: right;
 }
 
+.d-flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .b-none {
-  border: none;
+  border: none !important;
 }
 
 .error {
@@ -97,7 +108,6 @@ ngx-intl-tel-input input:focus {
   width: 100%;
   // min-height: 460px;
   margin: auto;
-  box-shadow: 0px 8px 60px -10px rgba(13, 28, 39, 0.6);
   background: #fff;
   border-radius: 12px;
   max-width: 1060px;
@@ -292,9 +302,9 @@ ngx-intl-tel-input input:focus {
   background: linear-gradient(45deg, #d5135a, #f05924);
   box-shadow: 0px 4px 30px rgba(223, 45, 70, 0.6);
 }
-.profile-card-social .icon-font {
-  display: inline-flex;
-}
+// .profile-card-social .icon-font {
+//   display: inline-flex;
+// }
 .profile-card-ctr {
   display: flex;
   justify-content: center;
@@ -449,6 +459,63 @@ ngx-intl-tel-input input:focus {
   transition: all 0.3s;
 }
 
+.copyright {
+  position: absolute;
+  top: -1px;
+  right: -1px;
+  z-index: 99999;
+  overflow: hidden;
+  width: 105px;
+  height: 105px;
+  text-decoration: none;
+  pointer-events: none;
+  transition: all 0.1s ease-in;
+  will-change: transform;
+}
+
+.copyright:hover {
+  // transform: scale(1.04);
+  // right: 1px;
+  // top: 1px;
+}
+
+.copyright-container:hover {
+  background: var(--dark);
+}
+
+.copyright-container {
+  position: relative;
+  top: 21px;
+  left: -7px;
+  z-index: 1;
+  display: block;
+  width: 160px;
+  padding: 9px 0 6px;
+  background-color: #7367f0;
+  color: #fff;
+  box-shadow: 0 2px 4px 0 rgb(0 0 0/20%);
+  font-weight: 700;
+  line-height: 1.2;
+  text-align: center;
+  text-decoration: none;
+  pointer-events: auto;
+  transition: all 0.1s ease-in;
+  transform: rotate(45deg);
+}
+
+.copyright-text1 {
+  margin-left: -7px;
+  color: var(--color-grey-4, #f2f2f2);
+  font-size: 8px;
+  text-transform: uppercase;
+}
+
+.copyright-text2 {
+  margin-left: -7px;
+  color: #fff;
+  font-size: 14px;
+}
+
 .btn-custom {
   border: 1px solid var(--primary);
 }
@@ -464,10 +531,11 @@ ngx-intl-tel-input input:focus {
     text-align: center;
     position: fixed;
     background: #fff;
+    z-index: 1;
   }
 
   .container-right {
-    margin-top: 175px;
+    margin-top: 180px !important;
     margin-bottom: 40px;
   }
 }
@@ -490,6 +558,10 @@ ngx-intl-tel-input input:focus {
 
   .booking-container {
     max-height: 80vh;
+  }
+
+  .profile-card {
+    box-shadow: 0px 8px 60px -10px rgba(13, 28, 39, 0.6);
   }
 }
 .container-right-content {

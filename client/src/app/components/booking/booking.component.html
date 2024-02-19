@@ -2,7 +2,6 @@
 
     <div class="profile-card js-profile-card" *ngIf="config">
 
-
         <a _ngcontent-ng-c796926968="" href="/?utm_campaign=sign_up&amp;utm_medium=badge&amp;utm_source=invitee"
             target="_blank" class="copyright VJL48qbQzWENTFAh1Knk e9TS9yoMqqIN2PqBo1QG _i6SG2jlTfccH2ZZblil">
             <div _ngcontent-ng-c796926968="" data-id="branding"
@@ -16,21 +15,22 @@
             </div>
         </a>
 
-        <div *ngIf="!_helpService.isObjectEmpty(view)">
+        <div class="booking-container" *ngIf="!_helpService.isObjectEmpty(view)">
             <app-profile-company [config]="config"></app-profile-company>
             <app-select-service *ngIf="!_helpService.isObjectEmpty(view)"></app-select-service>
         </div>
         <div class="container booking-container" *ngIf="_helpService.isObjectEmpty(view)">
             <div class="row">
-                <div class="col-md-4 col-12 container-left">
+                <div class="col-lg-3 col-12 container-left">
                     <app-back-button></app-back-button>
 
                     <app-preview-information [config]="config"></app-preview-information>
                 </div>
-                <div class="col-md-8 col-12 container-right">
+                <div
+                    class="col-lg-9 col-12 {{view.service&&!view.appointment ? 'container-calendar-right' : 'container-right'}}">
                     <app-select-time *ngIf="view.service&&!view.appointment" [config]="config"></app-select-time>
-                    <app-customer-form *ngIf="view.appointment&&!view.customer" [config]="config"></app-customer-form>
-                    <app-select-payment *ngIf="view.customer" [config]="config"></app-select-payment>
+                    <app-client-form *ngIf="view.appointment&&!view.client" [config]="config"></app-client-form>
+                    <app-select-payment *ngIf="view.client" [config]="config"></app-select-payment>
                 </div>
             </div>
         </div>

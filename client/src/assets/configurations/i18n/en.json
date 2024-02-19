@@ -11,7 +11,7 @@
         "service": {
             "selectService": "Select a service"
         },
-        "customerData": {
+        "clientData": {
             "enterYourInformation": "Enter details",
             "firstname": "Firstname *",
             "firstnamePlaceholder": "",
@@ -19,24 +19,34 @@
             "lastnamePlaceholder": "",
             "email": "Email *",
             "emailPlaceholder": "",
-            "phone": "Phone *",
+            "telephone": "Phone *",
             "description": "Please share anything that will help prepare for our meeting.",
             "descriptionPlaceholder": "",
             "fillFirstname": "Please fill your firstname",
             "fillLastname": "Please fill your lastname",
             "fillEmail": "Please fill your email",
-            "fillPhone": "Please fill your phone"
+            "fillPhone": "Please fill your phone",
+            "goToPayment": "Next"
         },
         "payment": {
             "title": "Payment",
             "payByCreditCard": "Pay by credit card",
             "payOnArrival": "Pay on arrival",
+            "payOnArrivalText": "Reserve your appointment now, and pay upon arrival, after the completed treatment.",
             "fillCreditCardInformation": "Fill credit card information",
+            "acceptTermsAndPrivacyPolicy": "By submitting this order, you accept the General Terms and Conditions of Termmy and confirm that you have read and understood the data protection regulations of Termmy and acknowledge the right of cancellation.",
+            "needAcceptTermsAndPrivacyPolicy": "Please accept terms and privacy policy",
             "payAndBooked": "Pay and booked"
         },
         "previewBookingInformation": {
             "yourPersonalData": "Your personal data",
             "bookingInfo": "Booking info"
+        },
+        "scheduled": {
+            "title": "You are scheduled!",
+            "copyrightTitle": "Schedule your own meetings with Termmy for free",
+            "copyrightText": "Eliminate the back-and-forth emails for finding time.",
+            "copyrightButton": "Sign up for free"
         }
     }
 }

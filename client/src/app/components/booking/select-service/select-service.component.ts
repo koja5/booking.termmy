@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CallApiService } from 'src/app/services/call-api.service';
+import { StorageService } from 'src/app/services/storage.service';
 
 @Component({
   selector: 'app-select-service',
@@ -14,7 +15,8 @@ export class SelectServiceComponent {
   constructor(
     private _service: CallApiService,
     private _activatedRouter: ActivatedRoute,
-    private _router: Router
+    private _router: Router,
+    private _storageService: StorageService
   ) {}
 
   ngOnInit() {
@@ -35,8 +37,11 @@ export class SelectServiceComponent {
   }
 
   selectService(service: any) {
+    this._storageService.setAppointmentToCookie('service', service);
     this._router.navigate([this._activatedRouter.snapshot.params.id], {
-      queryParams: { service: service.name, price: service.price, time: service.time_duration },
+      queryParams: {
+        service: service.id,
+      },
     });
   }
 }

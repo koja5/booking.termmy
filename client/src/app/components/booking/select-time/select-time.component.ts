@@ -2,6 +2,8 @@ import { Component, Input } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import * as moment from 'moment';
 import { CallApiService } from 'src/app/services/call-api.service';
+import { HelpService } from 'src/app/services/help.service';
+import { StorageService } from 'src/app/services/storage.service';
 
 @Component({
   selector: 'app-select-time',
@@ -15,41 +17,32 @@ export class SelectTimeComponent {
   public month: any;
   public days: any = [];
   public allAppointments: any = {};
+  public scheduledTermines = [];
   public numberOfWeeks = 2;
   public loader = true;
   public selectedTime: any;
   public worktime: any;
+  public id!: string;
+  public availableEmployees: any;
+  public externalCalendarConnections: any;
 
   constructor(
     private _activatedRouter: ActivatedRoute,
     private _router: Router,
-    private _service: CallApiService
+    private _service: CallApiService,
+    private _helpService: HelpService,
+    private _storageService: StorageService
   ) {}
 
   ngOnInit() {
+    this.id = this._activatedRouter.snapshot.params.id;
     this.numberOfWeeks = this.config.numberOfWeeks
       ? this.config.numberOfWeeks
       : this.numberOfWeeks;
     this.getWorkTime();
     this.initializeCalendar();
+    this.getAvailableEmployees();
   }
-
-  // initializeCalendar() {
-  //   this.week = moment().startOf('isoWeek');
-  //   this.month = this.week.format('MMMM YYYY');
-
-  //   this.days = [];
-  //   for (let i = 0; i <= 15; i++) {
-  //     this.days.push({
-  //       date: moment().toString(),
-  //       name: this.week.isoWeekday(i + 1).format('ddd'),
-  //       day: moment(this.week).date(),
-  //       month: moment(this.week).month(),
-  //       year: moment(this.week).year(),
-  //       today: moment(this.week).format('ll') == moment().format('ll'),
-  //     });
-  //   }
-  // }
 
   initializeCalendar() {
     this.selectedTime = moment(
@@ -72,7 +65,6 @@ export class SelectTimeComponent {
       if (now.day() != 0 && now.day() != 6) {
         this.days.push({
           name: now.locale('de').format('dd'),
-          date: moment(now).toString(),
           index: moment(now).format('DD.MM.YYYY'),
           day: moment(now).date(),
           month: moment(now).month() + 1,
@@ -98,7 +90,6 @@ export class SelectTimeComponent {
         this.worktime = data;
         if (data && data.length) {
           this.packWorkTimePerDays(data[0]);
-          this.loader = false;
         }
       });
   }
@@ -110,7 +101,7 @@ export class SelectTimeComponent {
       for (let i = 0; i < allWorkTimes.length; i++) {
         for (let j = 0; j < 7; j++) {
           let dayInWeek = calendarDate.day();
-          let date = calendarDate.toString();
+          let date = calendarDate.format('DD.MM.YYYY');
           const worktime = this.getWorkTimeForDay(allWorkTimes, dayInWeek);
           if (worktime.active) {
             if (!this.allAppointments[date]) {
@@ -118,77 +109,122 @@ export class SelectTimeComponent {
             }
             for (let k = 0; k < worktime.times.length; k++) {
               if (worktime.times[k].start && worktime.times[k].end) {
-                let start = moment(worktime.times[k].start);
-                let end = moment(worktime.times[k].end);
-                const differentBetweenTwoTimes = moment.duration(
-                  moment(end).diff(moment(start))
-                );
+                let start = moment(worktime.times[k].start).utc();
+                let end = moment(worktime.times[k].end).utc();
                 while (start < end) {
                   this.allAppointments[date].push(
                     this.appointmentModel(
                       data,
-                      moment(calendarDate).set({
+                      moment(calendarDate).utc().set({
                         hour: start.hour(),
                         minute: start.minutes(),
                         second: start.seconds(),
+                        millisecond: start.millisecond(),
                       })
                     )
                   );
                   start = moment(start).add(30, 'minute');
                 }
-                // if (differentBetweenTwoTimes.asMinutes()) {
-                //   const iteration = Math.floor(
-                //     differentBetweenTwoTimes.asMinutes() /
-                //       Number(data[i].time_therapy)
-                //   );
-                //   let startTimeAppointment = start;
-
-                //   for (let l = 0; l < Number(iteration); l++) {
-                //     const newAppointmentTime = moment(startTimeAppointment).add(
-                //       Number(data[i].time_therapy) * l,
-                //       'minutes'
-                //     );
-                //     if (
-                //       newAppointmentTime.hours() > moment().hours() ||
-                //       (newAppointmentTime.hours() == moment().hours() &&
-                //         newAppointmentTime.minutes() > moment().minutes()) ||
-                //       worktime[dayInWeek].id != moment().day() - 1 ||
-                //       week > 0
-                //     ) {
-                //       this.allAppointments[date].push(
-                //         this.generateAppointment(newAppointmentTime, data[i])
-                //       );
-                //     } else {
-                //       this.allAppointments[date].push(
-                //         this.generateAppointment(null, data[i])
-                //       );
-                //     }
-                //   }
-                // }
               }
             }
           } else {
             if (!this.allAppointments[date]) {
               this.allAppointments[date] = [];
             }
-            // this.allAppointments[date].push(
-            //   this.generateAppointment(null, data[i])
-            // );
           }
-
           calendarDate = moment(calendarDate).add(1, 'day');
-          // dayInWeek = calendarDate.day() != 0 ? dateInWeek.day() - 1 : 0;
-          // date = dateInWeek.format('DD.MM.YYYY');
         }
       }
-      // dateInCalendar = moment(dateInCalendar).add(1, 'week');
     }
-    console.log(this.allAppointments);
   }
+
+  getAvailableEmployees() {
+    // check if multilocations
+    const queryParams = this._activatedRouter.snapshot.queryParams;
+    let location = null;
+    if (queryParams.location) {
+      location = queryParams.location;
+    }
+
+    this._service
+      .callPostMethod('/api/booking/getAvailableEmployees', {
+        booking_link: this.id,
+        location_id: location,
+      })
+      .subscribe((data) => {
+        this.availableEmployees = data;
+        this.getScheduledTermines(data);
+      });
+  }
+
+  getScheduledTermines(data: any) {
+    //check first if employees have connection to some external calendars
+    let result = data.map((a: any) => a.id);
+    this._service
+      .callPostMethod('/api/booking/getExternalCalendarConnections', result)
+      .subscribe((data) => {
+        //employees who have connection to external calendar
+        this.externalCalendarConnections = data;
+        this.getScheduledTerminesFromExternalCalendar(data);
+
+        //employees without connection to external calendar
+        const employeesWithoutExternalCalendar =
+          this.getEmployeesWithoutExternalCalendar(data);
+        if (employeesWithoutExternalCalendar.length) {
+          this.getScheduledTerminesFromDatabase(
+            employeesWithoutExternalCalendar
+          );
+        }
+      });
+  }
+
+  getScheduledTerminesFromDatabase(data: any) {
+    this._service
+      .callPostMethod('api/booking/getAllScheduledTermines', data)
+      .subscribe((data) => {
+        console.log(data);
+        // this.scheduledTermines = this.scheduledTermines.concat(data);
+        this.removeScheduledTermineFromAvailableSlot(data);
+        this.loader = false;
+      });
+  }
+
+  getScheduledTerminesFromExternalCalendar(data: any) {
+    if (data.length) {
+      this._service
+        .callPostMethod('/api/google/getAllScheduledTermines', data)
+        .subscribe((data: any) => {
+          console.log(data);
+          this.removeScheduledTermineFromAvailableSlot(data);
+          this.loader = false;
+        });
+    }
+  }
+
+  removeScheduledTermineFromAvailableSlot(data: any) {
+    for (let i = 0; i < data.length; i++) {
+      const date = moment(data[i].start ?? data[i].StartTime).format(
+        'DD.MM.YYYY'
+      );
+      for (let j = 0; j < this.allAppointments[date].length; j++) {
+        if (
+          this.allAppointments[date][j].time.utcOffset(0, true) >=
+            moment(data[i].start ?? data[i].StartTime).utc() &&
+          this.allAppointments[date][j].time.utcOffset(0, true) <
+            moment(data[i].end ?? data[i].EndTime).utc()
+        ) {
+          this.allAppointments[date].splice(j, 1);
+          j--;
+        }
+      }
+    }
+  }
+
+  //#region HELPFUL FUNCTION
 
   appointmentModel(worktime: any, time: any) {
     return {
-      user_id: worktime.user_id,
+      employee_id: worktime.user_id,
       time: time,
     };
   }
@@ -204,26 +240,72 @@ export class SelectTimeComponent {
 
   checkTime(indexDay: number, indexTime: number) {}
 
-  selectTime(
-    date: any,
-    time: any,
-    user_id: number,
-    indexDay: number,
-    indexTime: number
-  ) {
+  selectTime(time: any, employee_id: number) {
     this.selectedTime = time;
+    this._storageService.setAppointmentToCookie(
+      'employee',
+      this.checkIfEmployeeHaveExternalConnections(employee_id)
+    );
     this._router.navigate(['.'], {
       relativeTo: this._activatedRouter.parent,
-      queryParams: { step: 2, appointment: time, user: user_id },
+      queryParams: {
+        appointment: moment(time).toISOString(),
+        employee: employee_id,
+      },
       queryParamsHandling: 'merge',
     });
   }
 
+  getInfoForEmployee(employee_id: number) {
+    const externalCalendarConnections =
+      this.checkIfEmployeeHaveExternalConnections(employee_id);
+
+    return this._storageService.encrypt({
+      employee_id: employee_id,
+      externalCalendarConnections: externalCalendarConnections,
+    });
+  }
+
+  checkIfEmployeeHaveExternalConnections(employee_id: number) {
+    const connections = this.externalCalendarConnections.filter(
+      (e: any) => e.user_id === employee_id
+    );
+    if (connections.length) {
+      return connections[0];
+    } else {
+      return connections;
+    }
+  }
+
   isSelected(time: any) {
-    console.log(this.selectedTime.toDate(), time.toDate());
     if (this.selectedTime.toDate() === time.toDate()) {
       return true;
     }
     return false;
   }
+
+  getEmployeesWithoutExternalCalendar(employeesWithExternalCalendar: any) {
+    let userWithoutExternalCalendar = [];
+    let allAvailableEmployees = this._helpService.copyObject(
+      this.availableEmployees
+    );
+    if (employeesWithExternalCalendar.length) {
+      for (let i = 0; i < employeesWithExternalCalendar.length; i++) {
+        for (let j = 0; j < allAvailableEmployees.length; j++) {
+          if (
+            allAvailableEmployees[j].id !=
+            employeesWithExternalCalendar[i].user_id
+          ) {
+            userWithoutExternalCalendar.push(allAvailableEmployees[j].id);
+            allAvailableEmployees.splice(j, 1);
+          }
+        }
+      }
+    } else {
+      userWithoutExternalCalendar = allAvailableEmployees;
+    }
+    return userWithoutExternalCalendar;
+  }
+
+  //#endregion
 }

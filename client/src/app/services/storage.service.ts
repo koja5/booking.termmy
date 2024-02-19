@@ -18,14 +18,11 @@ export class StorageService {
   }
 
   getSessionStorage(key: string) {
-    if (
-      sessionStorage.getItem(key) &&
-      sessionStorage.getItem(key)?.startsWith('{') &&
-      sessionStorage.getItem(key)?.endsWith('}')
-    ) {
-      return JSON.parse(sessionStorage.getItem(key)!);
+    const storage = sessionStorage.getItem(key);
+    if (storage?.startsWith('{') && storage?.endsWith('}')) {
+      return JSON.parse(storage);
     } else {
-      sessionStorage.getItem(key);
+      return storage;
     }
   }
 
@@ -40,13 +37,13 @@ export class StorageService {
   setLocalStorage(key: string, value: any) {
     localStorage.setItem(key, JSON.stringify(value));
   }
-
-  getLocalStorageSimple(key: string) {
-    return localStorage.getItem(key);
-  }
-
-  getLocalStorageObject(key: string) {
-    return JSON.parse(JSON.parse(JSON.stringify(localStorage.getItem(key))));
+  getLocalStorage(key: string) {
+    const storage = localStorage.getItem(key);
+    if (storage?.startsWith('{') && storage?.endsWith('}')) {
+      return JSON.parse(storage);
+    } else {
+      return storage;
+    }
   }
 
   removeAllLocalStorage() {
@@ -80,23 +77,11 @@ export class StorageService {
     this.cookieService.remove('token');
   }
 
-  setCookie(key: string, value: any) {
-    this.cookieService.put(key, value, {
-      expires: undefined,
-      path: '/',
-      sameSite: 'lax',
-    });
-  }
-
-  getCookie(key: string) {
-    return this.cookieService.get(key);
-  }
-
   removeCookie(key: string) {
     this.cookieService.remove(key);
   }
 
-  setCookieObject(key: string, value: any) {
+  setCookie(key: string, value: any) {
     this.cookieService.put(key, JSON.stringify(value), {
       expires: undefined,
       path: '/',
@@ -104,11 +89,12 @@ export class StorageService {
     });
   }
 
-  getCookieObject(key: string) {
-    if (this.cookieService.get(key)) {
-      return JSON.parse(this.cookieService.get(key)!);
+  getCookie(key: string) {
+    const cookie = this.cookieService.get(key);
+    if (cookie?.startsWith('{') && cookie.endsWith('}')) {
+      return JSON.parse(cookie);
     } else {
-      return [];
+      return cookie;
     }
   }
 
@@ -117,53 +103,6 @@ export class StorageService {
       return this.helper.decodeToken(this.getToken()!).user;
     }
     return false;
-  }
-
-  getUserId() {
-    if (this.getToken()) {
-      return this.helper.decodeToken(this.getToken()!).user.id;
-    }
-    return false;
-  }
-
-  getAdminIdSha1() {
-    if (this.getToken()) {
-      return this.helper.decodeToken(this.getToken()!).user.admin_id;
-    }
-    return false;
-  }
-
-  // EXTERNAL ACCOUNTS
-
-  setExternalAccountSettings(value: any) {
-    // let externalAccountSettings =
-    //   localStorage.getItem("external-accounts") || "";
-    // let decrypt = CryptoJS.AES.decrypt(
-    //   externalAccountSettings,
-    //   environment.ENCRIPTY_KEY
-    // ).toString(CryptoJS.enc.Utf8);
-
-    // if (decrypt) {
-    //   decrypt = JSON.parse(decrypt);
-    // }
-
-    // decrypt = value;
-
-    let encrypt = CryptoJS.AES.encrypt(
-      JSON.stringify(value),
-      environment.ENCRIPTY_KEY
-    ).toString();
-
-    localStorage.setItem('external-accounts', encrypt);
-  }
-
-  getExternalAccountSettings() {
-    const externalAccounts = localStorage.getItem('external-accounts') || '';
-    const decrypt = CryptoJS.AES.decrypt(
-      externalAccounts,
-      environment.ENCRIPTY_KEY
-    ).toString(CryptoJS.enc.Utf8);
-    return JSON.parse(decrypt);
   }
 
   encrypt(value: any) {
@@ -179,23 +118,13 @@ export class StorageService {
     );
   }
 
-  setCalendarConfig(value: any) {
-    let config = this.getLocalStorageObject('config')
-      ? this.getLocalStorageObject('config')
-      : {};
-    config.calendar = value ? value : new CalendarSettings();
-
-    this.setLocalStorage('config', config);
+  setAppointmentToCookie(property: string, object: any) {
+    const value = this.getCookie('appointment') ?? {};
+    value[property] = object;
+    this.setCookie('appointment', value);
   }
 
-  getCalendarConfig() {
-    let config = this.getLocalStorageObject('config')
-      ? this.getLocalStorageObject('config')
-      : {};
-    return Object.values(config.calendar).length != 0
-      ? config.calendar
-      : new CalendarSettings();
+  getAppointmentFromCookie() {
+    return this.getCookie('appointment');
   }
-
-  // END EXTERNAL ACCOUNTS
 }

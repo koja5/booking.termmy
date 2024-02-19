@@ -23,7 +23,7 @@ router.post("/sendBookingInfo", function (req, res, next) {
   body["lastname"] = req.body.personal.lastname;
   body["birthday"] = moment(req.body.personal.birthday).format("DD.MM.yyyy");
   body["email"] = req.body.personal.email;
-  body["phone"] = req.body.personal.phone;
+  body["phone"] = req.body.personal.telephone;
   body["date"] = moment(req.body.calendar.date).format("DD.MM.yyyy");
   body["time"] = moment(req.body.calendar.date).format("HH:mm");
   body["storename"] = req.body.calendar.storename;

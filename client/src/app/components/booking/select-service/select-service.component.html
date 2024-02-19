@@ -1,19 +1,22 @@
-<div class="row m-4">
-    <div *ngFor="let item of services" class="col-md-4 col-12 text-center service-card  position-relative">
-        <h3 class="service-name">{{item.name}}</h3>
-        <span *ngIf="item.description" class="fa fa-info description-info" ngbTooltip="{{item.description}}" triggers="click:blur"></span>
-        <div class="d-flex justify-content-around text-center">
-            <div>
-                <span class="fa fa-clock"></span>
-                <h4>{{item.time_duration}} min</h4>
-            </div>
-            <div>
-                <span class="fa fa-money-bill"></span>
-                <h4>{{item.price}} €</h4>
+<div class="m-4">
+    <div class="row">
+        <div *ngFor="let item of services" class="col-md-4 col-12 text-center service-card  position-relative">
+            <h3 class="service-name">{{item.name}}</h3>
+            <span *ngIf="item.description" class="fa fa-info description-info" ngbTooltip="{{item.description}}"
+                triggers="click:blur"></span>
+            <div class="d-flex justify-content-around text-center">
+                <div>
+                    <span class="fa fa-clock"></span>
+                    <h4>{{item.time_duration}} min</h4>
+                </div>
+                <div>
+                    <span class="fa fa-money-bill"></span>
+                    <h4>{{item.price}} €</h4>
+                </div>
+
             </div>
 
+            <button class="btn btn-default btn-custom mt-4 w-75" (click)="selectService(item)">Select</button>
         </div>
-
-        <button class="btn btn-default btn-custom mt-4 w-75" (click)="selectService(item)">Select</button>
     </div>
 </div>

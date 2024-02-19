@@ -34,6 +34,7 @@
     "ngx-cookie": "^6.0.1",
     "ngx-intl-tel-input": "^3.2.0",
     "ngx-perfect-scrollbar": "^10.1.1",
+    "ngx-stripe": "^16.3.2",
     "rxjs": "~7.8.0",
     "stripe-angular": "^1.9.3",
     "tslib": "^2.3.0",

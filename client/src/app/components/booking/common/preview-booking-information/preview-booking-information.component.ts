@@ -8,7 +8,7 @@ import { StorageService } from 'src/app/services/storage.service';
   styleUrls: ['./preview-booking-information.component.scss'],
 })
 export class PreviewBookingInformationComponent {
-  public customer: any;
+  public client: any;
   public queryParams: any;
 
   constructor(
@@ -17,7 +17,7 @@ export class PreviewBookingInformationComponent {
   ) {}
 
   ngOnInit() {
-    this.customer = this._storageSerice.getSessionStorage('customer');
+    this.client = this._storageSerice.getSessionStorage('client');
     this.queryParams = this._activatedRouter.snapshot.queryParams;
   }
 }
