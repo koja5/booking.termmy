@@ -71,7 +71,6 @@
                             </div>
                         </form>
 
-
                         <div class="form-check accept-terms-privacy">
                             <input class="form-check-input" type="checkbox" id="accept" [(ngModel)]="accept">
                             <label class="form-check-label" for="flexCheckDefault">
@@ -174,15 +173,35 @@
                                 <ngx-stripe-payment [appearance]="appearance" />
                             </ngx-stripe-elements>
                         </div>
+
+                        <div class="amount mt-4" *ngIf="config && config.part_of_amount">
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="amount" id="full-amount"
+                                    [(ngModel)]="amount">
+                                <label class="form-check-label" for="full-amount">
+                                    {{ replaceForFullAmount('payment.selectFullAmount' | translate) }}
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="amount" id="part-of-amount"
+                                    [(ngModel)]="amount">
+                                <label class="form-check-label" for="part-of-amount">
+                                    {{replaceForPartOfAmount('payment.selectPartOfAmount' | translate)}}
+                                </label>
+                            </div>
+                        </div>
+
                         <div class="form-check accept-terms-privacy">
                             <input class="form-check-input" type="checkbox" id="accept" [(ngModel)]="accept">
                             <label class="form-check-label" for="flexCheckDefault">
                                 {{'payment.acceptTermsAndPrivacyPolicy' | translate}}
                             </label>
                         </div>
+
                         <div *ngIf="submitted&&!accept" class="error">
                             {{'payment.needAcceptTermsAndPrivacyPolicy' | translate}}
                         </div>
+
                         <div class="text-center mt-4">
                             <button (click)="payAndBooked()" class="btn btn-primary w-75 payment"
                                 [disabled]="paying || (submitted&&!accept) ? true : false">

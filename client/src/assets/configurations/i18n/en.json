@@ -36,7 +36,9 @@
             "fillCreditCardInformation": "Fill credit card information",
             "acceptTermsAndPrivacyPolicy": "By submitting this order, you accept the General Terms and Conditions of Termmy and confirm that you have read and understood the data protection regulations of Termmy and acknowledge the right of cancellation.",
             "needAcceptTermsAndPrivacyPolicy": "Please accept terms and privacy policy",
-            "payAndBooked": "Pay and booked"
+            "payAndBooked": "Pay and booked",
+            "selectFullAmount": "I want to pay the full amount of the service, in the amount of {amount} €",
+            "selectPartOfAmount": "I want to pay a part of the service amount, in the amount of {amount} €, and the rest after the completed treatment."
         },
         "previewBookingInformation": {
             "yourPersonalData": "Your personal data",

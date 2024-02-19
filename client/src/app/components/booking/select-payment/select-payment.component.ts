@@ -61,6 +61,7 @@ export class SelectPaymentComponent {
   public queryParams: any;
   public appointment: any;
   public accept = false;
+  public amount: any;
 
   constructor(
     private _service: CallApiService,
@@ -87,12 +88,15 @@ export class SelectPaymentComponent {
         .subscribe((data: any) => {
           if (data.length) {
             this.appointment.service = data[0];
+            this.amount = this.appointment.service.price;
             this._storageService.setAppointmentToCookie(
               'service',
               this.appointment.service
             );
           }
         });
+    } else {
+      this.amount = this.appointment.service.price;
     }
 
     if (!this.appointment || !this.appointment.employee) {
@@ -108,6 +112,21 @@ export class SelectPaymentComponent {
               'employee',
               this.appointment.employee
             );
+          }
+        });
+    }
+  }
+
+  getConfig() {
+    this.config = this._storageService.getCookie('config');
+    if (!this.config) {
+      const id = this._activatedRouter.snapshot.params.id;
+      this._service
+        .callGetMethod('/api/booking/getBusinessConfig', id)
+        .subscribe((data: any) => {
+          if (data && data.length) {
+            this.config = data[0];
+            this._storageService.setCookie('conifig', this.config);
           }
         });
     }
@@ -243,10 +262,9 @@ export class SelectPaymentComponent {
           this.clientData.get('lastname')?.get('lastname')!.value,
       ResourcesIndex: employee_id,
       StartTime: moment(this.queryParams.appointment).utc(),
-      EndTime: moment(this.queryParams.appointment).add(
-        this.appointment.service.time_duration,
-        'minutes'
-      ).utc(),
+      EndTime: moment(this.queryParams.appointment)
+        .add(this.appointment.service.time_duration, 'minutes')
+        .utc(),
     };
     if (this.appointment.employee.google) {
       data.externalCalendar = this.appointment.employee.google;
@@ -282,5 +300,16 @@ export class SelectPaymentComponent {
           this.paying = false;
         }
       );
+  }
+
+  replaceForFullAmount(text: string) {
+    return text.replace('{amount}', this.appointment.service.price);
+  }
+
+  replaceForPartOfAmount(text: string) {
+    return text.replace(
+      '{amount}',
+      (this.appointment.service.price / 2).toString()
+    );
   }
 }
