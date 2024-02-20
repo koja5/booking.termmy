@@ -4,7 +4,7 @@
 // @import "@core/scss/core.scss";::
 
 :root {
-  --primary: #fff;
+  --primary: #7367F0;
   --secondary: #fff;
   --light: #ebebeb;
   --dark: #333333;
@@ -517,12 +517,12 @@ ngx-intl-tel-input input:focus {
 }
 
 .btn-custom {
-  border: 1px solid var(--primary);
+  border: 1px solid var(--primary) !important;
 }
 
 .btn-custom:hover {
-  background: var(--primary);
-  color: var(--light);
+  background: var(--primary) !important;
+  color: var(--light) !important;
 }
 
 @media (max-width: 992px) {

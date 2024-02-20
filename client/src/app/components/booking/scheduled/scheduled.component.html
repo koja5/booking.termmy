@@ -50,7 +50,13 @@
                 </div>
             </div>
 
-            <div class="copyright-bottom mb-2">
+            <div class="text-center">
+                <h6 *ngIf="queryParams&&queryParams.type === 'on-arrival'">{{'scheduled.chosenPaymentUponArrival' |
+                    translate}}</h6>
+                <h6 *ngIf="queryParams&&queryParams.type === 'paid'&&paidMessage">{{paidMessage}}</h6>
+            </div>
+
+            <div class="copyright-bottom mb-4 mt-4">
                 <h6 class="title">{{'scheduled.copyrightTitle' | translate}}</h6>
                 <p class="text">{{'scheduled.copyrightText' | translate}}</p>
                 <a class="btn btn-outline-primary" href="https://termmy.com"

@@ -1,20 +1,27 @@
-import { HttpClient, HttpHeaders } from "@angular/common/http";
-import { Injectable } from "@angular/core";
-import { HelpService } from "./help.service";
-import { loadStripe } from "@stripe/stripe-js";
-import { environment } from "../../environments/environment.prod";
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { HelpService } from './help.service';
+import { loadStripe } from '@stripe/stripe-js';
+import { environment } from '../../environments/environment.prod';
+import { StorageService } from './storage.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Injectable({
-  providedIn: "root",
+  providedIn: 'root',
 })
 export class CallApiService {
   private headers: HttpHeaders;
-  constructor(private http: HttpClient, private helpService: HelpService) {
+  constructor(
+    private http: HttpClient,
+    private helpService: HelpService,
+    private _storageService: StorageService,
+    private _activatedRouter: ActivatedRoute
+  ) {
     this.headers = new HttpHeaders();
   }
 
   callApi(data: any, router?: any) {
-    if (data && data.request.type === "POST") {
+    if (data && data.request.type === 'POST') {
       if (data.request.url) {
         data.body = this.helpService.postRequestDataParameters(
           data.body,
@@ -34,7 +41,7 @@ export class CallApiService {
         );
         return this.callGetMethod(data.request.api, dataValue);
       } else {
-        let dataValue = "";
+        let dataValue = '';
         if (router && router.snapshot && data && data.request) {
           dataValue = this.helpService.getRequestDataParameters(
             router.snapshot.params,
@@ -56,7 +63,7 @@ export class CallApiService {
         request.url
       );
     }
-    if (request.type === "POST") {
+    if (request.type === 'POST') {
       return this.callPostMethod(request.api, data);
     } else {
       return this.callGetMethod(request.api, data);
@@ -69,16 +76,16 @@ export class CallApiService {
 
   callGetMethod(api: string, data: any) {
     if (data === undefined) {
-      data = "";
+      data = '';
     }
-    const url = api.endsWith("/") ? api + data : api + "/" + data;
+    const url = api.endsWith('/') ? api + data : api + '/' + data;
     return this.http.get(url, { headers: this.headers });
   }
 
   getDocument(body: any) {
-    return this.http.post("/api/upload/getDocument", body, {
-      responseType: "blob",
-      headers: new HttpHeaders().append("Content-Type", "application/json"),
+    return this.http.post('/api/upload/getDocument', body, {
+      responseType: 'blob',
+      headers: new HttpHeaders().append('Content-Type', 'application/json'),
     });
   }
 
@@ -106,7 +113,7 @@ export class CallApiService {
   }
 
   checkout(products: any) {
-    this.callPostMethod("/api/checkout", { items: products }).subscribe(
+    this.callPostMethod('/api/checkout', { items: products }).subscribe(
       async (res: any) => {
         let stripe = await loadStripe(environment.STRIPE_KEY);
         stripe?.redirectToCheckout({
@@ -114,5 +121,39 @@ export class CallApiService {
         });
       }
     );
+  }
+
+  getSelectedAppointmentValue() {
+    const appointment = this._storageService.getAppointmentFromCookie() ?? {};
+    if (!appointment || !appointment.service) {
+      this.callGetMethod(
+        '/api/booking/getService',
+        this._activatedRouter.snapshot.queryParams.service
+      ).subscribe((data: any) => {
+        if (data.length) {
+          appointment.service = data[0];
+          this._storageService.setAppointmentToCookie(
+            'service',
+            appointment.service
+          );
+        }
+      });
+    }
+
+    if (!appointment || !appointment.employee) {
+      this.callGetMethod(
+        '/api/booking/getEmployee',
+        this._activatedRouter.snapshot.queryParams.employee
+      ).subscribe((data: any) => {
+        if (data.length) {
+          appointment.employee = data[0];
+          this._storageService.setAppointmentToCookie(
+            'employee',
+            appointment.employee
+          );
+        }
+      });
+    }
+    return appointment;
   }
 }

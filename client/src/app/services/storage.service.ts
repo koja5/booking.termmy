@@ -4,6 +4,7 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 import * as CryptoJS from 'crypto-js';
 import { environment } from '../../environments/environment.prod';
 import { CalendarSettings } from '../models/calendar-settings';
+import { CallApiService } from './call-api.service';
 
 @Injectable({
   providedIn: 'root',
@@ -113,9 +114,15 @@ export class StorageService {
   }
 
   decrypt(value: any) {
-    return CryptoJS.AES.decrypt(value, environment.ENCRIPTY_KEY).toString(
-      CryptoJS.enc.Utf8
-    );
+    const decrypt = CryptoJS.AES.decrypt(
+      value,
+      environment.ENCRIPTY_KEY
+    ).toString(CryptoJS.enc.Utf8);
+    if (decrypt && decrypt.startsWith('{') && decrypt.endsWith('}')) {
+      return JSON.parse(decrypt);
+    } else {
+      return decrypt;
+    }
   }
 
   setAppointmentToCookie(property: string, object: any) {

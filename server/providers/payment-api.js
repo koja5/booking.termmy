@@ -14,11 +14,9 @@ router.post("/createPaymentIntent", async (req, res, next) => {
   const paymentIntent = await require("stripe")(process.env.stripe_key, {
     stripeAccount: "acct_1OhSOVPwkZNY6HKT",
   }).paymentIntents.create({
-    amount: 1099,
-    currency: "usd",
+    amount: req.body.amount * 100,
+    currency: "eur",
   });
-
-  console.log(paymentIntent);
 
   res.json(paymentIntent.client_secret);
 });

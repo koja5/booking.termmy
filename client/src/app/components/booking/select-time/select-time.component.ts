@@ -25,6 +25,7 @@ export class SelectTimeComponent {
   public id!: string;
   public availableEmployees: any;
   public externalCalendarConnections: any;
+  public appointment: any;
 
   constructor(
     private _activatedRouter: ActivatedRoute,
@@ -39,6 +40,7 @@ export class SelectTimeComponent {
     this.numberOfWeeks = this.config.numberOfWeeks
       ? this.config.numberOfWeeks
       : this.numberOfWeeks;
+    this.appointment = this._service.getSelectedAppointmentValue();
     this.getWorkTime();
     this.initializeCalendar();
     this.getAvailableEmployees();
@@ -123,7 +125,10 @@ export class SelectTimeComponent {
                       })
                     )
                   );
-                  start = moment(start).add(30, 'minute');
+                  start = moment(start).add(
+                    this.appointment.service.time_duration,
+                    'minute'
+                  );
                 }
               }
             }

@@ -1,6 +1,8 @@
 import { Component, ElementRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
 import { CallApiService } from 'src/app/services/call-api.service';
+import { StorageService } from 'src/app/services/storage.service';
 
 @Component({
   selector: 'app-scheduled',
@@ -10,16 +12,23 @@ import { CallApiService } from 'src/app/services/call-api.service';
 export class ScheduledComponent {
   public config: any;
   public appointment: any;
+  public queryParams: any;
+  public paidMessage!: string;
 
   constructor(
     private _service: CallApiService,
     private _activatedRouter: ActivatedRoute,
-    private host: ElementRef<HTMLElement>
+    private host: ElementRef<HTMLElement>,
+    private _storageService: StorageService,
+    private _translate: TranslateService
   ) {}
 
   ngOnInit() {
     const id = this._activatedRouter.snapshot.params.id;
     const appointment_id = this._activatedRouter.snapshot.params.appointmentId;
+    this.queryParams = this._storageService.decrypt(
+      this._activatedRouter.snapshot.queryParams.payment
+    );
     this._service
       .callGetMethod('/api/booking/getBusinessConfig', id)
       .subscribe((data: any) => {
@@ -33,8 +42,21 @@ export class ScheduledComponent {
       .subscribe((data: any) => {
         if (data.length) {
           this.appointment = data[0];
+          this.generateMessage();
         }
       });
+  }
+
+  generateMessage() {
+    if (this.queryParams.amount < this.appointment.price) {
+      this.paidMessage = this._translate
+        .instant('scheduled.paidPartOfAmount')
+        .replace('{amount}', this.queryParams.amount);
+    } else {
+      this.paidMessage = this._translate
+        .instant('scheduled.paidFullAmount')
+        .replace('{amount}', this.queryParams.amount);
+    }
   }
 
   setBusinessColor() {

@@ -76,13 +76,17 @@
                             <label class="form-check-label" for="flexCheckDefault">
                                 {{'payment.acceptTermsAndPrivacyPolicy' | translate}}
                             </label>
+
+                            <div *ngIf="submitted&&!accept" class="error">
+                                {{'payment.needAcceptTermsAndPrivacyPolicy' | translate}}
+                            </div>
                         </div>
 
                         <div class="text-center mt-4 mb-4">
-                            <button (click)="payAndBooked()" class="btn btn-primary w-75 payment"
+                            <button (click)="payOnArrival()" class="btn btn-primary w-75 payment"
                                 [disabled]="paying || (submitted&&!accept) ? true : false">
                                 <app-loader-small *ngIf="paying"></app-loader-small>
-                                {{'payment.payAndBooked'
+                                {{'payment.payOnArrivalAndBooked'
                                 |
                                 translate}}</button>
                         </div>
@@ -177,14 +181,16 @@
                         <div class="amount mt-4" *ngIf="config && config.part_of_amount">
                             <div class="form-check">
                                 <input class="form-check-input" type="radio" name="amount" id="full-amount"
-                                    [(ngModel)]="amount">
+                                    [value]="appointment.service.price" [(ngModel)]="amount"
+                                    (click)="createPaymentIntent(appointment.service.price)">
                                 <label class="form-check-label" for="full-amount">
                                     {{ replaceForFullAmount('payment.selectFullAmount' | translate) }}
                                 </label>
                             </div>
                             <div class="form-check">
                                 <input class="form-check-input" type="radio" name="amount" id="part-of-amount"
-                                    [(ngModel)]="amount">
+                                    [value]="appointment.service.price/2" [(ngModel)]="amount"
+                                    (click)="createPaymentIntent(appointment.service.price/2)">
                                 <label class="form-check-label" for="part-of-amount">
                                     {{replaceForPartOfAmount('payment.selectPartOfAmount' | translate)}}
                                 </label>
@@ -196,19 +202,20 @@
                             <label class="form-check-label" for="flexCheckDefault">
                                 {{'payment.acceptTermsAndPrivacyPolicy' | translate}}
                             </label>
+
+                            <div *ngIf="submitted&&!accept" class="error">
+                                {{'payment.needAcceptTermsAndPrivacyPolicy' | translate}}
+                            </div>
                         </div>
 
-                        <div *ngIf="submitted&&!accept" class="error">
-                            {{'payment.needAcceptTermsAndPrivacyPolicy' | translate}}
-                        </div>
 
                         <div class="text-center mt-4">
                             <button (click)="payAndBooked()" class="btn btn-primary w-75 payment"
                                 [disabled]="paying || (submitted&&!accept) ? true : false">
                                 <app-loader-small *ngIf="paying"></app-loader-small>
-                                {{'payment.payAndBooked'
+                                {{replaceButtonText('payment.payAndBooked'
                                 |
-                                translate}}</button>
+                                translate)}}</button>
                         </div>
                     </div>
                 </div>

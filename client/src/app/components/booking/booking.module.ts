@@ -21,6 +21,7 @@ import { LoaderComponent } from './common/loader/loader.component';
 import { NgxStripeModule, provideNgxStripe } from 'ngx-stripe';
 import { LoaderSmallComponent } from './common/loader-small/loader-small.component';
 import { ScheduledComponent } from './scheduled/scheduled.component';
+import { CommonCustomModule } from 'src/app/common/common-custom.module';
 
 const routes = [
   {
@@ -58,6 +59,7 @@ const routes = [
     NgxIntlTelInputModule,
     StripeModule.forRoot(environment.STRIPE_KEY),
     NgxStripeModule.forRoot(environment.STRIPE_KEY),
+    CommonCustomModule,
   ],
   providers: [],
   bootstrap: [],

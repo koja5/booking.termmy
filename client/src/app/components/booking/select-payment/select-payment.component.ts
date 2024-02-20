@@ -13,6 +13,8 @@ import {
   SearchCountryField,
 } from 'ngx-intl-tel-input';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ToastrComponent } from 'src/app/common/toastr/toastr.component';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-select-payment',
@@ -67,14 +69,15 @@ export class SelectPaymentComponent {
     private _service: CallApiService,
     private _storageService: StorageService,
     private _activatedRouter: ActivatedRoute,
-    private _router: Router
+    private _router: Router,
+    private _toastr: ToastrComponent,
+    private _translate: TranslateService
   ) {}
 
   ngOnInit() {
     this.queryParams = this._activatedRouter.snapshot.queryParams;
     this.getSelectedAppointmentValue();
     this.getClientData();
-    this.createPaymentIntent();
   }
 
   getSelectedAppointmentValue() {
@@ -89,6 +92,7 @@ export class SelectPaymentComponent {
           if (data.length) {
             this.appointment.service = data[0];
             this.amount = this.appointment.service.price;
+            this.createPaymentIntent(this.amount);
             this._storageService.setAppointmentToCookie(
               'service',
               this.appointment.service
@@ -97,6 +101,7 @@ export class SelectPaymentComponent {
         });
     } else {
       this.amount = this.appointment.service.price;
+      this.createPaymentIntent(this.amount);
     }
 
     if (!this.appointment || !this.appointment.employee) {
@@ -139,9 +144,12 @@ export class SelectPaymentComponent {
     }
   }
 
-  createPaymentIntent() {
+  createPaymentIntent(amount: number) {
+    this.amount = amount;
     this._service
-      .callPostMethod('api/payment/createPaymentIntent', {})
+      .callPostMethod('api/payment/createPaymentIntent', {
+        amount: this.amount,
+      })
       .subscribe((data) => {
         this.elementsOptions.clientSecret = data as string;
       });
@@ -151,13 +159,7 @@ export class SelectPaymentComponent {
     console.log(token);
   }
 
-  onStripeError(error: any) {
-    // this.toastr.showErrorCustom(this.language.paymentCardIsNotValid);
-  }
-
-  // payAndBooked() {
-  //   this.stripeCard.createToken();
-  // }
+  onStripeError(error: any) {}
 
   payAndBooked() {
     this.submitted = true;
@@ -166,8 +168,6 @@ export class SelectPaymentComponent {
 
     const { firstname, lastname, email, telephone } =
       this.clientData.getRawValue();
-
-    // this.stripe.createPaymentMethod
 
     this.stripe
       .confirmPayment({
@@ -199,6 +199,19 @@ export class SelectPaymentComponent {
       });
   }
 
+  payOnArrival() {
+    this.submitted = true;
+    if (this.paying || this.clientData.invalid) return;
+    this.paying = true;
+
+    if (!this.accept) {
+      this.paying = false;
+      return;
+    }
+
+    this.makeAppointment();
+  }
+
   makeAppointment() {
     const data = {
       booking_link: this._activatedRouter.snapshot.params.id,
@@ -212,16 +225,14 @@ export class SelectPaymentComponent {
   }
 
   saveAppointment(client_id: number) {
-    // this.createAppointmentToDatabase(client_id, this.queryParams.employee);
-    this.createAppointmentToGoogleCalendar(
-      client_id,
-      this.queryParams.employee
-    );
-    // if (!employee.externalCalendarConnections) {
-    // } else {
-    //   if (employee.externalCalendarConnections.google) {
-    //   }
-    // }
+    if (this.appointment.employee.google) {
+      this.createAppointmentToGoogleCalendar(
+        client_id,
+        this.queryParams.employee
+      );
+    } else {
+      this.createAppointmentToDatabase(client_id, this.queryParams.employee);
+    }
   }
 
   createAppointmentToDatabase(client_id: number, employee_id: number) {
@@ -231,9 +242,16 @@ export class SelectPaymentComponent {
 
     this._service
       .callPostMethod('/api/booking/createAppointment', data)
-      .subscribe((data: any) => {
-        if (data) {
-          this.createAppointmentArchive(client_id, employee_id);
+      .subscribe((appointment_id: any) => {
+        if (appointment_id) {
+          this.createAppointmentArchive(client_id, employee_id, appointment_id);
+        } else {
+          this._toastr.showWarningCustom(
+            this._translate.instant('payment.appointmentIsClosed')
+          );
+          this._router.navigate([this._activatedRouter.snapshot.params.id], {
+            queryParams: { service: this.queryParams.service },
+          });
         }
       });
   }
@@ -245,7 +263,14 @@ export class SelectPaymentComponent {
       .callPostMethod('/api/google/createAppointment', data)
       .subscribe((data: any) => {
         if (data) {
-          this.createAppointmentArchive(client_id, employee_id);
+          this.createAppointmentArchive(client_id, employee_id, null);
+        } else {
+          this._toastr.showWarningCustom(
+            this._translate.instant('payment.appointmentIsClosed')
+          );
+          this._router.navigate([this._activatedRouter.snapshot.params.id], {
+            queryParams: { service: this.queryParams.service },
+          });
         }
       });
   }
@@ -265,6 +290,8 @@ export class SelectPaymentComponent {
       EndTime: moment(this.queryParams.appointment)
         .add(this.appointment.service.time_duration, 'minutes')
         .utc(),
+      is_online: !this.isCollapsePayByCreditCard,
+      amount_paid: !this.isCollapsePayByCreditCard ? this.amount : 0,
     };
     if (this.appointment.employee.google) {
       data.externalCalendar = this.appointment.employee.google;
@@ -272,8 +299,13 @@ export class SelectPaymentComponent {
 
     return data;
   }
-  createAppointmentArchive(client_id: number, employee_id: number) {
+  createAppointmentArchive(
+    client_id: number,
+    employee_id: number,
+    appointment_id?: any
+  ) {
     const data = {
+      appointment_id: appointment_id,
       admin_id: employee_id,
       employee_id: employee_id,
       client_id: client_id,
@@ -291,9 +323,20 @@ export class SelectPaymentComponent {
         (data) => {
           if (data) {
             this.paying = false;
-            this._router.navigate([
-              this._activatedRouter.snapshot.params.id + '/scheduled/' + data,
-            ]);
+            this._storageService.removeCookie('appointment');
+            this._router.navigate(
+              [this._activatedRouter.snapshot.params.id + '/scheduled/' + data],
+              {
+                queryParams: {
+                  payment: this._storageService.encrypt({
+                    type: !this.isCollapsePayByCreditCard
+                      ? 'paid'
+                      : 'on-arrival',
+                    amount: !this.isCollapsePayByCreditCard ? this.amount : 0,
+                  }),
+                },
+              }
+            );
           }
         },
         (error) => {
@@ -311,5 +354,9 @@ export class SelectPaymentComponent {
       '{amount}',
       (this.appointment.service.price / 2).toString()
     );
+  }
+
+  replaceButtonText(text: string) {
+    return text.replace('{amount}', this.amount);
   }
 }

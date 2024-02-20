@@ -36,9 +36,11 @@
             "fillCreditCardInformation": "Fill credit card information",
             "acceptTermsAndPrivacyPolicy": "By submitting this order, you accept the General Terms and Conditions of Termmy and confirm that you have read and understood the data protection regulations of Termmy and acknowledge the right of cancellation.",
             "needAcceptTermsAndPrivacyPolicy": "Please accept terms and privacy policy",
-            "payAndBooked": "Pay and booked",
+            "payAndBooked": "Pay {amount} € and booked",
+            "payOnArrivalAndBooked": "Book now and pay on arrival",
             "selectFullAmount": "I want to pay the full amount of the service, in the amount of {amount} €",
-            "selectPartOfAmount": "I want to pay a part of the service amount, in the amount of {amount} €, and the rest after the completed treatment."
+            "selectPartOfAmount": "I want to pay a part of the service amount, in the amount of {amount} €, and the rest after the completed treatment.",
+            "appointmentIsClosed": "In the meantime, this appointment is taken. Please see our other available appointments!"
         },
         "previewBookingInformation": {
             "yourPersonalData": "Your personal data",
@@ -48,6 +50,9 @@
             "title": "You are scheduled!",
             "copyrightTitle": "Schedule your own meetings with Termmy for free",
             "copyrightText": "Eliminate the back-and-forth emails for finding time.",
+            "chosenPaymentUponArrival": "You have chosen the payment option upon arrival!",
+            "paidFullAmount": "Thank you for paying the full amount ({amount} eur) of the service.",
+            "paidPartOfAmount": "Thank you for paying the part of full amount ({amount} eur) of the service. You will pay the rest up to the full amount upon arrival.",
             "copyrightButton": "Sign up for free"
         }
     }

@@ -250,7 +250,8 @@ router.post("/getAllScheduledTermines", async (req, res, next) => {
         console.log(condition);
 
         conn.query(
-          "select * from appointments where " + condition,
+          "select * from appointments where StartTime >= CURRENT_DATE() and " +
+            condition,
           function (err, rows, fields) {
             conn.release();
             if (err) {
@@ -278,7 +279,7 @@ router.post("/createAppointment", async (req, res, next) => {
       } else {
         // check if somone made appointment in maintime
         conn.query(
-          "select * from appointments where StartTime <= ? and EndTime >= ? and employee_id = ?",
+          "select * from appointments where StartTime < ? and EndTime > ? and employee_id = ?",
           [req.body.StartTime, req.body.StartTime, req.body.employee_id],
           function (err, rows, fields) {
             if (err) {
@@ -289,8 +290,9 @@ router.post("/createAppointment", async (req, res, next) => {
               // someone maid appointment in maintime
               if (rows.length) {
                 conn.release();
-                res.json("Maid appointment!");
+                res.json(false);
               } else {
+                req.body.id = uuid.v4();
                 conn.query(
                   "insert into appointments SET ?",
                   [req.body],
@@ -300,7 +302,7 @@ router.post("/createAppointment", async (req, res, next) => {
                       logger.log("error", err.sql + ". " + err.sqlMessage);
                       res.json(false);
                     } else {
-                      res.json(true);
+                      res.json(req.body.id);
                     }
                   }
                 );
@@ -323,7 +325,9 @@ router.post("/createAppointmentArchive", async (req, res, next) => {
         logger.log("error", err.sql + ". " + err.sqlMessage);
         res.json(err);
       } else {
-        req.body.id = uuid.v4();
+        if (!req.body.appointment_id) {
+          req.body.appointment_id = uuid.v4();
+        }
         conn.query(
           "insert into appointments_archive SET ?",
           [req.body],
@@ -333,7 +337,7 @@ router.post("/createAppointmentArchive", async (req, res, next) => {
               logger.log("error", err.sql + ". " + err.sqlMessage);
               res.json(false);
             } else {
-              res.json(req.body.id);
+              res.json(req.body.appointment_id);
             }
           }
         );
@@ -353,7 +357,7 @@ router.get("/getAppointmentArchive/:id", async (req, res, next) => {
         res.json(err);
       } else {
         conn.query(
-          "select c.firstname, c.lastname, s.name, s.time_duration, s.price, a.StartTime, a.EndTime from appointments_archive a join clients c on a.client_id = c.id join services s on a.service_id = s.id where a.id = ?",
+          "select c.firstname, c.lastname, s.name, s.time_duration, s.price, a.StartTime, a.EndTime from appointments_archive a join clients c on a.client_id = c.id join services s on a.service_id = s.id where a.appointment_id = ?",
           [req.params.id],
           function (err, rows, fields) {
             conn.release();
@@ -411,7 +415,7 @@ router.post("/createClient", async (req, res, next) => {
                   function (err, rows, fields) {
                     if (rows.length) {
                       req.body.client.admin_id = rows[0].admin_id;
-                      req.body.id = uuid.v4();
+                      req.body.client.id = uuid.v4();
                       conn.query(
                         "insert into clients SET ?",
                         [req.body.client],
@@ -424,7 +428,7 @@ router.post("/createClient", async (req, res, next) => {
                             );
                             res.json(false);
                           } else {
-                            res.json(req.body.id);
+                            res.json(req.body.client.id);
                           }
                         }
                       );

@@ -41,8 +41,8 @@ router.post("/getAllScheduledTermines", async (req, res) => {
       if (events && events.data) {
         const times = events.data.items.map((i) => {
           return {
-            start: i.start.dateTime,
-            end: i.end.dateTime,
+            start: moment(i.start.dateTime).add("hour", -1).utc(),
+            end: moment(i.end.dateTime).add("hour", -1).utc(),
           };
         });
         // scheduledTermines = scheduledTermines.concat(events.data.items);
@@ -68,24 +68,49 @@ router.post("/createAppointment", async (req, res) => {
 
   delete req.body.employee_id;
 
-  await calendar.events.insert({
+  //check if there is closed event in main time
+
+  const events = await calendar.events.list({
     calendarId: "primary",
     auth: oauth2Client,
-    requestBody: {
-      summary: req.body.Subject,
-      description: JSON.stringify(req.body),
-      start: {
-        dateTime: moment(req.body.StartTime).add("hour", 1),
-        timeZone: "UTC",
-      },
-      end: {
-        dateTime: moment(req.body.EndTime).add("hour", 1),
-        timeZone: "UTC",
-      },
-    },
+    timeMin: moment(req.body.StartTime)
+      .add("hour", 1)
+      .add("milliseconds", 0)
+      .toISOString(),
+    timeMax: moment(req.body.EndTime)
+      .add("hour", 1)
+      .add("milliseconds", 0)
+      .toISOString(),
   });
 
-  res.send(true);
+  if (events && events.data.items.length === 0) {
+    await calendar.events.insert(
+      {
+        calendarId: "primary",
+        auth: oauth2Client,
+        requestBody: {
+          summary: req.body.Subject,
+          description: JSON.stringify(req.body),
+          start: {
+            dateTime: moment(req.body.StartTime)
+              .add("hour", 1)
+              .add("milliseconds", 0),
+            timeZone: "UTC",
+          },
+          end: {
+            dateTime: moment(req.body.EndTime)
+              .add("hour", 1)
+              .add("milliseconds", 0),
+            timeZone: "UTC",
+          },
+        },
+      },
+      (next) => {}
+    );
+    res.send(true);
+  } else {
+    res.send(false);
+  }
 });
 
 //END TERMINE
