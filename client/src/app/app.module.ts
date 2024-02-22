@@ -18,6 +18,7 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
 };
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
+import { RouterLink, RouterOutlet } from '@angular/router';
 
 @NgModule({
   declarations: [AppComponent],
@@ -30,6 +31,7 @@ import { ToastrModule } from 'ngx-toastr';
     AppRoutingModule,
     TranslateModule.forRoot(),
     HttpClientModule,
+    RouterLink, RouterOutlet,
     CookieModule.withOptions(),
   ],
   providers: [

@@ -66,7 +66,6 @@ module.exports = class CustomTransport extends Transport {
         }
       );
     } catch (error) {
-      console.log(error);
     }
     return data;
   }
@@ -93,7 +92,6 @@ module.exports = class CustomTransport extends Transport {
         }
       );
     } catch (error) {
-      console.log(error);
     }
   }
 

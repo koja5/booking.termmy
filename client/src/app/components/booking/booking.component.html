@@ -1,4 +1,10 @@
-<div class="wrapper">
+<div class="vh-100" *ngIf="loader">
+    <app-loader></app-loader>
+</div>
+<div class="wrapper" *ngIf="!loader">
+
+
+    <app-not-found *ngIf="!config || !id"></app-not-found>
 
     <div class="profile-card js-profile-card" *ngIf="config">
 

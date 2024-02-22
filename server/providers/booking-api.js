@@ -247,8 +247,6 @@ router.post("/getAllScheduledTermines", async (req, res, next) => {
           "or"
         );
 
-        console.log(condition);
-
         conn.query(
           "select * from appointments where StartTime >= CURRENT_DATE() and " +
             condition,
@@ -472,7 +470,6 @@ function packStringFromArrayForWhereCondition(
 
 function getValue(array, i, arrayField) {
   const value = arrayField ? array[i][arrayField] : array[i];
-  console.log(value);
   return isNaN(value) ? '"' + value + '"' : value;
 }
 

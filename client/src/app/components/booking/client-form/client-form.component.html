@@ -1,57 +1,62 @@
-<div class="mb-4">
+<div class="mt-4">
     <h3>{{'clientData.enterYourInformation' | translate}}</h3>
 </div>
 <div class="container-right-content">
-    <form #f="ngForm" [formGroup]="data" (submit)="submitForm($event)">
-        <div class="row">
-            <div class="col-12 mb-3">
-                <label>{{'clientData.firstname' | translate}}</label>
-                <input type="text" class="form-control" placeholder="{{'clientData.firstnamePlaceholder' | translate}}"
-                    formControlName="firstname">
-                <span *ngIf="submited&&!data.controls.firstname.valid" class="error">
-                    {{'clientData.fillFirstname' | translate}}
-                </span>
-            </div>
-            <div class="col-12 mb-3">
-                <label>{{'clientData.lastname' | translate}}</label>
-                <input type="text" class="form-control" placeholder="{{'clientData.lastnamePlaceholder' | translate}}"
-                    formControlName="lastname">
-                <div *ngIf="submited&&!data.controls.lastname.valid" class="error">
-                    {{'clientData.fillLastname' | translate}}
-                </div>
-            </div>
-            <div class="col-12 mb-3">
-                <label>{{'clientData.email' | translate}}</label>
-                <input type="text" class="form-control" placeholder="{{'clientData.emailPlaceholder' | translate}}"
-                    formControlName="email">
-                <div *ngIf="submited&&!data.controls.email.valid" class="error">
-                    {{'clientData.fillEmail' | translate}}
-                </div>
-            </div>
-            <div class="col-12 mb-3">
-                <label>{{'clientData.telephone' | translate}}</label>
-                <ngx-intl-tel-input [cssClass]="'custom'" [preferredCountries]="preferredCountries"
-                    [enableAutoCountrySelect]="true" [enablePlaceholder]="true" [searchCountryFlag]="true"
-                    [searchCountryField]="[
+    <div class="card b-none">
+        <div class="card-body">
+            <form #f="ngForm" [formGroup]="data" (submit)="submitForm($event)">
+                <div class="row">
+                    <div class="col-12 mb-3">
+                        <label>{{'clientData.firstname' | translate}}</label>
+                        <input type="text" class="form-control"
+                            placeholder="{{'clientData.firstnamePlaceholder' | translate}}" formControlName="firstname">
+                        <span *ngIf="submited&&!data.controls.firstname.valid" class="error">
+                            {{'clientData.fillFirstname' | translate}}
+                        </span>
+                    </div>
+                    <div class="col-12 mb-3">
+                        <label>{{'clientData.lastname' | translate}}</label>
+                        <input type="text" class="form-control"
+                            placeholder="{{'clientData.lastnamePlaceholder' | translate}}" formControlName="lastname">
+                        <div *ngIf="submited&&!data.controls.lastname.valid" class="error">
+                            {{'clientData.fillLastname' | translate}}
+                        </div>
+                    </div>
+                    <div class="col-12 mb-3">
+                        <label>{{'clientData.email' | translate}}</label>
+                        <input type="text" class="form-control"
+                            placeholder="{{'clientData.emailPlaceholder' | translate}}" formControlName="email">
+                        <div *ngIf="submited&&!data.controls.email.valid" class="error">
+                            {{'clientData.fillEmail' | translate}}
+                        </div>
+                    </div>
+                    <div class="col-12 mb-3">
+                        <label>{{'clientData.telephone' | translate}}</label>
+                        <ngx-intl-tel-input [cssClass]="'custom'" [preferredCountries]="preferredCountries"
+                            [enableAutoCountrySelect]="true" [enablePlaceholder]="true" [searchCountryFlag]="true"
+                            [searchCountryField]="[
                   SearchCountryField.Iso2,
                   SearchCountryField.Name
                 ]" [selectFirstCountry]="false" [selectedCountryISO]="CountryISO.Austria" [maxLength]="15"
-                    [phoneValidation]="true" [separateDialCode]="separateDialCode"
-                    [numberFormat]="PhoneNumberFormat.National" name="telephone" formControlName="telephone">
-                </ngx-intl-tel-input>
-                <div *ngIf="submited&&!data.controls.telephone.valid" class="error">
-                    {{'clientData.fillPhone' | translate}}
+                            [phoneValidation]="true" [separateDialCode]="separateDialCode"
+                            [numberFormat]="PhoneNumberFormat.National" name="telephone" formControlName="telephone">
+                        </ngx-intl-tel-input>
+                        <div *ngIf="submited&&!data.controls.telephone.valid" class="error">
+                            {{'clientData.fillPhone' | translate}}
+                        </div>
+                    </div>
+                    <div class="col-12 mb-3">
+                        <label>{{'clientData.description' | translate}}</label>
+                        <textarea type="text" class="form-control"
+                            placeholder="{{'clientData.descriptionPlaceholder' | translate}}"
+                            formControlName="description" rows="3"></textarea>
+                    </div>
                 </div>
-            </div>
-            <div class="col-12 mb-3">
-                <label>{{'clientData.description' | translate}}</label>
-                <textarea type="text" class="form-control"
-                    placeholder="{{'clientData.descriptionPlaceholder' | translate}}" formControlName="description"
-                    rows="3"></textarea>
-            </div>
+                <div class="col-12 text-center">
+                    <button class="btn btn-primary go-to-payment w-75" type="submit">{{'clientData.goToPayment' |
+                        translate}}</button>
+                </div>
+            </form>
         </div>
-        <div class="col-12 text-right">
-            <button class="btn btn-primary" type="submit">{{'clientData.goToPayment' | translate}}</button>
-        </div>
-    </form>
+    </div>
 </div>

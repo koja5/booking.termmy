@@ -51,9 +51,13 @@
             "copyrightTitle": "Schedule your own meetings with Termmy for free",
             "copyrightText": "Eliminate the back-and-forth emails for finding time.",
             "chosenPaymentUponArrival": "You have chosen the payment option upon arrival!",
-            "paidFullAmount": "Thank you for paying the full amount ({amount} eur) of the service.",
-            "paidPartOfAmount": "Thank you for paying the part of full amount ({amount} eur) of the service. You will pay the rest up to the full amount upon arrival.",
+            "paidFullAmount": "Thank you for paying the full amount ({amount} €) of the service.",
+            "paidPartOfAmount": "Thank you for paying the part of full amount ({amount} €) of the service. You will pay the rest up to the full amount upon arrival.",
             "copyrightButton": "Sign up for free"
+        },
+        "notFound": {
+            "title": "Welcome to the Termmy booking system",
+            "text": "Please use a valid link to book an appointment with the desired service provider."
         }
     }
 }

@@ -1,6 +1,6 @@
 <app-loader *ngIf="!config"></app-loader>
 
-<div class="profile" *ngIf="config">
+<div class="profile" *ngIf="config && config.active">
 
     <div class="profile-card__img">
         <img src="../../../../../assets/images/icons/company.png" alt="profile card">

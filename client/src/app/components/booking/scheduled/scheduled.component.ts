@@ -24,6 +24,7 @@ export class ScheduledComponent {
   ) {}
 
   ngOnInit() {
+    this.sendAppointmentConfirmationToMail(null);
     const id = this._activatedRouter.snapshot.params.id;
     const appointment_id = this._activatedRouter.snapshot.params.appointmentId;
     this.queryParams = this._storageService.decrypt(
@@ -87,5 +88,15 @@ export class ScheduledComponent {
         this.config.branding_color_dark
       );
     }
+  }
+
+  sendAppointmentConfirmationToMail(data: any) {
+    this._service
+      .callPostMethod('/api/mail-server/appointmentConfirmation', {
+        appointment_id: '6dd2738c-3472-4fb5-823e-1a6821d3310e',
+      })
+      .subscribe((data) => {
+        console.log(data);
+      });
   }
 }

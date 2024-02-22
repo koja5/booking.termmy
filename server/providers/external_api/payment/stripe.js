@@ -26,8 +26,6 @@ router.post("/connect", (req, res, next) => {
       },
     },
     (err, charge) => {
-      console.log("STRIPE ID:");
-      console.log(charge.id);
       stripe.accountLinks.create(
         {
           account: charge.id,
@@ -47,7 +45,6 @@ router.post("/connect", (req, res, next) => {
           collect: "eventually_due",
         },
         (err, link) => {
-          console.log(link);
           if (link && link.url) {
             res.json(link);
           } else {

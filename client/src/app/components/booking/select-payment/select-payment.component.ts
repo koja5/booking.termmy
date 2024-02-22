@@ -155,9 +155,7 @@ export class SelectPaymentComponent {
       });
   }
 
-  setStripeToken(token: stripe.Token) {
-    console.log(token);
-  }
+  setStripeToken(token: stripe.Token) {}
 
   onStripeError(error: any) {}
 
@@ -337,12 +335,24 @@ export class SelectPaymentComponent {
                 },
               }
             );
+            this.sendAppointmentConfirmationToMail(data);
           }
         },
         (error) => {
           this.paying = false;
         }
       );
+  }
+
+  sendAppointmentConfirmationToMail(data: any) {
+    this._service
+      .callPostMethod('/api/mail-server/appointmentConfirmation', {
+        appointment_id: data,
+        payment_message: this.isCollapsePayByCreditCard ? 'paid' : 'on-arrival',
+      })
+      .subscribe((data) => {
+        console.log(data);
+      });
   }
 
   replaceForFullAmount(text: string) {

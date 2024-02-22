@@ -1,4 +1,4 @@
-<div class="mb-4">
+<div class="mb-4 mt-4">
     <h3>{{'payment.title' | translate}}</h3>
 </div>
 <div class="container-right-content">
@@ -25,7 +25,7 @@
 
                         <form #f="ngForm" [formGroup]="clientData">
                             <div class="row">
-                                <div class="col-6 mb-2">
+                                <div class="col-md-6 col-12 mb-2">
                                     <label>{{'clientData.firstname' | translate}}</label>
                                     <input type="text" class="form-control"
                                         placeholder="{{'clientData.firstnamePlaceholder' | translate}}"
@@ -34,7 +34,7 @@
                                         {{'clientData.fillFirstname' | translate}}
                                     </span>
                                 </div>
-                                <div class="col-6 mb-2">
+                                <div class="col-md-6 col-12 mb-2">
                                     <label>{{'clientData.lastname' | translate}}</label>
                                     <input type="text" class="form-control"
                                         placeholder="{{'clientData.lastnamePlaceholder' | translate}}"
@@ -119,7 +119,7 @@
                         <div class="client-data">
                             <form #f="ngForm" [formGroup]="clientData">
                                 <div class="row">
-                                    <div class="col-6 mb-2">
+                                    <div class="col-md-6 col-12 mb-2">
                                         <label>{{'clientData.firstname' | translate}}</label>
                                         <input type="text" class="form-control"
                                             placeholder="{{'clientData.firstnamePlaceholder' | translate}}"
@@ -128,7 +128,7 @@
                                             {{'clientData.fillFirstname' | translate}}
                                         </span>
                                     </div>
-                                    <div class="col-6 mb-2">
+                                    <div class="col-md-6 col-12 mb-2">
                                         <label>{{'clientData.lastname' | translate}}</label>
                                         <input type="text" class="form-control"
                                             placeholder="{{'clientData.lastnamePlaceholder' | translate}}"
@@ -211,7 +211,7 @@
 
                         <div class="text-center mt-4">
                             <button (click)="payAndBooked()" class="btn btn-primary w-75 payment"
-                                [disabled]="paying || (submitted&&!accept) ? true : false">
+                                [disabled]="!accept ? true : false">
                                 <app-loader-small *ngIf="paying"></app-loader-small>
                                 {{replaceButtonText('payment.payAndBooked'
                                 |

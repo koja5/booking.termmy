@@ -14,6 +14,8 @@ import { StorageService } from 'src/app/services/storage.service';
 export class BookingComponent {
   public config: any;
   public view: any = '';
+  public id!: string;
+  public loader = true;
 
   /**
    * Constructor
@@ -46,14 +48,15 @@ export class BookingComponent {
   }
 
   initialize() {
-    const id = this._activatedRouter.snapshot.params.id;
+    this.id = this._activatedRouter.snapshot.params.id;
     this._service
-      .callGetMethod('/api/booking/getBusinessConfig', id)
+      .callGetMethod('/api/booking/getBusinessConfig', this.id)
       .subscribe((data: any) => {
         if (data && data.length) {
           this.config = data[0];
           this._storageService.setCookie('conifig', this.config);
           this.setBusinessColor();
+          this.loader = false;
         }
       });
   }

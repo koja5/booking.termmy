@@ -22,11 +22,13 @@ import { NgxStripeModule, provideNgxStripe } from 'ngx-stripe';
 import { LoaderSmallComponent } from './common/loader-small/loader-small.component';
 import { ScheduledComponent } from './scheduled/scheduled.component';
 import { CommonCustomModule } from 'src/app/common/common-custom.module';
+import { NotFoundComponent } from './common/not-found/not-found.component';
 
 const routes = [
   {
     path: '',
     component: BookingComponent,
+    data: { animation: 'togglePage' },
   },
   {
     path: 'scheduled/:appointmentId',
@@ -48,6 +50,7 @@ const routes = [
     LoaderComponent,
     LoaderSmallComponent,
     ScheduledComponent,
+    NotFoundComponent,
   ],
   imports: [
     CommonModule,

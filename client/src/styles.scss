@@ -19,6 +19,16 @@ html {
   box-sizing: border-box;
 }
 
+
+// .row>* {
+//   flex-shrink: 0 !important;
+//   width: 100% !important;
+//   max-width: 100% !important;
+//   padding-right: calc(1.5rem * .5) !important;
+//   padding-left: calc(1.5rem * .5) !important;
+//   margin-top: 0 !important;
+// }
+
 *:focus {
   box-shadow: none !important;
 }
@@ -529,15 +539,15 @@ ngx-intl-tel-input input:focus {
   .container-left {
     border-bottom: 1px solid lightgray;
     text-align: center;
-    position: fixed;
+    /*position: fixed;*/
     background: #fff;
-    z-index: 1;
+    z-index: 2;
   }
 
-  .container-right {
-    margin-top: 180px !important;
-    margin-bottom: 40px;
-  }
+  // .container-right {
+  //   margin-top: 180px !important;
+  //   margin-bottom: 40px;
+  // }
 }
 
 @media (min-width: 993px) {
@@ -545,19 +555,19 @@ ngx-intl-tel-input input:focus {
     border-right: 1px solid lightgray;
   }
 
-  .container-right {
-    padding: 30px;
-  }
+  // .container-right {
+  //   padding: 30px;
+  // }
 
   .container-right-content {
-    max-height: 67vh;
-    min-height: 67vh;
+    max-height: 72vh;
+    min-height: 72vh;
     overflow: auto;
     overflow-x: hidden;
   }
 
   .booking-container {
-    max-height: 80vh;
+    min-height: 80vh;
   }
 
   .profile-card {

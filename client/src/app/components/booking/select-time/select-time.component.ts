@@ -26,6 +26,7 @@ export class SelectTimeComponent {
   public availableEmployees: any;
   public externalCalendarConnections: any;
   public appointment: any;
+  private formatDate = 'DD.MM.YYYY';
 
   constructor(
     private _activatedRouter: ActivatedRoute,
@@ -47,9 +48,8 @@ export class SelectTimeComponent {
   }
 
   initializeCalendar() {
-    this.selectedTime = moment(
-      this._activatedRouter.snapshot.queryParams.appointment
-    );
+    this.selectedTime =
+      this._storageService.getAppointmentFromCookie().time ?? null;
     const fromDate = moment();
     const toDate = moment().add(this.numberOfWeeks, 'weeks');
 
@@ -67,14 +67,14 @@ export class SelectTimeComponent {
       if (now.day() != 0 && now.day() != 6) {
         this.days.push({
           name: now.locale('de').format('dd'),
-          index: moment(now).format('DD.MM.YYYY'),
+          index: moment(now).format(this.formatDate),
           day: moment(now).date(),
           month: moment(now).month() + 1,
           year: moment(now).year(),
           today: moment(now).format('ll') == moment().format('ll'),
         });
       } else {
-        this.allAppointments[moment(now).format('DD.MM.YYYY')] = [];
+        this.allAppointments[moment(now).format(this.formatDate)] = [];
       }
       now.add(1, 'days');
       i++;
@@ -92,6 +92,7 @@ export class SelectTimeComponent {
         this.worktime = data;
         if (data && data.length) {
           this.packWorkTimePerDays(data[0]);
+          this.removeOldTimeForToday();
         }
       });
   }
@@ -103,7 +104,7 @@ export class SelectTimeComponent {
       for (let i = 0; i < allWorkTimes.length; i++) {
         for (let j = 0; j < 7; j++) {
           let dayInWeek = calendarDate.day();
-          let date = calendarDate.format('DD.MM.YYYY');
+          let date = calendarDate.format(this.formatDate);
           const worktime = this.getWorkTimeForDay(allWorkTimes, dayInWeek);
           if (worktime.active) {
             if (!this.allAppointments[date]) {
@@ -139,6 +140,16 @@ export class SelectTimeComponent {
           }
           calendarDate = moment(calendarDate).add(1, 'day');
         }
+      }
+    }
+  }
+
+  removeOldTimeForToday() {
+    const today = moment().format(this.formatDate);
+    for (let i = 0; i < this.allAppointments[today].length; i++) {
+      if (this.allAppointments[today][i].time <= moment()) {
+        this.allAppointments[today].splice(i, 1);
+        i--;
       }
     }
   }
@@ -187,7 +198,6 @@ export class SelectTimeComponent {
     this._service
       .callPostMethod('api/booking/getAllScheduledTermines', data)
       .subscribe((data) => {
-        console.log(data);
         // this.scheduledTermines = this.scheduledTermines.concat(data);
         this.removeScheduledTermineFromAvailableSlot(data);
         this.loader = false;
@@ -199,7 +209,6 @@ export class SelectTimeComponent {
       this._service
         .callPostMethod('/api/google/getAllScheduledTermines', data)
         .subscribe((data: any) => {
-          console.log(data);
           this.removeScheduledTermineFromAvailableSlot(data);
           this.loader = false;
         });
@@ -209,17 +218,19 @@ export class SelectTimeComponent {
   removeScheduledTermineFromAvailableSlot(data: any) {
     for (let i = 0; i < data.length; i++) {
       const date = moment(data[i].start ?? data[i].StartTime).format(
-        'DD.MM.YYYY'
+        this.formatDate
       );
-      for (let j = 0; j < this.allAppointments[date].length; j++) {
-        if (
-          this.allAppointments[date][j].time.utcOffset(0, true) >=
-            moment(data[i].start ?? data[i].StartTime).utc() &&
-          this.allAppointments[date][j].time.utcOffset(0, true) <
-            moment(data[i].end ?? data[i].EndTime).utc()
-        ) {
-          this.allAppointments[date].splice(j, 1);
-          j--;
+      if (this.allAppointments[date]) {
+        for (let j = 0; j < this.allAppointments[date].length; j++) {
+          if (
+            this.allAppointments[date][j].time.utcOffset(0, true) >=
+              moment(data[i].start ?? data[i].StartTime).utc() &&
+            this.allAppointments[date][j].time.utcOffset(0, true) <
+              moment(data[i].end ?? data[i].EndTime).utc()
+          ) {
+            this.allAppointments[date].splice(j, 1);
+            j--;
+          }
         }
       }
     }
@@ -250,6 +261,10 @@ export class SelectTimeComponent {
     this._storageService.setAppointmentToCookie(
       'employee',
       this.checkIfEmployeeHaveExternalConnections(employee_id)
+    );
+    this._storageService.setAppointmentToCookie(
+      'time',
+      moment(time).toISOString()
     );
     this._router.navigate(['.'], {
       relativeTo: this._activatedRouter.parent,
@@ -283,7 +298,7 @@ export class SelectTimeComponent {
   }
 
   isSelected(time: any) {
-    if (this.selectedTime.toDate() === time.toDate()) {
+    if (moment(this.selectedTime).toISOString() === time.toISOString()) {
       return true;
     }
     return false;

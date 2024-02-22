@@ -5,116 +5,86 @@ const fs = require("fs");
 const sha1 = require("sha1");
 const request = require("request");
 const moment = require("moment");
+const sql = require("./config/sql-database");
+
+var connection = sql.connect();
 
 module.exports = router;
 
-router.post("/sendBookingInfo", function (req, res, next) {
-  var body = JSON.parse(
-    fs.readFileSync("./providers/mail_server/mail_config/booking.json", "utf-8")
-  );
+router.post("/appointmentConfirmation", function (req, res, next) {
+  try {
+    connection.getConnection(function (err, conn) {
+      if (err) {
+        logger.log("error", err.sql + ". " + err.sqlMessage);
+        res.json(err);
+      } else {
+        conn.query(
+          "select u.firstname as 'employee_firstname', u.lastname as 'employee_lastname', u.email as 'employee_email', c.firstname as 'client_firstname', c.lastname as 'client_lastname', c.email as 'client_email', s.name as 'service_name', s.time_duration, s.price, aa.StartTime, aa.EndTime from appointments_archive aa join users u on aa.employee_id = u.id join clients c on aa.client_id = c.id join services s on aa.service_id = s.id where aa.appointment_id = ?",
+          [req.body.appointment_id],
+          function (err, rows, fields) {
+            conn.release();
+            if (err) {
+              logger.log("error", err.sql + ". " + err.sqlMessage);
+              res.json(err);
+            } else {
+              if (rows.length) {
+                var client = JSON.parse(
+                  fs.readFileSync(
+                    "./providers/mail_server/mail_config/appointment-confirmation-client.json",
+                    "utf-8"
+                  )
+                );
 
-  body["template"] = "booking.hjs";
+                client = packInformationForMail(client, rows[0]);
+                client["email"] = rows[0].client_email;
+                client["payment_message"] = req.body.payment_message;
+                var client_options = prepareOptionsForRequest(client);
 
-  body["firstname"] = req.body.personal.firstname;
-  body["greeting"] = body.greeting.replace(
-    "{firstname}",
-    req.body.personal.firstname
-  );
-  body["lastname"] = req.body.personal.lastname;
-  body["birthday"] = moment(req.body.personal.birthday).format("DD.MM.yyyy");
-  body["email"] = req.body.personal.email;
-  body["phone"] = req.body.personal.telephone;
-  body["date"] = moment(req.body.calendar.date).format("DD.MM.yyyy");
-  body["time"] = moment(req.body.calendar.date).format("HH:mm");
-  body["storename"] = req.body.calendar.storename;
-  body["street"] = req.body.calendar.street;
-  body["place"] = req.body.calendar.place;
-  body["store_phone"] = req.body.calendar.store_phone;
-  body["store_email"] = req.body.calendar.store_email;
+                request(client_options, function (error, response, body) {});
 
-  var options = {
-    url: process.env.link_api + "mail-server/sendMail",
-    method: "POST",
-    body: body,
-    json: true,
-  };
-  request(options, function (error, response, body) {
-    if (!error) {
-      res.json(true);
-    } else {
-      res.json(false);
-    }
-  });
+                var employee = JSON.parse(
+                  fs.readFileSync(
+                    "./providers/mail_server/mail_config/appointment-confirmation-employee.json",
+                    "utf-8"
+                  )
+                );
+                employee = packInformationForMail(employee, rows[0]);
+                employee["email"] = rows[0].employee_email;
+                employee["payment_message"] = req.body.payment_message;
+                var employee_options = prepareOptionsForRequest(employee);
+
+                request(employee_options, function (error, response, body) {
+                  if (!error) {
+                    res.json(true);
+                  } else {
+                    res.json(false);
+                  }
+                });
+              }
+            }
+          }
+        );
+      }
+    });
+  } catch (ex) {
+    logger.log("error", err.sql + ". " + err.sqlMessage);
+    res.json(ex);
+  }
 });
 
-router.post("/verifyEmailAddress", function (req, res, next) {
-  var body = JSON.parse(
-    fs.readFileSync("./providers/mail_server/mail_config/booking.json", "utf-8")
-  );
+function packInformationForMail(body, rows) {
+  body["template"] = "appointment_confirmation.hjs";
 
-  body["template"] = "verify_email_address.hjs";
-  body["email"] = req.body.email;
-  body["verified_mail_link"] =
-    process.env.link_api + "verifiedMailAndActive/" + sha1(req.body.email);
+  body = addNewPropertyToCurrentObject(body, rows);
+  body["email"] = rows.employee_email;
+  body["date"] = moment(rows.StartTime).format("DD.MM.YYYY");
+  body["time"] =
+    moment(rows.StartTime).format("HH:mm") +
+    " - " +
+    moment(rows.EndTime).format("HH:mm");
 
-  var options = prepareOptionsForRequest(body);
-
-  console.log(options);
-
-  request(options, function (error, response, body) {
-    if (!error) {
-      res.json(true);
-    } else {
-      res.json(false);
-    }
-  });
-});
-
-router.post("/verifyEmailAddress", function (req, res, next) {
-  var body = JSON.parse(
-    fs.readFileSync("./providers/mail_server/mail_config/booking.json", "utf-8")
-  );
-
-  body["template"] = "verify_email_address.hjs";
-  body["email"] = req.body.email;
-  body["verified_mail_link"] =
-    process.env.link_api + "verifiedMailAndActive/" + sha1(req.body.email);
-
-  var options = prepareOptionsForRequest(body);
-
-  console.log(options);
-
-  request(options, function (error, response, body) {
-    if (!error) {
-      res.json(true);
-    } else {
-      res.json(false);
-    }
-  });
-});
-
-router.post("/forgotPasswordLink", function (req, res, next) {
-  var body = JSON.parse(
-    fs.readFileSync("./providers/mail_server/mail_config/booking.json", "utf-8")
-  );
-
-  body["template"] = "reset_password.hjs";
-  body["email"] = req.body.email;
-  body["forgot_password_link"] =
-    process.env.link_client + "auth/reset-password/" + sha1(req.body.email);
-
-  var options = prepareOptionsForRequest(body);
-
-  console.log(options);
-
-  request(options, function (error, response, body) {
-    if (!error) {
-      res.json(true);
-    } else {
-      res.json(false);
-    }
-  });
-});
+  return body;
+}
 
 //#region FUNCTIONS
 
@@ -125,6 +95,13 @@ function prepareOptionsForRequest(body) {
     body: body,
     json: true,
   };
+}
+
+function addNewPropertyToCurrentObject(body, properties) {
+  for (const [key, value] of Object.entries(properties)) {
+    body[key] = value;
+  }
+  return body;
 }
 
 //#endregion

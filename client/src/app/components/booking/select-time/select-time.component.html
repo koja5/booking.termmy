@@ -1,4 +1,4 @@
-<div class="mb-4">
+<div class="mb-4 mt-4">
     <h3>{{'calendarTime.selectDateAndTime' | translate}}</h3>
 </div>
 <div class="container-right-content">
@@ -20,7 +20,7 @@
                 <div *ngIf="allAppointments[item.index] && allAppointments[item.index].length > 0;"
                     class="calendar2-times col-md-10 col-xs-12 row">
                     <span *ngFor="let appointment of allAppointments[item.index].sort(); let i = index"
-                        class="col-lg-2 col-md-2 col-sm-2 col-5 {{isSelected(appointment.time) ? 'selected' : ''}}"
+                        class="col-lg-2 col-md-2 col-sm-2 col-5"
                         (click)="selectTime(appointment.time, appointment.employee_id)">
                         {{appointment.time | date:
                         'HH:mm'}}

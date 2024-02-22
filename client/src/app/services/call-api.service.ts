@@ -125,7 +125,10 @@ export class CallApiService {
 
   getSelectedAppointmentValue() {
     const appointment = this._storageService.getAppointmentFromCookie() ?? {};
-    if (!appointment || !appointment.service) {
+    if (
+      (!appointment || !appointment.service) &&
+      this._activatedRouter.snapshot.queryParams.service
+    ) {
       this.callGetMethod(
         '/api/booking/getService',
         this._activatedRouter.snapshot.queryParams.service
@@ -140,7 +143,10 @@ export class CallApiService {
       });
     }
 
-    if (!appointment || !appointment.employee) {
+    if (
+      (!appointment || !appointment.employee) &&
+      this._activatedRouter.snapshot.queryParams.employee
+    ) {
       this.callGetMethod(
         '/api/booking/getEmployee',
         this._activatedRouter.snapshot.queryParams.employee

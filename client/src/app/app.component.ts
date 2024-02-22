@@ -1,11 +1,12 @@
 import { Component } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { CoreTranslationService } from 'src/@core/services/translation.service';
+import { ChildrenOutletContexts } from '@angular/router';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss'],
+  styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
   title = 'booking';
@@ -17,7 +18,8 @@ export class AppComponent {
 */
   constructor(
     private _coreTranslationServic: CoreTranslationService,
-    private _translateService: TranslateService
+    private _translateService: TranslateService,
+    private contexts: ChildrenOutletContexts
   ) {
     // Add languages to the translation service
     this._translateService.addLangs(['en', 'fr', 'de', 'pt']);

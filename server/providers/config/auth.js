@@ -7,7 +7,6 @@ const verifyToken = (req, res, next) => {
     req.query.token ||
     req.headers["x-access-token"] ||
     req.headers["cookie"];
-  console.log(token);
   if (token.startsWith("token")) {
     token = token.toString().split("=")[1];
     var lastChar = token[token.length - 1];
