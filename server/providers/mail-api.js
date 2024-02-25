@@ -19,7 +19,7 @@ router.post("/appointmentConfirmation", function (req, res, next) {
         res.json(err);
       } else {
         conn.query(
-          "select u.firstname as 'employee_firstname', u.lastname as 'employee_lastname', u.email as 'employee_email', c.firstname as 'client_firstname', c.lastname as 'client_lastname', c.email as 'client_email', s.name as 'service_name', s.time_duration, s.price, aa.StartTime, aa.EndTime from appointments_archive aa join users u on aa.employee_id = u.id join clients c on aa.client_id = c.id join services s on aa.service_id = s.id where aa.appointment_id = ?",
+          "select u.firstname as 'employee_firstname', u.lastname as 'employee_lastname', u.email as 'employee_email', c.firstname as 'client_firstname', c.lastname as 'client_lastname', c.email as 'client_email', s.name as 'service_name', s.time_duration, s.price, aa.StartTime, aa.EndTime, b.company_name, b.company_address, b.telephone as 'company_telephone', b.email as 'company_email' from appointments_archive aa join users u on aa.employee_id = u.id join clients c on aa.client_id = c.id join services s on aa.service_id = s.id join booking_config b on aa.admin_id = b.admin_id where aa.appointment_id = ?",
           [req.body.appointment_id],
           function (err, rows, fields) {
             conn.release();
@@ -81,7 +81,7 @@ function packInformationForMail(body, rows) {
   body["time"] =
     moment(rows.StartTime).format("HH:mm") +
     " - " +
-    moment(rows.EndTime).format("HH:mm");
+    moment(rows.StartTime).add(rows.time_duration, "minutes").format("HH:mm");
 
   return body;
 }

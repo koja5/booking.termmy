@@ -54,10 +54,7 @@ export class ClientFormComponent {
   submitForm(event: any) {
     this.submited = true;
     if (this.data.valid) {
-      this._storageService.setAppointmentToCookie(
-        'client',
-        this.data.value
-      );
+      this._storageService.setAppointmentToCookie('client', this.data.value);
       this.navigateToNextStep();
     }
   }
@@ -71,4 +68,11 @@ export class ClientFormComponent {
       queryParamsHandling: 'merge',
     });
   }
+
+  // encodeValueForClient() {
+  //   this._storageService.encrypt({
+  //     name: this.data.value.firstname + ' ' + this.data.value.lastname,
+  //     is_new: true,
+  //   });
+  // }
 }

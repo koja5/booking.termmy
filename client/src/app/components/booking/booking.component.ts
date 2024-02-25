@@ -5,6 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { CoreTranslationService } from 'src/@core/services/translation.service';
 import { HelpService } from 'src/app/services/help.service';
 import { StorageService } from 'src/app/services/storage.service';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-booking',
@@ -29,7 +30,8 @@ export class BookingComponent {
     private _activatedRouter: ActivatedRoute,
     private host: ElementRef<HTMLElement>,
     public _helpService: HelpService,
-    private _storageService: StorageService
+    private _storageService: StorageService,
+    private _title: Title
   ) {
     // Add languages to the translation service
     this._translateService.addLangs(['en', 'fr', 'de', 'pt']);
@@ -55,6 +57,7 @@ export class BookingComponent {
         if (data && data.length) {
           this.config = data[0];
           this._storageService.setCookie('conifig', this.config);
+          this._title.setTitle(this.config.company_name);
           this.setBusinessColor();
           this.loader = false;
         }
@@ -87,6 +90,20 @@ export class BookingComponent {
       this.host.nativeElement.style.setProperty(
         `--dark`,
         this.config.branding_color_dark
+      );
+    }
+
+    if (this.config.background_color_primary) {
+      this.host.nativeElement.style.setProperty(
+        `--background-color-primary`,
+        this.config.background_color_primary
+      );
+    }
+
+    if (this.config.background_color_secondary) {
+      this.host.nativeElement.style.setProperty(
+        `--background-color-secondary`,
+        this.config.background_color_secondary
       );
     }
   }

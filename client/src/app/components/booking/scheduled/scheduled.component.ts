@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { CallApiService } from 'src/app/services/call-api.service';
 import { StorageService } from 'src/app/services/storage.service';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-scheduled',
@@ -24,7 +25,7 @@ export class ScheduledComponent {
   ) {}
 
   ngOnInit() {
-    this.sendAppointmentConfirmationToMail(null);
+    // this.sendAppointmentConfirmationToMail(null);
     const id = this._activatedRouter.snapshot.params.id;
     const appointment_id = this._activatedRouter.snapshot.params.appointmentId;
     this.queryParams = this._storageService.decrypt(
@@ -43,6 +44,9 @@ export class ScheduledComponent {
       .subscribe((data: any) => {
         if (data.length) {
           this.appointment = data[0];
+          this.appointment.EndTimeTherapy = moment(
+            this.appointment.StartTime
+          ).add(this.appointment.time_duration, 'minutes');
           this.generateMessage();
         }
       });
@@ -86,6 +90,20 @@ export class ScheduledComponent {
       this.host.nativeElement.style.setProperty(
         `--dark`,
         this.config.branding_color_dark
+      );
+    }
+
+    if (this.config.background_color_primary) {
+      this.host.nativeElement.style.setProperty(
+        `--background-color-primary`,
+        this.config.background_color_primary
+      );
+    }
+
+    if (this.config.background_color_secondary) {
+      this.host.nativeElement.style.setProperty(
+        `--background-color-secondary`,
+        this.config.background_color_secondary
       );
     }
   }

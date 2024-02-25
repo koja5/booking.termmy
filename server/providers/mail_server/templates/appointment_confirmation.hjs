@@ -257,7 +257,10 @@
                                 >let us know</a>.
                               </p>
                               <p style="margin: 0 0 16px;">Thanks,
-                                <br />The Termmy Team
+                                <br />{{company_name}}
+                                <br />{{company_address}}
+                                <br />{{company_telephone}}
+                                <br />{{company_email}}
                               </p>
                             </td>
                           </tr>

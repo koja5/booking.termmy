@@ -40,6 +40,8 @@
             "payOnArrivalAndBooked": "Book now and pay on arrival",
             "selectFullAmount": "I want to pay the full amount of the service, in the amount of {amount} €",
             "selectPartOfAmount": "I want to pay a part of the service amount, in the amount of {amount} €, and the rest after the completed treatment.",
+            "paidDirectly": "Paid for service {amount} €",
+            "paidUponArrival": "Payment upon arrival",
             "appointmentIsClosed": "In the meantime, this appointment is taken. Please see our other available appointments!"
         },
         "previewBookingInformation": {

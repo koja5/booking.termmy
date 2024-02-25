@@ -127,7 +127,7 @@ export class SelectTimeComponent {
                     )
                   );
                   start = moment(start).add(
-                    this.appointment.service.time_duration,
+                    this.appointment.service.time_blocked,
                     'minute'
                   );
                 }

@@ -1,7 +1,7 @@
 require("dotenv").config();
 const express = require("express");
 const router = express.Router();
-const stripe = require("stripe")(process.env.stripe_key);
+const stripe = require("stripe")(process.env.STRIPE_KEY);
 const Stripe = require("stripe");
 
 module.exports = router;
@@ -11,7 +11,7 @@ router.post("/createPaymentIntent", async (req, res, next) => {
   //     stripeAccount: "acct_1OhSOVPwkZNY6HKT",
   //   });
 
-  const paymentIntent = await require("stripe")(process.env.stripe_key, {
+  const paymentIntent = await require("stripe")(process.env.STRIPE_KEY, {
     stripeAccount: "acct_1OhSOVPwkZNY6HKT",
   }).paymentIntents.create({
     amount: req.body.amount * 100,

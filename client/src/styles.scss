@@ -4,10 +4,12 @@
 // @import "@core/scss/core.scss";::
 
 :root {
-  --primary: #7367F0;
+  --primary: #7367f0;
   --secondary: #fff;
   --light: #ebebeb;
   --dark: #333333;
+  --background-color-primary: #fff;
+  --background-color-secondary: #fff;
 }
 
 html {
@@ -18,7 +20,6 @@ html {
 * {
   box-sizing: border-box;
 }
-
 
 // .row>* {
 //   flex-shrink: 0 !important;
@@ -92,14 +93,14 @@ ngx-intl-tel-input input:focus {
   display: flex;
   background-image: linear-gradient(
     -20deg,
-    var(--secondary) 0%,
-    var(--primary) 100%
+    var(--background-color-secondary) 0%,
+    var(--background-color-primary) 100%
   );
   display: flex;
   background-image: linear-gradient(
     -20deg,
-    var(--secondary) 0%,
-    var(--primary) 100%
+    var(--background-color-secondary) 0%,
+    var(--background-color-primary) 100%
   );
 }
 @media screen and (max-width: 768px) {
@@ -147,7 +148,7 @@ ngx-intl-tel-input input:focus {
   position: relative;
   z-index: 4;
   box-shadow: 0px 5px 50px 0px var(--primary),
-    0px 0px 0px 7px rgba(107, 74, 255, 0.5);
+    0px 0px 0px 7px var(--primary);
 }
 @media screen and (max-width: 576px) {
   .profile-card__img {

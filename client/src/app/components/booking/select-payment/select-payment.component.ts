@@ -286,7 +286,7 @@ export class SelectPaymentComponent {
       ResourcesIndex: employee_id,
       StartTime: moment(this.queryParams.appointment).utc(),
       EndTime: moment(this.queryParams.appointment)
-        .add(this.appointment.service.time_duration, 'minutes')
+        .add(this.appointment.service.time_blocked, 'minutes')
         .utc(),
       is_online: !this.isCollapsePayByCreditCard,
       amount_paid: !this.isCollapsePayByCreditCard ? this.amount : 0,
@@ -310,7 +310,7 @@ export class SelectPaymentComponent {
       service_id: this.queryParams.service,
       StartTime: this.queryParams.appointment,
       EndTime: moment(this.queryParams.appointment).add(
-        this.appointment.service.time_duration,
+        this.appointment.service.time_blocked,
         'minutes'
       ),
     };
@@ -348,11 +348,21 @@ export class SelectPaymentComponent {
     this._service
       .callPostMethod('/api/mail-server/appointmentConfirmation', {
         appointment_id: data,
-        payment_message: this.isCollapsePayByCreditCard ? 'paid' : 'on-arrival',
+        payment_message: this.generatePaymentMessage(),
       })
       .subscribe((data) => {
         console.log(data);
       });
+  }
+
+  generatePaymentMessage() {
+    if (!this.isCollapsePayByCreditCard) {
+      return this._translate
+        .instant('payment.paidDirectly')
+        .replace('{amount}', this.amount);
+    } else {
+      return this._translate.instant('payment.paidUponArrival');
+    }
   }
 
   replaceForFullAmount(text: string) {
