@@ -4,13 +4,13 @@
 <div class="container-right-content">
     <div class="card b-none">
         <div class="card-body">
-            <form #f="ngForm" [formGroup]="data" (submit)="submitForm($event)">
+            <form #f="ngForm" [formGroup]="data" (submit)="submitForm()">
                 <div class="row">
                     <div class="col-12 mb-3">
                         <label>{{'clientData.firstname' | translate}}</label>
                         <input type="text" class="form-control"
                             placeholder="{{'clientData.firstnamePlaceholder' | translate}}" formControlName="firstname">
-                        <span *ngIf="submited&&!data.controls.firstname.valid" class="error">
+                        <span *ngIf="submitted&&!data.controls.firstname.valid" class="error">
                             {{'clientData.fillFirstname' | translate}}
                         </span>
                     </div>
@@ -18,7 +18,7 @@
                         <label>{{'clientData.lastname' | translate}}</label>
                         <input type="text" class="form-control"
                             placeholder="{{'clientData.lastnamePlaceholder' | translate}}" formControlName="lastname">
-                        <div *ngIf="submited&&!data.controls.lastname.valid" class="error">
+                        <div *ngIf="submitted&&!data.controls.lastname.valid" class="error">
                             {{'clientData.fillLastname' | translate}}
                         </div>
                     </div>
@@ -26,7 +26,7 @@
                         <label>{{'clientData.email' | translate}}</label>
                         <input type="text" class="form-control"
                             placeholder="{{'clientData.emailPlaceholder' | translate}}" formControlName="email">
-                        <div *ngIf="submited&&!data.controls.email.valid" class="error">
+                        <div *ngIf="submitted&&!data.controls.email.valid" class="error">
                             {{'clientData.fillEmail' | translate}}
                         </div>
                     </div>
@@ -41,7 +41,7 @@
                             [phoneValidation]="true" [separateDialCode]="separateDialCode"
                             [numberFormat]="PhoneNumberFormat.National" name="telephone" formControlName="telephone">
                         </ngx-intl-tel-input>
-                        <div *ngIf="submited&&!data.controls.telephone.valid" class="error">
+                        <div *ngIf="submitted&&!data.controls.telephone.valid" class="error">
                             {{'clientData.fillPhone' | translate}}
                         </div>
                     </div>
@@ -52,11 +52,34 @@
                             formControlName="description" rows="3"></textarea>
                     </div>
                 </div>
-                <div class="col-12 text-center">
+                <div class="col-12 text-center" *ngIf="appointment&&appointment.service.price">
                     <button class="btn btn-primary go-to-payment w-75" type="submit">{{'clientData.goToPayment' |
                         translate}}</button>
                 </div>
+
             </form>
+
+            <div *ngIf="appointment&&!appointment.service.price">
+
+                <div class="form-check accept-terms-privacy mt-0 mb-4">
+                    <input class="form-check-input" type="checkbox" id="accept"
+                        [(ngModel)]="acceptTermsAndPrivacyPolicy">
+                    <label class="form-check-label" for="flexCheckDefault">
+                        {{'payment.acceptTermsAndPrivacyPolicy' | translate}}
+                    </label>
+
+                    <div *ngIf="submitted&&!acceptTermsAndPrivacyPolicy" class="error">
+                        {{'payment.needAcceptTermsAndPrivacyPolicy' | translate}}
+                    </div>
+                </div>
+
+                <div class="text-center">
+                    <button class="btn btn-primary go-to-payment w-75"
+                        (click)="submitForm()">{{'clientData.bookedFreeTermineDirectly'
+                        |
+                        translate}}</button>
+                </div>
+            </div>
         </div>
     </div>
 </div>

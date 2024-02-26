@@ -5,6 +5,7 @@ import * as CryptoJS from 'crypto-js';
 import { environment } from '../../environments/environment.prod';
 import { CalendarSettings } from '../models/calendar-settings';
 import { CallApiService } from './call-api.service';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
@@ -12,7 +13,11 @@ import { CallApiService } from './call-api.service';
 export class StorageService {
   helper = new JwtHelperService();
 
-  constructor(private cookieService: CookieService) {}
+  constructor(
+    private cookieService: CookieService,
+    private _router: Router,
+    private _activatedRouter: ActivatedRoute
+  ) {}
 
   setSessionStorage(key: string, value: any) {
     sessionStorage.setItem(key, JSON.stringify(value));
@@ -133,5 +138,15 @@ export class StorageService {
 
   getAppointmentFromCookie() {
     return this.getCookie('appointment');
+  }
+
+  removeAppointments() {
+    const value = this.getCookie('appointment') ?? {};
+    if (Object.keys(value)) {
+      delete value.service;
+      delete value.employee;
+      delete value.time;
+      this.setCookie('appointment', value);
+    }
   }
 }

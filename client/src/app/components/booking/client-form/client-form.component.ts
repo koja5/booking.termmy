@@ -38,12 +38,14 @@ export class ClientFormComponent {
     telephone: new FormControl('', [Validators.required]),
     description: new FormControl(''),
   });
-  public submited = false;
+  public submitted = false;
+  public appointment: any;
+  public acceptTermsAndPrivacyPolicy = false;
 
   ngOnInit() {
-    const bookingValue = this._storageService.getAppointmentFromCookie();
-    if (bookingValue && bookingValue.client) {
-      this.data.setValue(bookingValue.client);
+    this.appointment = this._storageService.getAppointmentFromCookie();
+    if (this.appointment && this.appointment.client) {
+      this.data.setValue(this.appointment.client);
     }
   }
 
@@ -51,8 +53,13 @@ export class ClientFormComponent {
     this.preferredCountries = [CountryISO.India, CountryISO.Canada];
   }
 
-  submitForm(event: any) {
-    this.submited = true;
+  submitForm() {
+    this.submitted = true;
+    if (
+      this.appointment.service.price === 0 &&
+      !this.acceptTermsAndPrivacyPolicy
+    )
+      return;
     if (this.data.valid) {
       this._storageService.setAppointmentToCookie('client', this.data.value);
       this.navigateToNextStep();

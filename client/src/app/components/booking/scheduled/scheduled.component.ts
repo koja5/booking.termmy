@@ -1,5 +1,5 @@
 import { Component, ElementRef } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { CallApiService } from 'src/app/services/call-api.service';
 import { StorageService } from 'src/app/services/storage.service';
@@ -18,6 +18,7 @@ export class ScheduledComponent {
 
   constructor(
     private _service: CallApiService,
+    private _router: Router,
     private _activatedRouter: ActivatedRoute,
     private host: ElementRef<HTMLElement>,
     private _storageService: StorageService,
@@ -116,5 +117,9 @@ export class ScheduledComponent {
       .subscribe((data) => {
         console.log(data);
       });
+  }
+
+  bookAnotherTermine() {
+    this._router.navigate([this._activatedRouter.snapshot.params.id]);
   }
 }

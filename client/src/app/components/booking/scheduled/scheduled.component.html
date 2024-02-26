@@ -50,10 +50,15 @@
                 </div>
             </div>
 
-            <div class="text-center">
+            <div class="text-center" *ngIf="appointment&&appointment.price">
                 <h6 *ngIf="queryParams&&queryParams.type === 'on-arrival'">{{'scheduled.chosenPaymentUponArrival' |
                     translate}}</h6>
                 <h6 *ngIf="queryParams&&queryParams.type === 'paid'&&paidMessage">{{paidMessage}}</h6>
+            </div>
+
+            <div class="text-center mt-5">
+                <a class="btn btn-primary book-another-termine" (click)="bookAnotherTermine()"
+                    target="_blank">{{'scheduled.bookAnotherTermine' | translate}}</a>
             </div>
 
             <div class="copyright-bottom mb-4 mt-4">

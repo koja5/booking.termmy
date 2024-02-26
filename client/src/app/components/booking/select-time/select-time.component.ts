@@ -228,7 +228,18 @@ export class SelectTimeComponent {
             this.allAppointments[date][j].time.utcOffset(0, true) <
               moment(data[i].end ?? data[i].EndTime).utc()
           ) {
+            // if (j > 0) {
+            //   if (
+            //     this.allAppointments[date][j - 1].time
+            //       .add(this.appointment.service.time_blocked, 'minutes')
+            //       .utcOffset(0, true) >=
+            //     this.allAppointments[date][j].time.utcOffset(0, true)
+            //   ) {
+            //     this.allAppointments[date].splice(j - 1, 1);
+            //   }
+            // }
             this.allAppointments[date].splice(j, 1);
+
             j--;
           }
         }

@@ -26,7 +26,8 @@
             "fillLastname": "Please fill your lastname",
             "fillEmail": "Please fill your email",
             "fillPhone": "Please fill your phone",
-            "goToPayment": "Next"
+            "goToPayment": "Next",
+            "bookedFreeTermineDirectly": "Book now for free"
         },
         "payment": {
             "title": "Payment",
@@ -42,6 +43,7 @@
             "selectPartOfAmount": "I want to pay a part of the service amount, in the amount of {amount} €, and the rest after the completed treatment.",
             "paidDirectly": "Paid for service {amount} €",
             "paidUponArrival": "Payment upon arrival",
+            "freeAppointment": "Free appointment",
             "appointmentIsClosed": "In the meantime, this appointment is taken. Please see our other available appointments!"
         },
         "previewBookingInformation": {
@@ -55,7 +57,8 @@
             "chosenPaymentUponArrival": "You have chosen the payment option upon arrival!",
             "paidFullAmount": "Thank you for paying the full amount ({amount} €) of the service.",
             "paidPartOfAmount": "Thank you for paying the part of full amount ({amount} €) of the service. You will pay the rest up to the full amount upon arrival.",
-            "copyrightButton": "Sign up for free"
+            "copyrightButton": "Sign up for free",
+            "bookAnotherTermine": "Book another termine"
         },
         "notFound": {
             "title": "Welcome to the Termmy booking system",

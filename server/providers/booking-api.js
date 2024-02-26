@@ -379,6 +379,42 @@ router.get("/getAppointmentArchive/:id", async (req, res, next) => {
 
 //#region CLIENT
 
+router.post("/getClient", async (req, res, next) => {
+  try {
+    connection.getConnection(function (err, conn) {
+      if (err) {
+        logger.log("error", err.sql + ". " + err.sqlMessage);
+        res.json(err);
+      } else {
+        conn.query(
+          "select c.* from clients c join booking_config b on c.admin_id = b.admin_id where (c.email = ? or c.telephone = ?) and b.booking_link = ?",
+          [
+            req.body.client.email,
+            req.body.client.telephone.internationalNumber,
+            req.body.booking_link,
+          ],
+          function (err, rows, fields) {
+            if (err) {
+              conn.release();
+              logger.log("error", err.sql + ". " + err.sqlMessage);
+              res.json(err);
+            } else {
+              if (rows.length) {
+                res.json(true);
+              } else {
+                res.json(false);
+              }
+            }
+          }
+        );
+      }
+    });
+  } catch (ex) {
+    logger.log("error", err.sql + ". " + err.sqlMessage);
+    res.json(ex);
+  }
+});
+
 router.post("/createClient", async (req, res, next) => {
   try {
     connection.getConnection(function (err, conn) {

@@ -64,6 +64,9 @@ export class SelectPaymentComponent {
   public appointment: any;
   public accept = false;
   public amount: any;
+  public loader = true;
+  public isExistsClient = false;
+  public id!: string;
 
   constructor(
     private _service: CallApiService,
@@ -76,12 +79,18 @@ export class SelectPaymentComponent {
 
   ngOnInit() {
     this.queryParams = this._activatedRouter.snapshot.queryParams;
-    this.getSelectedAppointmentValue();
+    this.id = this._activatedRouter.snapshot.params.id;
+    this.appointment = this._storageService.getAppointmentFromCookie() ?? {};
     this.getClientData();
+    if (this.appointment && !this.appointment.service.price) {
+      this.makeAppointment();
+    } else {
+      this.loader = false;
+      this.getSelectedAppointmentValue();
+    }
   }
 
   getSelectedAppointmentValue() {
-    this.appointment = this._storageService.getAppointmentFromCookie() ?? {};
     if (!this.appointment || !this.appointment.service) {
       this._service
         .callGetMethod(
@@ -141,7 +150,19 @@ export class SelectPaymentComponent {
     const bookingValue = this._storageService.getAppointmentFromCookie();
     if (bookingValue && bookingValue.client) {
       this.clientData.setValue(bookingValue.client);
+      this.checkIsNewOrExistsClient();
     }
+  }
+
+  checkIsNewOrExistsClient() {
+    this._service
+      .callPostMethod('/api/booking/getClient', {
+        booking_link: this.id,
+        client: this.clientData.value,
+      })
+      .subscribe((data: any) => {
+        this.isExistsClient = data;
+      });
   }
 
   createPaymentIntent(amount: number) {
@@ -321,7 +342,9 @@ export class SelectPaymentComponent {
         (data) => {
           if (data) {
             this.paying = false;
-            this._storageService.removeCookie('appointment');
+            this.loader = false;
+            // this._storageService.removeCookie('appointment');
+            this._storageService.removeAppointments();
             this._router.navigate(
               [this._activatedRouter.snapshot.params.id + '/scheduled/' + data],
               {
@@ -356,7 +379,9 @@ export class SelectPaymentComponent {
   }
 
   generatePaymentMessage() {
-    if (!this.isCollapsePayByCreditCard) {
+    if (this.appointment.service.price === 0) {
+      return this._translate.instant('payment.freeAppointment');
+    } else if (!this.isCollapsePayByCreditCard) {
       return this._translate
         .instant('payment.paidDirectly')
         .replace('{amount}', this.amount);
