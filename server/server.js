@@ -11,6 +11,7 @@ const googleApi = require("./providers/google-api");
 const paymentApi = require("./providers/payment-api");
 const mailApi = require("./providers/mail-api");
 const mailServer = require("./providers/mail_server/mail-server");
+const smsGateway = require("./providers/sms-gateway");
 //END API
 
 const sqlDatabase = require("./providers/config/sql-database");
@@ -59,6 +60,7 @@ app.use("/api/google", googleApi);
 app.use("/api/payment", paymentApi);
 app.use("/api/mail-server", mailApi);
 app.use("/api/mail-server", mailServer);
+app.use("/api/sms-gateway", smsGateway);
 
 app.use(express.static(path.join(__dirname, "../client/src")));
 

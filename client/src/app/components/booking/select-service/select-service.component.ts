@@ -21,6 +21,14 @@ export class SelectServiceComponent {
 
   ngOnInit() {
     this.initialize();
+
+    // this._service
+    //   .callPostMethod('/api/sms-gateway/sendConfirmForScheduled', {
+    //     id: this._activatedRouter.snapshot.params.id,
+    //   })
+    //   .subscribe((data) => {
+    //     console.log(data);
+    //   });
   }
 
   initialize() {

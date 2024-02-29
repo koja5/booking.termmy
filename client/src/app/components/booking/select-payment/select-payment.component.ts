@@ -359,6 +359,7 @@ export class SelectPaymentComponent {
               }
             );
             this.sendAppointmentConfirmationToMail(data);
+            this.sendAppointmentConfigurationToSms();
           }
         },
         (error) => {
@@ -372,6 +373,24 @@ export class SelectPaymentComponent {
       .callPostMethod('/api/mail-server/appointmentConfirmation', {
         appointment_id: data,
         payment_message: this.generatePaymentMessage(),
+      })
+      .subscribe((data) => {
+        console.log(data);
+      });
+  }
+
+  sendAppointmentConfigurationToSms() {
+    this._service
+      .callPostMethod('/api/sms-gateway/appointmentConfirmation', {
+        date: moment(this.queryParams.appointment).format('DD.MM.YYYY'),
+        time:
+          moment(this.queryParams.appointment).format('HH:mm') +
+          '-' +
+          moment(this.queryParams.appointment)
+            .add(this.appointment.service.time_blocked, 'minutes')
+            .format('HH:mm'),
+        business_link: this.id,
+        telephone: Object(this.clientData.value.telephone).internationalNumber,
       })
       .subscribe((data) => {
         console.log(data);
