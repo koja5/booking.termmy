@@ -6,26 +6,26 @@ var hogan = require("hogan.js");
 var fs = require("fs");
 const logger = require("../config/logger");
 
-// var smtpTransport = nodemailer.createTransport({
-//   host: process.env.smtp_host,
-//   port: process.env.smtp_port,
-//   secure: false,
-//   tls: {
-//     rejectUnauthorized: false,
-//   },
-//   auth: {
-//     user: process.env.smtp_user,
-//     pass: process.env.smtp_pass,
-//   },
-// });
-
 var smtpTransport = nodemailer.createTransport({
-  service: "gmail",
+  host: process.env.smtp_host,
+  port: process.env.smtp_port,
+  secure: false,
+  tls: {
+    rejectUnauthorized: false,
+  },
   auth: {
-    user: "kidsnodeoffice@gmail.com",
-    pass: "rvciekpadttcvbwt",
+    user: process.env.smtp_user,
+    pass: process.env.smtp_pass,
   },
 });
+
+// var smtpTransport = nodemailer.createTransport({
+//   service: "gmail",
+//   auth: {
+//     user: "kidsnodeoffice@gmail.com",
+//     pass: "rvciekpadttcvbwt",
+//   },
+// });
 
 router.post("/sendMail", function (req, res) {
   var confirmTemplate = fs.readFileSync(
@@ -40,12 +40,13 @@ router.post("/sendMail", function (req, res) {
     html: compiledTemplate.render(req.body),
   };
 
+  console.log(mailOptions);
   smtpTransport.sendMail(mailOptions, function (error, response) {
     if (error) {
       logger.log("error", `${req.body.email}: ${error}`);
-      res.send(false);
+      res.json(false);
     } else {
-      res.send(true);
+      res.json(true);
       logger.log(
         "info",
         `Sent mail to: ${

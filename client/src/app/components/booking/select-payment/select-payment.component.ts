@@ -46,6 +46,7 @@ export class SelectPaymentComponent {
   clientData = new FormGroup({
     firstname: new FormControl('', Validators.required),
     lastname: new FormControl('', Validators.required),
+    // gender: new FormControl('', Validators.required),
     email: new FormControl('', [Validators.required, Validators.email]),
     telephone: new FormControl('', [Validators.required]),
     description: new FormControl(''),
@@ -254,16 +255,25 @@ export class SelectPaymentComponent {
     }
   }
 
-  createAppointmentToDatabase(client_id: number, employee_id: number) {
+  createAppointmentToDatabase(
+    client_id: number,
+    employee_id: number,
+    copy = false,
+    uuid?: string
+  ) {
     let data = this.packAppointmentDataForCreating(client_id, employee_id);
 
-    data['externalCalendar'] = this.appointment.employee.google;
-
+    delete data.externalCalendar;
+    data.copy = copy;
+    if (uuid) {
+      data.id = uuid;
+    }
     this._service
       .callPostMethod('/api/booking/createAppointment', data)
       .subscribe((appointment_id: any) => {
         if (appointment_id) {
-          this.createAppointmentArchive(client_id, employee_id, appointment_id);
+          // this.createAppointmentArchive(client_id, employee_id, appointment_id);
+          this.sendConfirmationsAndFinished(appointment_id);
         } else {
           this._toastr.showWarningCustom(
             this._translate.instant('payment.appointmentIsClosed')
@@ -282,7 +292,8 @@ export class SelectPaymentComponent {
       .callPostMethod('/api/google/createAppointment', data)
       .subscribe((data: any) => {
         if (data) {
-          this.createAppointmentArchive(client_id, employee_id, null);
+          // this.createAppointmentArchive(client_id, employee_id, null);
+          this.createAppointmentToDatabase(client_id, employee_id, true, data);
         } else {
           this._toastr.showWarningCustom(
             this._translate.instant('payment.appointmentIsClosed')
@@ -318,54 +329,74 @@ export class SelectPaymentComponent {
 
     return data;
   }
-  createAppointmentArchive(
-    client_id: number,
-    employee_id: number,
-    appointment_id?: any
-  ) {
-    const data = {
-      appointment_id: appointment_id,
-      admin_id: employee_id,
-      employee_id: employee_id,
-      client_id: client_id,
-      service_id: this.queryParams.service,
-      StartTime: this.queryParams.appointment,
-      EndTime: moment(this.queryParams.appointment).add(
-        this.appointment.service.time_blocked,
-        'minutes'
-      ),
-    };
+  // createAppointmentArchive(
+  //   client_id: number,
+  //   employee_id: number,
+  //   appointment_id?: any
+  // ) {
+  //   const data = {
+  //     appointment_id: appointment_id,
+  //     admin_id: employee_id,
+  //     employee_id: employee_id,
+  //     client_id: client_id,
+  //     service_id: this.queryParams.service,
+  //     StartTime: this.queryParams.appointment,
+  //     EndTime: moment(this.queryParams.appointment).add(
+  //       this.appointment.service.time_blocked,
+  //       'minutes'
+  //     ),
+  //   };
 
-    this._service
-      .callPostMethod('/api/booking/createAppointmentArchive', data)
-      .subscribe(
-        (data) => {
-          if (data) {
-            this.paying = false;
-            this.loader = false;
-            // this._storageService.removeCookie('appointment');
-            this._storageService.removeAppointments();
-            this._router.navigate(
-              [this._activatedRouter.snapshot.params.id + '/scheduled/' + data],
-              {
-                queryParams: {
-                  payment: this._storageService.encrypt({
-                    type: !this.isCollapsePayByCreditCard
-                      ? 'paid'
-                      : 'on-arrival',
-                    amount: !this.isCollapsePayByCreditCard ? this.amount : 0,
-                  }),
-                },
-              }
-            );
-            this.sendAppointmentConfirmationToMail(data);
-            this.sendAppointmentConfigurationToSms();
-          }
+  //   this._service
+  //     .callPostMethod('/api/booking/createAppointmentArchive', data)
+  //     .subscribe(
+  //       (data) => {
+  //         if (data) {
+  //           this.paying = false;
+  //           this.loader = false;
+  //           // this._storageService.removeCookie('appointment');
+  //           this._storageService.removeAppointments();
+  //           this._router.navigate(
+  //             [this._activatedRouter.snapshot.params.id + '/scheduled/' + data],
+  //             {
+  //               queryParams: {
+  //                 payment: this._storageService.encrypt({
+  //                   type: !this.isCollapsePayByCreditCard
+  //                     ? 'paid'
+  //                     : 'on-arrival',
+  //                   amount: !this.isCollapsePayByCreditCard ? this.amount : 0,
+  //                 }),
+  //               },
+  //             }
+  //           );
+  //           this.sendAppointmentConfirmationToMail(data);
+  //           this.sendAppointmentConfigurationToSms();
+  //         }
+  //       },
+  //       (error) => {
+  //         this.paying = false;
+  //       }
+  //     );
+  // }
+
+  sendConfirmationsAndFinished(data: any) {
+    this.paying = false;
+    this.loader = false;
+    // this._storageService.removeCookie('appointment');
+    this._storageService.removeAppointments();
+    this._router.navigate(
+      [this._activatedRouter.snapshot.params.id + '/scheduled/' + data],
+      {
+        queryParams: {
+          payment: this._storageService.encrypt({
+            type: !this.isCollapsePayByCreditCard ? 'paid' : 'on-arrival',
+            amount: !this.isCollapsePayByCreditCard ? this.amount : 0,
+          }),
         },
-        (error) => {
-          this.paying = false;
-        }
-      );
+      }
+    );
+    this.sendAppointmentConfirmationToMail(data);
+    this.sendAppointmentConfigurationToSms();
   }
 
   sendAppointmentConfirmationToMail(data: any) {
@@ -381,7 +412,7 @@ export class SelectPaymentComponent {
 
   sendAppointmentConfigurationToSms() {
     this._service
-      .callPostMethod('/api/sms-gateway/appointmentConfirmation', {
+      .callPostMethod('/api/confirmation/appointmentConfirmation', {
         date: moment(this.queryParams.appointment).format('DD.MM.YYYY'),
         time:
           moment(this.queryParams.appointment).format('HH:mm') +

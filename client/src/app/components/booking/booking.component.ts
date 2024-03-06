@@ -60,6 +60,8 @@ export class BookingComponent {
           this._title.setTitle(this.config.company_name);
           this.setBusinessColor();
           this.loader = false;
+        } else {
+          this.loader = false;
         }
       });
   }

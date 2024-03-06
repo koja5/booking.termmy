@@ -26,7 +26,7 @@ router.get("/getBusinessConfig/:id", async (req, res, next) => {
         res.json(err);
       } else {
         conn.query(
-          "select * from booking_config where booking_link = ?",
+          "select * from booking_config where booking_link = ? and active = 1",
           [req.params.id],
           function (err, rows, fields) {
             conn.release();
@@ -286,11 +286,11 @@ router.post("/createAppointment", async (req, res, next) => {
               res.json(false);
             } else {
               // someone maid appointment in maintime
-              if (rows.length) {
+              if (rows.length && !req.body.copy) {
                 conn.release();
                 res.json(false);
               } else {
-                req.body.id = uuid.v4();
+                delete req.body.copy;
                 conn.query(
                   "insert into appointments SET ?",
                   [req.body],
@@ -347,7 +347,7 @@ router.post("/createAppointmentArchive", async (req, res, next) => {
   }
 });
 
-router.get("/getAppointmentArchive/:id", async (req, res, next) => {
+router.get("/getAppointment/:id", async (req, res, next) => {
   try {
     connection.getConnection(function (err, conn) {
       if (err) {
@@ -355,7 +355,7 @@ router.get("/getAppointmentArchive/:id", async (req, res, next) => {
         res.json(err);
       } else {
         conn.query(
-          "select c.firstname, c.lastname, s.name, s.time_duration, s.price, a.StartTime, a.EndTime from appointments_archive a join clients c on a.client_id = c.id join services s on a.service_id = s.id where a.appointment_id = ?",
+          "select c.firstname, c.lastname, s.name, s.time_duration, s.price, a.StartTime, a.EndTime from appointments a join clients c on a.client_id = c.id join services s on a.service_id = s.id where a.id = ?",
           [req.params.id],
           function (err, rows, fields) {
             conn.release();

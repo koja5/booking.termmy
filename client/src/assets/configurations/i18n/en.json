@@ -16,6 +16,7 @@
             "firstname": "Firstname *",
             "firstnamePlaceholder": "",
             "lastname": "Lastname *",
+            "gender": "Gender *",
             "lastnamePlaceholder": "",
             "email": "Email *",
             "emailPlaceholder": "",
@@ -24,6 +25,7 @@
             "descriptionPlaceholder": "",
             "fillFirstname": "Please fill your firstname",
             "fillLastname": "Please fill your lastname",
+            "fillGender": "Please fill gender",
             "fillEmail": "Please fill your email",
             "fillPhone": "Please fill your phone",
             "goToPayment": "Next",
@@ -61,6 +63,10 @@
             "bookAnotherTermine": "Book another termine"
         },
         "notFound": {
+            "title": "We can't find the data",
+            "text": "The link you opened is not valid. Please try again or contact your service provider."
+        },
+        "home": {
             "title": "Welcome to the Termmy booking system",
             "text": "Please use a valid link to book an appointment with the desired service provider."
         }

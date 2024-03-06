@@ -22,6 +22,26 @@
                             {{'clientData.fillLastname' | translate}}
                         </div>
                     </div>
+                    <!-- <div class="col-12 mb-3">
+                        <label>{{'clientData.gender' | translate}}</label>
+                        <div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="gender" id="man" value="man"
+                                    formControlName="gender">
+                                <label class="form-check-label" for="man">Man
+                                </label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="gender" id="woman" value="woman"
+                                    formControlName="gender">
+                                <label class="form-check-label" for="woman">Woman
+                                </label>
+                            </div>
+                            <div *ngIf="submitted&&!data.controls.gender.valid" class="error">
+                                {{'clientData.fillGender' | translate}}
+                            </div>
+                        </div>
+                    </div> -->
                     <div class="col-12 mb-3">
                         <label>{{'clientData.email' | translate}}</label>
                         <input type="text" class="form-control"

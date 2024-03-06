@@ -5,6 +5,7 @@ let { google } = require("googleapis");
 const auth = require("./config/auth");
 const logger = require("./config/logger");
 const moment = require("moment");
+const uuid = require("uuid");
 
 module.exports = router;
 
@@ -68,6 +69,10 @@ router.post("/createAppointment", async (req, res) => {
 
   delete req.body.employee_id;
 
+  if (!req.body.uuid) {
+    req.body.uuid = uuid.v4();
+  }
+
   //check if there is closed event in main time
 
   const events = await calendar.events.list({
@@ -107,9 +112,9 @@ router.post("/createAppointment", async (req, res) => {
       },
       (next) => {}
     );
-    res.send(true);
+    res.json(req.body.uuid);
   } else {
-    res.send(false);
+    res.json(false);
   }
 });
 

@@ -34,6 +34,7 @@ export class ClientFormComponent {
   data = new FormGroup({
     firstname: new FormControl('', Validators.required),
     lastname: new FormControl('', Validators.required),
+    // gender: new FormControl('', Validators.required),
     email: new FormControl('', [Validators.required, Validators.email]),
     telephone: new FormControl('', [Validators.required]),
     description: new FormControl(''),

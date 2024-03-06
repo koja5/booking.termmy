@@ -40,7 +40,6 @@
     data-gr-ext-installed=""
     cz-shortcut-listen="true"
   >
-    <div style="display: none;">Please verify your email address</div>
     <div
       role="article"
       aria-roledescription="email"

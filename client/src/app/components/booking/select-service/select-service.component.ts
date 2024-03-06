@@ -23,7 +23,7 @@ export class SelectServiceComponent {
     this.initialize();
 
     // this._service
-    //   .callPostMethod('/api/sms-gateway/sendConfirmForScheduled', {
+    //   .callPostMethod('/api/confirmation/sendConfirmForScheduled', {
     //     id: this._activatedRouter.snapshot.params.id,
     //   })
     //   .subscribe((data) => {

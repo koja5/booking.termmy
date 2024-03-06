@@ -9,4 +9,8 @@ import { CallApiService } from 'src/app/services/call-api.service';
 })
 export class ProfileCompanyComponent {
   @Input() config: any;
+
+  generateWebsiteLink(website: string) {
+    window.open('https://' + website);
+  }
 }
