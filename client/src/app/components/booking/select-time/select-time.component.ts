@@ -142,6 +142,7 @@ export class SelectTimeComponent {
         }
       }
     }
+    this.removeNoTime();
   }
 
   removeOldTimeForToday() {
@@ -151,6 +152,21 @@ export class SelectTimeComponent {
         this.allAppointments[today].splice(i, 1);
         i--;
       }
+    }
+  }
+
+  removeNoTime() {
+    for (let i = 0; i < this.days.length; i++) {
+      if (!this.allAppointments[this.days[i].index].length) {
+        this.days.splice(i, 1);
+        // this.allAppointments.splice(this.days[i].index, 1);
+        i--;
+      }
+    }
+  }
+
+  checkMaximumAvailableAppointments() {
+    if (this.config.max_available_appointments_show) {
     }
   }
 
@@ -228,18 +244,7 @@ export class SelectTimeComponent {
             this.allAppointments[date][j].time.utcOffset(0, true) <
               moment(data[i].end ?? data[i].EndTime).utc()
           ) {
-            // if (j > 0) {
-            //   if (
-            //     this.allAppointments[date][j - 1].time
-            //       .add(this.appointment.service.time_blocked, 'minutes')
-            //       .utcOffset(0, true) >=
-            //     this.allAppointments[date][j].time.utcOffset(0, true)
-            //   ) {
-            //     this.allAppointments[date].splice(j - 1, 1);
-            //   }
-            // }
             this.allAppointments[date].splice(j, 1);
-
             j--;
           }
         }
