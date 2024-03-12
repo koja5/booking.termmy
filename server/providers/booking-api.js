@@ -86,7 +86,7 @@ router.get("/getService/:id", async (req, res, next) => {
         res.json(err);
       } else {
         conn.query(
-          "select name, price, time_duration from services where id = ?",
+          "select * from services where id = ?",
           [req.params.id],
           function (err, rows, fields) {
             conn.release();

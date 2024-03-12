@@ -18,7 +18,7 @@ export class SelectTimeComponent {
   public days: any = [];
   public allAppointments: any = {};
   public scheduledTermines = [];
-  public numberOfWeeks = 2;
+  public numberOfWeeks = 4;
   public loader = true;
   public selectedTime: any;
   public worktime: any;
@@ -48,8 +48,8 @@ export class SelectTimeComponent {
   }
 
   initializeCalendar() {
-    this.selectedTime =
-      this._storageService.getAppointmentFromCookie().time ?? null;
+    // this.selectedTime =
+    //   this._storageService.getAppointmentFromCookie().time ?? null;
     const fromDate = moment();
     const toDate = moment().add(this.numberOfWeeks, 'weeks');
 
@@ -142,7 +142,6 @@ export class SelectTimeComponent {
         }
       }
     }
-    this.removeNoTime();
   }
 
   removeOldTimeForToday() {
@@ -166,7 +165,23 @@ export class SelectTimeComponent {
   }
 
   checkMaximumAvailableAppointments() {
-    if (this.config.max_available_appointments_show) {
+    if (this.config.display_max_available_appointments) {
+      let sum = 0;
+      let i = 0;
+      for (i = 0; i < this.days.length; i++) {
+        if (sum <= this.config.display_max_available_appointments) {
+          sum += this.allAppointments[this.days[i].index].length;
+          if (sum > this.config.display_max_available_appointments) {
+            const differenceIndex =
+              this.config.display_max_available_appointments - sum;
+            this.allAppointments[this.days[i].index].splice(differenceIndex);
+            break;
+          }
+        }
+      }
+      if (i < this.days.length) {
+        this.days.splice(i + 1, this.days.length);
+      }
     }
   }
 
@@ -250,6 +265,13 @@ export class SelectTimeComponent {
         }
       }
     }
+    console.log(this.allAppointments);
+    console.log(Object.values(this.allAppointments).flat().length);
+
+    if (!this.config.display_day_without_free_appointments) {
+      this.removeNoTime();
+    }
+    this.checkMaximumAvailableAppointments();
   }
 
   //#region HELPFUL FUNCTION
