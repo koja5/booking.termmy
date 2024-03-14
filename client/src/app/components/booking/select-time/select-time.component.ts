@@ -254,10 +254,14 @@ export class SelectTimeComponent {
       if (this.allAppointments[date]) {
         for (let j = 0; j < this.allAppointments[date].length; j++) {
           if (
-            this.allAppointments[date][j].time.utcOffset(0, true) >=
+            (this.allAppointments[date][j].time.utcOffset(0, true) >=
               moment(data[i].start ?? data[i].StartTime).utc() &&
-            this.allAppointments[date][j].time.utcOffset(0, true) <
-              moment(data[i].end ?? data[i].EndTime).utc()
+              this.allAppointments[date][j].time.utcOffset(0, true) <
+                moment(data[i].end ?? data[i].EndTime).utc()) ||
+            moment(data[i].start ?? data[i].StartTime) ==
+              moment(data[i].end ?? data[i].EndTime) ||
+            date ==
+              moment(data[i].start ?? data[i].StartTime).format(this.formatDate)
           ) {
             this.allAppointments[date].splice(j, 1);
             j--;
@@ -265,13 +269,41 @@ export class SelectTimeComponent {
         }
       }
     }
-    console.log(this.allAppointments);
-    console.log(Object.values(this.allAppointments).flat().length);
 
     if (!this.config.display_day_without_free_appointments) {
       this.removeNoTime();
     }
+    this.getHolidays();
+  }
+
+  getHolidays() {
+    this._service
+      .callGetMethod('/api/booking/getMyHolidays', this.id)
+      .subscribe((data: any) => {
+        if (data.length) {
+          const holidays = this._helpService.getHolidaysForSelectedCountry(
+            data[0].code
+          );
+          this.deleteAvailableAppointmentsDueToHolidays(holidays);
+          this.checkBookingConfigurationForAppointmens();
+        }
+      });
+  }
+
+  checkBookingConfigurationForAppointmens() {
+    if (!this.config.display_day_without_free_appointments) {
+      this.removeNoTime();
+    }
     this.checkMaximumAvailableAppointments();
+  }
+
+  deleteAvailableAppointmentsDueToHolidays(holidays: any) {
+    for (let i = 0; i < holidays.length; i++) {
+      const date = moment(holidays[i].start).format(this.formatDate);
+      if (this.allAppointments[date]) {
+        this.allAppointments[date] = [];
+      }
+    }
   }
 
   //#region HELPFUL FUNCTION

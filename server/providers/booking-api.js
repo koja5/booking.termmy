@@ -486,6 +486,30 @@ router.post("/createClient", async (req, res, next) => {
 
 //#endregion
 
+//#region
+router.get("/getMyHolidays/:id", function (req, res) {
+  connection.getConnection(function (err, conn) {
+    if (err) {
+      logger.log("error", err.sql + ". " + err.sqlMessage);
+      res.json(err);
+    }
+
+    conn.query(
+      "select h.code from holidays h join booking_config b on h.admin_id = b.admin_id where b.booking_link = ?",
+      [req.params.id],
+      function (err, rows) {
+        conn.release();
+        if (err) {
+          logger.log("error", err.sql + ". " + err.sqlMessage);
+          res.json(err);
+        }
+        res.json(rows);
+      }
+    );
+  });
+});
+//#endregion
+
 //#region HELPFUL FUNCTIONS
 function packStringFromArrayForWhereCondition(
   array,

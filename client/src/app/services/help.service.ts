@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { StorageService } from './storage.service';
 import { UserTypes } from '../enums/user-types';
+import Holidays from 'date-holidays';
 
 @Injectable({
   providedIn: 'root',
@@ -142,5 +143,13 @@ export class HelpService {
     } else {
       return false;
     }
+  }
+
+  getHolidaysForSelectedCountry(code: string) {
+    if (code) {
+      let holidays = new Holidays(code);
+      return holidays.getHolidays(new Date().getFullYear());
+    }
+    return [];
   }
 }
