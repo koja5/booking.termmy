@@ -415,7 +415,7 @@ router.post("/getClient", async (req, res, next) => {
   }
 });
 
-router.post("/createClient", async (req, res, next) => {
+router.post("/createNewClientOrGetIdForExist", async (req, res, next) => {
   try {
     connection.getConnection(function (err, conn) {
       if (err) {

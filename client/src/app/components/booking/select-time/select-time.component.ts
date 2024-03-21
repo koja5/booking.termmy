@@ -171,7 +171,9 @@ export class SelectTimeComponent {
       for (i = 0; i < this.days.length; i++) {
         if (sum <= this.config.display_max_available_appointments) {
           sum += this.allAppointments[this.days[i].index].length;
-          if (sum > this.config.display_max_available_appointments) {
+          if (sum === this.config.display_max_available_appointments) {
+            break;
+          } else if (sum > this.config.display_max_available_appointments) {
             const differenceIndex =
               this.config.display_max_available_appointments - sum;
             this.allAppointments[this.days[i].index].splice(differenceIndex);
@@ -252,16 +254,22 @@ export class SelectTimeComponent {
         this.formatDate
       );
       if (this.allAppointments[date]) {
+        if (
+          (data[i].start ?? data[i].StartTime) ==
+            (data[i].end ?? data[i].EndTime) &&
+          date ==
+            moment(data[i].start ?? data[i].StartTime).format(this.formatDate)
+        ) {
+          this.allAppointments[date] = [];
+          break;
+        }
+
         for (let j = 0; j < this.allAppointments[date].length; j++) {
           if (
-            (this.allAppointments[date][j].time.utcOffset(0, true) >=
+            this.allAppointments[date][j].time.utcOffset(0, true) >=
               moment(data[i].start ?? data[i].StartTime).utc() &&
-              this.allAppointments[date][j].time.utcOffset(0, true) <
-                moment(data[i].end ?? data[i].EndTime).utc()) ||
-            moment(data[i].start ?? data[i].StartTime) ==
-              moment(data[i].end ?? data[i].EndTime) ||
-            date ==
-              moment(data[i].start ?? data[i].StartTime).format(this.formatDate)
+            this.allAppointments[date][j].time.utcOffset(0, true) <
+              moment(data[i].end ?? data[i].EndTime).utc()
           ) {
             this.allAppointments[date].splice(j, 1);
             j--;
@@ -270,9 +278,6 @@ export class SelectTimeComponent {
       }
     }
 
-    if (!this.config.display_day_without_free_appointments) {
-      this.removeNoTime();
-    }
     this.getHolidays();
   }
 

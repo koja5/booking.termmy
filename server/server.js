@@ -74,6 +74,10 @@ const server = http.createServer(app);
 
 server.listen(port, () => console.log(`API running on localhost:${port}`));
 
+/*var fs = require("fs");
+const cert = fs.readFileSync('/home/termmy/conf/web/ssl.app.termmy.com.crt');
+console.log(cert);*/
+
 //chat
 
 //chat END

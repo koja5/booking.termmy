@@ -238,7 +238,7 @@ export class SelectPaymentComponent {
       client: this.clientData.value,
     };
     this._service
-      .callPostMethod('/api/booking/createClient', data)
+      .callPostMethod('/api/booking/createNewClientOrGetIdForExist', data)
       .subscribe((client_id: any) => {
         this.saveAppointment(client_id);
       });
