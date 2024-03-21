@@ -400,7 +400,7 @@ router.post("/getClient", async (req, res, next) => {
               res.json(err);
             } else {
               if (rows.length) {
-                res.json(true);
+                res.json(rows[0].id);
               } else {
                 res.json(false);
               }
@@ -413,6 +413,68 @@ router.post("/getClient", async (req, res, next) => {
     logger.log("error", err.sql + ". " + err.sqlMessage);
     res.json(ex);
   }
+});
+
+router.post("/getClient", async (req, res, next) => {
+  try {
+    connection.getConnection(function (err, conn) {
+      if (err) {
+        logger.log("error", err.sql + ". " + err.sqlMessage);
+        res.json(err);
+      } else {
+        delete req.body.client.description;
+        req.body.client.telephone = req.body.client.telephone
+          .internationalNumber
+          ? req.body.client.telephone.internationalNumber
+          : req.body.client.telephone;
+        conn.query(
+          "select c.* from clients c join booking_config b on c.admin_id = b.admin_id where (c.email = ? or c.telephone = ?) and b.booking_link = ?",
+          [
+            req.body.client.email,
+            req.body.client.telephone,
+            req.body.booking_link,
+          ],
+          function (err, rows, fields) {
+            if (err) {
+              conn.release();
+              logger.log("error", err.sql + ". " + err.sqlMessage);
+              res.json(err);
+            } else {
+              if (rows.length) {
+                res.json(rows[0].id);
+              } else {
+                res.json(false);
+              }
+            }
+          }
+        );
+      }
+    });
+  } catch (ex) {}
+});
+
+router.post("/createClient", function (req, res) {
+  connection.getConnection(function (err, conn) {
+    if (err) {
+      logger.log("error", err.sql + ". " + err.sqlMessage);
+      res.json(err);
+    }
+
+    delete req.body.description;
+    req.body.telephone = req.body.telephone.internationalNumber
+      ? req.body.telephone.internationalNumber
+      : req.body.telephone;
+
+    conn.query("insert into clients SET ?", [req.body], function (err, rows) {
+      conn.release();
+      if (!err) {
+        res.json(true);
+      } else {
+        logger.log("error", err.sql + ". " + err.sqlMessage);
+        res.json(false);
+      }
+    });
+  });
 });
 
 router.post("/createNewClientOrGetIdForExist", async (req, res, next) => {

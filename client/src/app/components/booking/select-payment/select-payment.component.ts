@@ -5,7 +5,12 @@ import { CallApiService } from 'src/app/services/call-api.service';
 import { StripeCard } from 'stripe-angular';
 import * as moment from 'moment';
 import { environment } from '../../../../environments/environment.prod';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { StorageService } from 'src/app/services/storage.service';
 import {
   CountryISO,
@@ -237,11 +242,56 @@ export class SelectPaymentComponent {
       booking_link: this._activatedRouter.snapshot.params.id,
       client: this.clientData.value,
     };
+
     this._service
-      .callPostMethod('/api/booking/createNewClientOrGetIdForExist', data)
+      .callPostMethod('/api/booking/getClient', data)
       .subscribe((client_id: any) => {
-        this.saveAppointment(client_id);
+        if (client_id) {
+          this.saveAppointment(client_id);
+        } else {
+          this._service
+            .callPostMethod('/api/google/createClient', data)
+            .subscribe((response: any) => {
+              if (response) {
+                (this.clientData as FormGroup).addControl(
+                  'id',
+                  new FormControl(response.guuid)
+                );
+                (this.clientData as FormGroup).addControl(
+                  'resourceName',
+                  new FormControl(response.resourceName)
+                );
+                (this.clientData as FormGroup).addControl(
+                  'admin_id',
+                  new FormControl(response.admin_id)
+                );
+                this._service
+                  .callPostMethod(
+                    'api/booking/createClient',
+                    this.clientData.value
+                  )
+                  .subscribe((data) => {
+                    this.saveAppointment(response.guuid);
+                  });
+              } else {
+                this._service
+                  .callPostMethod(
+                    'api/booking/createClient',
+                    this.clientData.value
+                  )
+                  .subscribe((data) => {
+                    this.saveAppointment(response.guuid);
+                  });
+              }
+            });
+        }
       });
+
+    // this._service
+    //   .callPostMethod('/api/booking/createNewClientOrGetIdForExist', data)
+    //   .subscribe((client_id: any) => {
+    //     this.saveAppointment(client_id);
+    //   });
   }
 
   saveAppointment(client_id: number) {
