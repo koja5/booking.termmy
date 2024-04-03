@@ -56,3 +56,14 @@
 .payment {
   height: 50px;
 }
+
+.payment-configure {
+  height: 600px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.payment-configure img {
+  width: 210px;
+}

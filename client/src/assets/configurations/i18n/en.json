@@ -17,6 +17,7 @@
             "firstnamePlaceholder": "",
             "lastname": "Lastname *",
             "gender": "Gender *",
+            "birthday": "Birthday *",
             "lastnamePlaceholder": "",
             "email": "Email *",
             "emailPlaceholder": "",
@@ -29,7 +30,9 @@
             "fillEmail": "Please fill your email",
             "fillPhone": "Please fill your phone",
             "goToPayment": "Next",
-            "bookedFreeTermineDirectly": "Book now for free"
+            "bookedFreeTermineDirectly": "Book now for free",
+            "man": "Man",
+            "woman": "Woman"
         },
         "payment": {
             "title": "Payment",
@@ -46,7 +49,8 @@
             "paidDirectly": "Paid for service {amount} €",
             "paidUponArrival": "Payment upon arrival",
             "freeAppointment": "Free appointment",
-            "appointmentIsClosed": "In the meantime, this appointment is taken. Please see our other available appointments!"
+            "appointmentIsClosed": "In the meantime, this appointment is taken. Please see our other available appointments!",
+            "needToConfigureCardOrAllowForNewClient": "Need to configure card in settings or allow payment on arrival for new client!"
         },
         "previewBookingInformation": {
             "yourPersonalData": "Your personal data",

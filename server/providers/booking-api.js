@@ -46,6 +46,34 @@ router.get("/getBusinessConfig/:id", async (req, res, next) => {
   }
 });
 
+router.get("/getPaymentConfiguration/:id", async (req, res, next) => {
+  try {
+    connection.getConnection(function (err, conn) {
+      if (err) {
+        logger.log("error", err.sql + ". " + err.sqlMessage);
+        res.json(err);
+      } else {
+        conn.query(
+          "select e.stripe from booking_config b join external_accounts_admin e on b.admin_id = e.admin_id where booking_link = ?",
+          [req.params.id],
+          function (err, rows, fields) {
+            conn.release();
+            if (err) {
+              logger.log("error", err.sql + ". " + err.sqlMessage);
+              res.json(err);
+            } else {
+              res.json(rows);
+            }
+          }
+        );
+      }
+    });
+  } catch (ex) {
+    logger.log("error", err.sql + ". " + err.sqlMessage);
+    res.json(ex);
+  }
+});
+
 //#endregion
 
 //#region SERVICES

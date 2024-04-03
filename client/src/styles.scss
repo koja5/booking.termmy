@@ -147,8 +147,7 @@ ngx-intl-tel-input input:focus {
   overflow: hidden;
   position: relative;
   z-index: 4;
-  box-shadow: 0px 5px 50px 0px var(--primary),
-    0px 0px 0px 7px var(--primary);
+  box-shadow: 0px 5px 50px 0px var(--primary), 0px 0px 0px 7px var(--primary);
 }
 @media screen and (max-width: 576px) {
   .profile-card__img {
@@ -543,6 +542,14 @@ ngx-intl-tel-input input:focus {
     /*position: fixed;*/
     background: #fff;
     z-index: 2;
+  }
+
+  .container-loader {
+    height: 75vh;
+  }
+
+  .profile-card {
+    border-radius: 0px;
   }
 
   // .container-right {

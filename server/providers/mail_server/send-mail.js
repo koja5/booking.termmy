@@ -17,14 +17,6 @@ var smtpTransport = nodemailer.createTransport({
   },
 });
 
-// var smtpTransport = nodemailer.createTransport({
-//   service: "gmail",
-//   auth: {
-//     user: "kidsnodeoffice@gmail.com",
-//     pass: "rvciekpadttcvbwt"
-//   },
-// });
-
 async function sendMail(to, subject, message) {
   if (message.template) {
     var template = fs.readFileSync(

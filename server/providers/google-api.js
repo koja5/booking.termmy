@@ -26,9 +26,7 @@ const oauth2Client = new google.auth.OAuth2(
   process.env.REDIRECT_URL
 );
 
-// GENERAL
-
-// TERMINES
+//#region TERMINES
 
 router.post("/getAllScheduledTermines", async (req, res) => {
   const calendars = req.body;
@@ -48,8 +46,8 @@ router.post("/getAllScheduledTermines", async (req, res) => {
       if (events && events.data) {
         const times = events.data.items.map((i) => {
           return {
-            start: moment(i.start.dateTime).add("hour", -1).utc(),
-            end: moment(i.end.dateTime).add("hour", -1).utc(),
+            start: moment(i.start.dateTime),
+            end: moment(i.end.dateTime),
           };
         });
         // scheduledTermines = scheduledTermines.concat(events.data.items);
@@ -84,17 +82,16 @@ router.post("/createAppointment", async (req, res) => {
   const events = await calendar.events.list({
     calendarId: "primary",
     auth: oauth2Client,
-    timeMin: moment(req.body.StartTime)
-      .add("hour", 1)
-      .add("milliseconds", 0)
-      .toISOString(),
-    timeMax: moment(req.body.EndTime)
-      .add("hour", 1)
-      .add("milliseconds", 0)
-      .toISOString(),
+    timeMin: moment(req.body.StartTime).add("milliseconds", 0).toISOString(),
+    timeMax: moment(req.body.EndTime).add("milliseconds", 0).toISOString(),
   });
 
   if (events && events.data.items.length === 0) {
+    const timeZone = await calendar.calendars.get({
+      calendarId: "primary",
+      auth: oauth2Client,
+    });
+
     await calendar.events.insert(
       {
         calendarId: "primary",
@@ -103,16 +100,12 @@ router.post("/createAppointment", async (req, res) => {
           summary: req.body.Subject,
           description: JSON.stringify(req.body),
           start: {
-            dateTime: moment(req.body.StartTime)
-              .add("hour", 1)
-              .add("milliseconds", 0),
-            timeZone: "UTC",
+            dateTime: moment(req.body.StartTime).add("milliseconds", 0),
+            timeZone: timeZone.data.timeZone,
           },
           end: {
-            dateTime: moment(req.body.EndTime)
-              .add("hour", 1)
-              .add("milliseconds", 0),
-            timeZone: "UTC",
+            dateTime: moment(req.body.EndTime).add("milliseconds", 0),
+            timeZone: timeZone.data.timeZone,
           },
         },
       },
@@ -124,7 +117,7 @@ router.post("/createAppointment", async (req, res) => {
   }
 });
 
-//END TERMINE
+//#endregion TERMINES
 
 //#region CLIENT
 
@@ -177,8 +170,8 @@ router.post("/createClient", function (req, res) {
             ],
             phoneNumbers: [
               {
-                value: req.body.client.internationalNumber,
-                canonicalForm: req.body.client.internationalNumber,
+                value: req.body.client.telephone.internationalNumber,
+                canonicalForm: req.body.client.telephone.internationalNumber,
               },
             ],
             addresses: [

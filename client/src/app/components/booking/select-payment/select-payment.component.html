@@ -1,4 +1,4 @@
-<div class="container-right-content" *ngIf="loader">
+<div *ngIf="loader" class="container-right-content container-loader">
     <app-loader></app-loader>
 </div>
 <div *ngIf="!loader">
@@ -6,8 +6,8 @@
         <h3>{{'payment.title' | translate}}</h3>
     </div>
     <div class="container-right-content">
-        <div *ngIf="(config.allow_pay_on_arrival_new_customer&&!isExistsClient) || isExistsClient" class="panel panel-default"
-            (click)="isCollapsePayOnArrival = false; isCollapsePayByCreditCard = true"
+        <div *ngIf="(config.allow_pay_on_arrival_new_customer&&!isExistsClient) || isExistsClient"
+            class="panel panel-default" (click)="isCollapsePayOnArrival = false; isCollapsePayByCreditCard = true"
             [attr.aria-expanded]="!isCollapsePayOnArrival" aria-controls="collapseExample">
             <div class="panel-heading" role="tab" id="headingOne">
                 <h4 class="panel-title">
@@ -103,7 +103,8 @@
 
             </div>
         </div>
-        <div class="panel panel-default" (click)="isCollapsePayByCreditCard = false; isCollapsePayOnArrival = true"
+        <div *ngIf="config.allow_pay_online" class="panel panel-default"
+            (click)="isCollapsePayByCreditCard = false; isCollapsePayOnArrival = true"
             [attr.aria-expanded]="!isCollapsePayByCreditCard" aria-controls="collapseExample">
             <div class="panel-heading" role="tab" id="headingOne">
                 <h4 class="panel-title">
@@ -175,7 +176,7 @@
                             </div>
 
 
-                            <div *ngIf="!elementsOptions.clientSecret">
+                            <div *ngIf="!elementsOptions.clientSecret" class="container-loader">
                                 <app-loader></app-loader>
                             </div>
                             <div *ngIf="elementsOptions.clientSecret" style="margin-bottom: 10px">
@@ -227,6 +228,13 @@
                         </div>
                     </div>
                 </div>
+            </div>
+        </div>
+        <div class="payment-configure"
+            *ngIf="!config.allow_pay_online && ((!config.allow_pay_on_arrival_new_customer&&isExistsClient))">
+            <div class="text-center">
+                <img src="../../../../assets/images/icons/payment_configure.png">
+                <h6>{{'payment.needToConfigureCardOrAllowForNewClient' | translate}}</h6>
             </div>
         </div>
 

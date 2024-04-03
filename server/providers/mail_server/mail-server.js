@@ -19,14 +19,6 @@ var smtpTransport = nodemailer.createTransport({
   },
 });
 
-// var smtpTransport = nodemailer.createTransport({
-//   service: "gmail",
-//   auth: {
-//     user: "kidsnodeoffice@gmail.com",
-//     pass: "rvciekpadttcvbwt",
-//   },
-// });
-
 router.post("/sendMail", function (req, res) {
   var confirmTemplate = fs.readFileSync(
     "./providers/mail_server/templates/" + req.body.template,

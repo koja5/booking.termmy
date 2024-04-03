@@ -112,13 +112,13 @@ export class SelectTimeComponent {
             }
             for (let k = 0; k < worktime.times.length; k++) {
               if (worktime.times[k].start && worktime.times[k].end) {
-                let start = moment(worktime.times[k].start).utc();
-                let end = moment(worktime.times[k].end).utc();
+                let start = moment(worktime.times[k].start);
+                let end = moment(worktime.times[k].end);
                 while (start < end) {
                   this.allAppointments[date].push(
                     this.appointmentModel(
                       data,
-                      moment(calendarDate).utc().set({
+                      moment(calendarDate).set({
                         hour: start.hour(),
                         minute: start.minutes(),
                         second: start.seconds(),
@@ -130,6 +130,10 @@ export class SelectTimeComponent {
                     this.appointment.service.time_blocked,
                     'minute'
                   );
+                  if (start > end) {
+                    this.allAppointments[date].splice(-1);
+                    break;
+                  }
                 }
               }
             }
@@ -233,7 +237,6 @@ export class SelectTimeComponent {
       .subscribe((data) => {
         // this.scheduledTermines = this.scheduledTermines.concat(data);
         this.removeScheduledTermineFromAvailableSlot(data);
-        this.loader = false;
       });
   }
 
@@ -243,7 +246,6 @@ export class SelectTimeComponent {
         .callPostMethod('/api/google/getAllScheduledTermines', data)
         .subscribe((data: any) => {
           this.removeScheduledTermineFromAvailableSlot(data);
-          this.loader = false;
         });
     }
   }
@@ -266,10 +268,10 @@ export class SelectTimeComponent {
 
         for (let j = 0; j < this.allAppointments[date].length; j++) {
           if (
-            this.allAppointments[date][j].time.utcOffset(0, true) >=
-              moment(data[i].start ?? data[i].StartTime).utc() &&
-            this.allAppointments[date][j].time.utcOffset(0, true) <
-              moment(data[i].end ?? data[i].EndTime).utc()
+            moment(this.allAppointments[date][j].time).toISOString() >=
+              moment(data[i].start ?? data[i].StartTime).toISOString() &&
+            moment(this.allAppointments[date][j].time).toISOString() <
+              moment(data[i].end ?? data[i].EndTime).toISOString()
           ) {
             this.allAppointments[date].splice(j, 1);
             j--;
@@ -285,6 +287,7 @@ export class SelectTimeComponent {
     this._service
       .callGetMethod('/api/booking/getMyHolidays', this.id)
       .subscribe((data: any) => {
+        this.loader = false;
         if (data.length) {
           const holidays = this._helpService.getHolidaysForSelectedCountry(
             data[0].code

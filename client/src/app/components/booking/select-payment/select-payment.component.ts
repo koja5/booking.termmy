@@ -174,11 +174,22 @@ export class SelectPaymentComponent {
   createPaymentIntent(amount: number) {
     this.amount = amount;
     this._service
-      .callPostMethod('api/payment/createPaymentIntent', {
-        amount: this.amount,
-      })
-      .subscribe((data) => {
-        this.elementsOptions.clientSecret = data as string;
+      .callGetMethod('/api/booking/getPaymentConfiguration', this.id)
+      .subscribe((data: any) => {
+        if (data && data.length) {
+          this._service
+            .callPostMethod('api/payment/createPaymentIntent', {
+              stripe: data[0].stripe,
+              amount: this.amount,
+            })
+            .subscribe((data) => {
+              this.elementsOptions.clientSecret = data as string;
+            });
+        } else {
+          this.config.allow_pay_online = false;
+          this.isCollapsePayOnArrival = false;
+          this.isCollapsePayByCreditCard = true;
+        }
       });
   }
 
@@ -370,6 +381,7 @@ export class SelectPaymentComponent {
       EndTime: moment(this.queryParams.appointment)
         .add(this.appointment.service.time_blocked, 'minutes')
         .utc(),
+      description: this.clientData?.get('description')?.value,
       is_online: !this.isCollapsePayByCreditCard,
       amount_paid: !this.isCollapsePayByCreditCard ? this.amount : 0,
     };
