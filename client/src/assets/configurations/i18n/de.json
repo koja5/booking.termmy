@@ -1,16 +1,77 @@
 {
-    "lang": "de",
-    "data": {
-        "navigations": {
-            "home": "Heim",
-            "settings": "Einstellungen",
-            "allUsers": "Alle Benutzer",
-            "myLocations": "Meine Standorte",
-            "myServices": "Meine Dienste"
-        },
-        "SAMPLE": {
-            "CONGRATULATIONS": "Herzliche Glückwünsche",
-            "BADGE": "Sie haben die Goldmedaille gewonnen"
-        }
+    "general": {
+        "poweredBy": "Unterstützt von"
+    },
+    "calendarTime": {
+        "noFreeTimeReservation": "Keine freie Zeitreservierung!",
+        "selectDateAndTime": "Datum und Uhrzeit auswählen"
+    },
+    "service": {
+        "selectService": "Select a service",
+        "select": "Wählen",
+        "min": "Min"
+    },
+    "clientData": {
+        "enterYourInformation": "Geben Sie Details ein",
+        "firstname": "Vorname *",
+        "firstnamePlaceholder": "",
+        "lastname": "Familienname, Nachname *",
+        "gender": "Geschlecht *",
+        "birthday": "Geburtstag *",
+        "lastnamePlaceholder": "",
+        "email": "Email *",
+        "emailPlaceholder": "",
+        "telephone": "Telefon *",
+        "description": "Bitte teilen Sie alles mit, was Ihnen bei der Vorbereitung unseres Treffens hilft.",
+        "descriptionPlaceholder": "",
+        "fillFirstname": "Bitte geben Sie Ihren Vornamen ein",
+        "fillLastname": "Bitte geben Sie Ihren Nachnamen ein",
+        "fillGender": "Bitte geben Sie das Geschlecht ein",
+        "fillEmail": "Bitte geben Sie Ihre E-Mail-Adresse ein",
+        "fillPhone": "Bitte füllen Sie Ihr Telefon aus",
+        "goToPayment": "Nächste",
+        "bookedFreeTermineDirectly": "Buchen Sie jetzt kostenlos",
+        "man": "Mann",
+        "woman": "Frau"
+    },
+    "payment": {
+        "title": "Zahlung",
+        "payByCreditCard": "Mit Kreditkarte bezahlen",
+        "payOnArrival": "Bezahlen Sie bei der Ankunft",
+        "payOnArrivalText": "Reservieren Sie jetzt Ihren Termin und zahlen Sie direkt bei der Ankunft, nach abgeschlossener Behandlung.",
+        "fillCreditCardInformation": "Geben Sie die Kreditkarteninformationen ein",
+        "acceptTermsAndPrivacyPolicy": "Mit dem Absenden dieser Bestellung akzeptieren Sie die Allgemeinen Geschäftsbedingungen von Termmy und bestätigen, dass Sie die Datenschutzbestimmungen von Termmy gelesen und verstanden haben und das Widerrufsrecht anerkennen.",
+        "needAcceptTermsAndPrivacyPolicy": "Bitte akzeptieren Sie die Nutzungsbedingungen und Datenschutzbestimmungen",
+        "payAndBooked": "Zahlen Sie {amount} € und buchen Sie",
+        "payOnArrivalAndBooked": "Buchen Sie jetzt und zahlen Sie bei der Ankunft",
+        "selectFullAmount": "Ich möchte den vollen Betrag der Dienstleistung in Höhe von {amount} € bezahlen",
+        "selectPartOfAmount": "Ich möchte einen Teil des Leistungsbetrages in Höhe von {amount} € bezahlen, den Restbetrag nach abgeschlossener Behandlung.",
+        "paidDirectly": "Bezahlt für die Dienstleistung: {amount} €",
+        "paidUponArrival": "Zahlung bei Ankunft",
+        "freeAppointment": "Kostenloser Termin",
+        "appointmentIsClosed": "In der Zwischenzeit ist dieser Termin vergeben. Bitte beachten Sie unsere weiteren verfügbaren Termine!",
+        "needToConfigureCardOrAllowForNewClient": "Sie müssen die Karte in den Einstellungen konfigurieren oder die Zahlung bei Ankunft für neue Kunden zulassen!"
+    },
+    "previewBookingInformation": {
+        "yourPersonalData": "Ihre persönlichen Daten",
+        "bookingInfo": "Buchungsinformationen"
+    },
+    "scheduled": {
+        "title": "Sie sind eingeplant!",
+        "copyrightTitle": "Planen Sie Ihre eigenen Meetings kostenlos mit Termmy",
+        "copyrightText": "Eliminieren Sie das Hin und Her von E-Mails, um Zeit zu finden.",
+        "chosenPaymentUponArrival": "Sie haben die Zahlungsmöglichkeit bei Anreise gewählt!",
+        "paidFullAmount": "Vielen Dank, dass Sie den vollen Betrag ({amount} €) der Dienstleistung bezahlt haben.",
+        "paidPartOfAmount": "Vielen Dank, dass Sie den Teil des Gesamtbetrags ({amount} €) der Dienstleistung bezahlt haben. Den Restbetrag bis zum vollen Betrag zahlen Sie bei der Ankunft.",
+        "copyrightButton": "Melde dich kostenlos an",
+        "bookAnotherTermine": "Buchen Sie einen anderen Termin"
+    },
+    "notFound": {
+        "title": "Wir können die Daten nicht finden",
+        "text": "Der von Ihnen geöffnete Link ist ungültig. Bitte versuchen Sie es erneut oder wenden Sie sich an Ihren Diensteanbieter."
+    },
+    "home": {
+        "title": "Willkommen im Termmy-Buchungssystem",
+        "text": "Bitte buchen Sie über einen gültigen Link einen Termin beim gewünschten Dienstleister."
     }
 }

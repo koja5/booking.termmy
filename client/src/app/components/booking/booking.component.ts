@@ -6,6 +6,7 @@ import { CoreTranslationService } from 'src/@core/services/translation.service';
 import { HelpService } from 'src/app/services/help.service';
 import { StorageService } from 'src/app/services/storage.service';
 import { Title } from '@angular/platform-browser';
+import { isPlatformBrowser } from '@angular/common';
 
 @Component({
   selector: 'app-booking',
@@ -34,11 +35,9 @@ export class BookingComponent {
     private _title: Title
   ) {
     // Add languages to the translation service
-    this._translateService.addLangs(['en', 'fr', 'de', 'pt']);
-
-    // This language will be used as a fallback when a translation isn't found in the current language
+    /*this._translateService.addLangs(['en', 'fr', 'de', 'pt']);
     this._translateService.setDefaultLang('en');
-    this._coreTranslationServic.setAllTranslations();
+    this._coreTranslationServic.setAllTranslations();*/
   }
 
   ngOnInit() {
@@ -48,6 +47,7 @@ export class BookingComponent {
       this.view = data;
     });
   }
+
 
   initialize() {
     this.id = this._activatedRouter.snapshot.params.id;
@@ -109,4 +109,5 @@ export class BookingComponent {
       );
     }
   }
+
 }

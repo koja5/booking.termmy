@@ -39,7 +39,7 @@ export class CoreTranslationService {
    */
 
   setAllTranslations() {
-    this.translate(en, de, fr, pt, rs);
+    // this.translate(en, de, fr, pt, rs);
   }
 
   translate(...args: Locale[]): void {

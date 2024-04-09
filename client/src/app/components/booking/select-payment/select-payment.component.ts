@@ -178,7 +178,7 @@ export class SelectPaymentComponent {
       .subscribe((data: any) => {
         if (data && data.length) {
           this._service
-            .callPostMethod('api/payment/createPaymentIntent', {
+            .callPostMethod('/api/payment/createPaymentIntent', {
               stripe: data[0].stripe,
               amount: this.amount,
             })

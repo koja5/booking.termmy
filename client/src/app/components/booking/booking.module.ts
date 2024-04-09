@@ -23,6 +23,7 @@ import { LoaderSmallComponent } from './common/loader-small/loader-small.compone
 import { ScheduledComponent } from './scheduled/scheduled.component';
 import { CommonCustomModule } from 'src/app/common/common-custom.module';
 import { NotFoundComponent } from './common/not-found/not-found.component';
+import { SelectLanguageComponent } from './common/select-language/select-language.component';
 
 const routes = [
   {
@@ -51,6 +52,7 @@ const routes = [
     LoaderSmallComponent,
     ScheduledComponent,
     NotFoundComponent,
+    SelectLanguageComponent,
   ],
   imports: [
     CommonModule,

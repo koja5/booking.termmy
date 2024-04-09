@@ -8,7 +8,7 @@
                 <div class="d-flex justify-content-around text-center">
                     <div>
                         <span class="fa fa-clock"></span>
-                        <h4>{{item.time_duration}} min</h4>
+                        <h4>{{item.time_duration}} {{'service.min' | translate}}</h4>
                     </div>
                     <div>
                         <span class="fa fa-money-bill"></span>
@@ -17,7 +17,8 @@
 
                 </div>
 
-                <button class="btn btn-default btn-custom mt-4 w-75" (click)="selectService(item)">Select</button>
+                <button class="btn btn-default btn-custom mt-4 w-75" (click)="selectService(item)">{{'service.select' |
+                    translate}}</button>
             </div>
         </div>
     </div>

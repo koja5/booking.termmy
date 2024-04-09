@@ -20,6 +20,7 @@
             "outputPath": "dist/booking",
             "index": "src/index.html",
             "main": "src/main.ts",
+            "baseHref": "/booking/",
             "polyfills": [
               "zone.js"
             ],

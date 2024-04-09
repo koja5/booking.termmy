@@ -3,8 +3,8 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { TranslateModule } from '@ngx-translate/core';
-import { HttpClientModule } from '@angular/common/http';
+import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { CookieModule } from 'ngx-cookie';
 import {
   PerfectScrollbarConfigInterface,
@@ -20,6 +20,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
 import { RouterLink, RouterOutlet } from '@angular/router';
 import { HomeComponent } from './components/home/home.component';
+import { HttpLoaderFactory } from './services/httpLoaderFactory';
 
 @NgModule({
   declarations: [AppComponent, HomeComponent],
@@ -30,9 +31,16 @@ import { HomeComponent } from './components/home/home.component';
     BrowserAnimationsModule,
     ToastrModule.forRoot(),
     AppRoutingModule,
-    TranslateModule.forRoot(),
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: HttpLoaderFactory,
+        deps: [HttpClient],
+      },
+    }),
     HttpClientModule,
-    RouterLink, RouterOutlet,
+    RouterLink,
+    RouterOutlet,
     CookieModule.withOptions(),
   ],
   providers: [

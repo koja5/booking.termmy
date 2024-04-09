@@ -1,0 +1,19 @@
+<div class="language">
+    <a (click)="showLanguage ? showLanguage = '' : showLanguage = 'show'" class="dropdown-toggle nav-link"
+        aria-expanded="true"><img class="flag-menu" src="assets/images/flags/{{selectedLanguage}}.png"><span
+            class="selected-language">{{selectedLanguage.toUpperCase()}}</span></a>
+    <div aria-labelledby="dropdown-flag" x-placement="bottom-left"
+        class="dropdown-menu language-dropdown {{showLanguage}}">
+        <div>
+            <a (click)="switchLanguage('en')" class="dropdown-item ng-star-inserted"><img class="flag-menu"
+                    src="assets/images/flags/en.png"> EN
+            </a><a (click)="switchLanguage('de')" class="dropdown-item ng-star-inserted"><img class="flag-menu"
+                    src="assets/images/flags/de.png">
+                DE
+            </a><a (click)="switchLanguage('rs')" class="dropdown-item ng-star-inserted"><img class="flag-menu"
+                    src="assets/images/flags/rs.png">
+                RS
+            </a>
+        </div>
+    </div>
+</div>

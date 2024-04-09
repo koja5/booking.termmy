@@ -1,32 +1,77 @@
 {
-    "lang": "rs",
-    "data": {
-        "form": {
-            "mustFillThisField": "Molimo Vas popunite polje"
-        },
-        "allUsers": {
-            "name": "Ime"
-        },
-        "myLocations": {
-            "name": "Ime lokacije"
-        },
-        "myServices": {
-            "name": "Ime usluge",
-            "timeDuration": "Vreme trajanja terapije",
-            "price": "Cena",
-            "min": "minuta",
-            "currency": "RSD"
-        },
-        "navigations": {
-            "home": "Početna",
-            "settings": "Podešavanja",
-            "allUsers": "Svi korisnici",
-            "myLocations": "Moje lokacije",
-            "myServices": "Moje usluge"
-        },
-        "SAMPLE": {
-            "CONGRATULATIONS": "Congratulations",
-            "BADGE": "You have won gold medal"
-        }
+    "general": {
+        "poweredBy": "Powered by"
+    },
+    "calendarTime": {
+        "noFreeTimeReservation": "No free time reservation!",
+        "selectDateAndTime": "Select a date & time"
+    },
+    "service": {
+        "selectService": "Select a service",
+        "select": "Select",
+        "min": "Min"
+    },
+    "clientData": {
+        "enterYourInformation": "Enter details",
+        "firstname": "Firstname *",
+        "firstnamePlaceholder": "",
+        "lastname": "Lastname *",
+        "gender": "Gender *",
+        "birthday": "Birthday *",
+        "lastnamePlaceholder": "",
+        "email": "Email *",
+        "emailPlaceholder": "",
+        "telephone": "Phone *",
+        "description": "Please share anything that will help prepare for our meeting.",
+        "descriptionPlaceholder": "",
+        "fillFirstname": "Please fill your firstname",
+        "fillLastname": "Please fill your lastname",
+        "fillGender": "Please fill gender",
+        "fillEmail": "Please fill your email",
+        "fillPhone": "Please fill your phone",
+        "goToPayment": "Next",
+        "bookedFreeTermineDirectly": "Book now for free",
+        "man": "Man",
+        "woman": "Woman"
+    },
+    "payment": {
+        "title": "Payment",
+        "payByCreditCard": "Pay by credit card",
+        "payOnArrival": "Pay on arrival",
+        "payOnArrivalText": "Reserve your appointment now, and pay upon arrival, after the completed treatment.",
+        "fillCreditCardInformation": "Fill credit card information",
+        "acceptTermsAndPrivacyPolicy": "By submitting this order, you accept the General Terms and Conditions of Termmy and confirm that you have read and understood the data protection regulations of Termmy and acknowledge the right of cancellation.",
+        "needAcceptTermsAndPrivacyPolicy": "Please accept terms and privacy policy",
+        "payAndBooked": "Pay {amount} € and booked",
+        "payOnArrivalAndBooked": "Book now and pay on arrival",
+        "selectFullAmount": "I want to pay the full amount of the service, in the amount of {amount} €",
+        "selectPartOfAmount": "I want to pay a part of the service amount, in the amount of {amount} €, and the rest after the completed treatment.",
+        "paidDirectly": "Paid for service {amount} €",
+        "paidUponArrival": "Payment upon arrival",
+        "freeAppointment": "Free appointment",
+        "appointmentIsClosed": "In the meantime, this appointment is taken. Please see our other available appointments!",
+        "needToConfigureCardOrAllowForNewClient": "Need to configure card in settings or allow payment on arrival for new client!"
+    },
+    "previewBookingInformation": {
+        "yourPersonalData": "Your personal data",
+        "bookingInfo": "Booking info"
+    },
+    "scheduled": {
+        "title": "You are scheduled!",
+        "copyrightTitle": "Schedule your own meetings with Termmy for free",
+        "copyrightText": "Eliminate the back-and-forth emails for finding time.",
+        "chosenPaymentUponArrival": "You have chosen the payment option upon arrival!",
+        "paidFullAmount": "Thank you for paying the full amount ({amount} €) of the service.",
+        "paidPartOfAmount": "Thank you for paying the part of full amount ({amount} €) of the service. You will pay the rest up to the full amount upon arrival.",
+        "copyrightButton": "Sign up for free",
+        "bookAnotherTermine": "Book another termine"
+    },
+    "notFound": {
+        "title": "We can't find the data",
+        "text": "The link you opened is not valid. Please try again or contact your service provider."
+    },
+    "home": {
+        "title": "Welcome to the Termmy booking system",
+        "text": "Please use a valid link to book an appointment with the desired service provider."
     }
 }
