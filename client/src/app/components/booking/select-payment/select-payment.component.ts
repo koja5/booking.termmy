@@ -278,7 +278,7 @@ export class SelectPaymentComponent {
                 );
                 this._service
                   .callPostMethod(
-                    'api/booking/createClient',
+                    '/api/booking/createClient',
                     this.clientData.value
                   )
                   .subscribe((data) => {
@@ -287,7 +287,7 @@ export class SelectPaymentComponent {
               } else {
                 this._service
                   .callPostMethod(
-                    'api/booking/createClient',
+                    '/api/booking/createClient',
                     this.clientData.value
                   )
                   .subscribe((data) => {

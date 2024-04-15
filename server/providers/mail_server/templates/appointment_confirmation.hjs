@@ -296,13 +296,13 @@
                               >
                                 Use of our service and website is subject to our
                                 <a
-                                  href="https://termmy.com/"
+                                  href="https://termmy.com/terms"
                                   class="hover-underline"
                                   style="--text-opacity: 1; color: #7367f0 !important; color: rgba(115, 103, 240, var(--text-opacity)); text-decoration: none;"
                                 >Terms of Use</a>
                                 and
                                 <a
-                                  href="https://termmy.com/"
+                                  href="https://termmy.com/privacy-policy"
                                   class="hover-underline"
                                   style="--text-opacity: 1; color: #7367f0 !important; color: rgba(115, 103, 240, var(--text-opacity)); text-decoration: none;"
                                 >Privacy Policy</a>.
