@@ -84,21 +84,23 @@
 
             <div *ngIf="appointment&&!appointment.service.price">
 
-                <div class="form-check accept-terms-privacy mt-0 mb-4 d-flex">
-                    <input class="form-check-input" type="checkbox" id="accept"
-                        [(ngModel)]="acceptTermsAndPrivacyPolicy">
-                    <label class="form-check-label" for="flexCheckDefault">
-                        {{'payment.acceptTermsAndPrivacyPolicyOne' | translate}}
-                        <a href="https://termmy.com/terms" target="_blank">{{'payment.acceptTermsAndPrivacyPolicyTerms'
-                            |
-                            translate}}</a>
-                        {{'payment.acceptTermsAndPrivacyPolicyTermsAnd' | translate}}
-                        <a href="https://termmy.com/privacy-policy"
-                            target="_blank">{{'payment.acceptTermsAndPrivacyPolicyPrivacyPolicy' |
-                            translate}}</a>
-                        {{'payment.acceptTermsAndPrivacyPolicyTwo' | translate}}
-                    </label>
-
+                <div class="mb-4">
+                    <div class="form-check accept-terms-privacy mt-0 d-flex">
+                        <input class="form-check-input" type="checkbox" id="accept"
+                            [(ngModel)]="acceptTermsAndPrivacyPolicy">
+                        <label class="form-check-label" for="flexCheckDefault">
+                            {{'payment.acceptTermsAndPrivacyPolicyOne' | translate}}
+                            <a href="https://termmy.com/terms"
+                                target="_blank">{{'payment.acceptTermsAndPrivacyPolicyTerms'
+                                |
+                                translate}}</a>
+                            {{'payment.acceptTermsAndPrivacyPolicyTermsAnd' | translate}}
+                            <a href="https://termmy.com/privacy-policy"
+                                target="_blank">{{'payment.acceptTermsAndPrivacyPolicyPrivacyPolicy' |
+                                translate}}</a>
+                            {{'payment.acceptTermsAndPrivacyPolicyTwo' | translate}}
+                        </label>
+                    </div>
                     <div *ngIf="submitted&&!acceptTermsAndPrivacyPolicy" class="error">
                         {{'payment.needAcceptTermsAndPrivacyPolicy' | translate}}
                     </div>

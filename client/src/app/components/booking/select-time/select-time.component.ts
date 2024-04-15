@@ -233,7 +233,7 @@ export class SelectTimeComponent {
 
   getScheduledTerminesFromDatabase(data: any) {
     this._service
-      .callPostMethod('api/booking/getAllScheduledTermines', data)
+      .callPostMethod('/api/booking/getAllScheduledTermines', data)
       .subscribe((data) => {
         // this.scheduledTermines = this.scheduledTermines.concat(data);
         this.removeScheduledTermineFromAvailableSlot(data);
