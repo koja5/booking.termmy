@@ -10,7 +10,7 @@
                         <span class="fa fa-clock"></span>
                         <h4>{{item.time_duration}} {{'service.min' | translate}}</h4>
                     </div>
-                    <div>
+                    <div *ngIf="!item.hide_price">
                         <span class="fa fa-money-bill"></span>
                         <h4>{{item.price}} €</h4>
                     </div>

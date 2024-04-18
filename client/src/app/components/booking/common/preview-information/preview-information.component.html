@@ -6,7 +6,7 @@
             <h5 class="fa fa-clock"></h5>
             <h6 class="ms-2">{{appointment.service.time_duration}} min</h6>
         </div>
-        <div class="d-none d-md-flex justify-content-sm">
+        <div *ngIf="!appointment.service.hide_price" class="d-none d-md-flex justify-content-sm">
             <h5 class="fa fa-money-bill"></h5>
             <h6 class="ms-2">{{appointment.service.price}} €</h6>
         </div>

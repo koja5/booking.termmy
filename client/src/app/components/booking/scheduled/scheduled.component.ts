@@ -15,6 +15,7 @@ export class ScheduledComponent {
   public appointment: any;
   public queryParams: any;
   public paidMessage!: string;
+  public dayInWeek!: string;
 
   constructor(
     private _service: CallApiService,
@@ -50,6 +51,12 @@ export class ScheduledComponent {
           this.generateMessage();
         }
       });
+  }
+
+  getNameOfDay() {
+    return this._translate.instant('daysInWeek')[
+      new Date(this.appointment.StartTime).getDay()
+    ];
   }
 
   generateMessage() {

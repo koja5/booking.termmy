@@ -383,7 +383,7 @@ router.get("/getAppointment/:id", async (req, res, next) => {
         res.json(err);
       } else {
         conn.query(
-          "select c.firstname, c.lastname, s.name, s.time_duration, s.price, a.StartTime, a.EndTime from appointments a join clients c on a.client_id = c.id join services s on a.service_id = s.id where a.id = ?",
+          "select c.firstname, c.lastname, s.name, s.time_duration, s.price, s.hide_price, a.StartTime, a.EndTime from appointments a join clients c on a.client_id = c.id join services s on a.service_id = s.id where a.id = ?",
           [req.params.id],
           function (err, rows, fields) {
             conn.release();

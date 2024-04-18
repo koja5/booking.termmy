@@ -35,14 +35,14 @@
                     <span class="fa fa-clock"></span>
                     <span class="ms-2">{{appointment.time_duration}} min</span>
                 </div>
-                <div>
+                <div *ngIf="!appointment.hide_price">
                     <span class="fa fa-money-bill"></span>
                     <span class="ms-2">{{appointment.price}} €</span>
                 </div>
                 <div>
                     <span class="fa fa-calendar"></span>
                     <span class="ms-2">{{appointment.StartTime | date: 'HH:mm' }} - {{appointment.EndTimeTherapy | date:
-                        'HH:mm'}}, {{appointment.StartTime | date: 'EEEE, MMMM d, yyyy'}}</span>
+                        'HH:mm'}}, {{getNameOfDay()}}, {{appointment.StartTime | date: 'MMMM d, yyyy'}}</span>
                 </div>
                 <div>
                     <span class="fa fa-user"></span>

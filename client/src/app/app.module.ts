@@ -21,6 +21,7 @@ import { ToastrModule } from 'ngx-toastr';
 import { RouterLink, RouterOutlet } from '@angular/router';
 import { HomeComponent } from './components/home/home.component';
 import { HttpLoaderFactory } from './services/httpLoaderFactory';
+import { CustomCommonModule } from './components/booking/common/custom-common.module';
 
 @NgModule({
   declarations: [AppComponent, HomeComponent],
@@ -42,6 +43,7 @@ import { HttpLoaderFactory } from './services/httpLoaderFactory';
     RouterLink,
     RouterOutlet,
     CookieModule.withOptions(),
+    CustomCommonModule,
   ],
   providers: [
     {

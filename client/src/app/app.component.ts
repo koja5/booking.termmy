@@ -22,10 +22,10 @@ export class AppComponent {
     private contexts: ChildrenOutletContexts
   ) {
     // Add languages to the translation service
-    this._translateService.addLangs(['en', 'fr', 'de', 'pt']);
+    // this._translateService.addLangs(['en', 'fr', 'de', 'pt']);
 
     // This language will be used as a fallback when a translation isn't found in the current language
-    this._translateService.setDefaultLang('en');
-    this._coreTranslationServic.setAllTranslations();
+    // this._translateService.setDefaultLang('en');
+    // this._coreTranslationServic.setAllTranslations();
   }
 }

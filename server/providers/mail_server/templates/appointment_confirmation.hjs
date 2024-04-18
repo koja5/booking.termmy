@@ -152,7 +152,7 @@
                                     <td
                                       style="padding: 10px; border-bottom: 1px solid #ededed; border-right: 1px solid #ededed; width: 35%; font-weight:500; color:rgba(0,0,0,.64)"
                                     >
-                                      Klient</td>
+                                      {{client}}</td>
                                     <td
                                       style="padding: 10px; border-bottom: 1px solid #ededed; color: #455056;"
                                     >
@@ -163,7 +163,7 @@
                                     <td
                                       style="padding: 10px; border-bottom: 1px solid #ededed; border-right: 1px solid #ededed; width: 35%; font-weight:500; color:rgba(0,0,0,.64)"
                                     >
-                                      Gebuchtes Datum:</td>
+                                      {{dateTitle}}</td>
                                     <td
                                       style="padding: 10px; border-bottom: 1px solid #ededed; color: #455056;"
                                     >
@@ -173,7 +173,7 @@
                                     <td
                                       style="padding: 10px; border-bottom: 1px solid #ededed; border-right: 1px solid #ededed; width: 35%; font-weight:500; color:rgba(0,0,0,.64)"
                                     >
-                                      Gebuchtes Zeit:</td>
+                                      {{timeTitle}}</td>
                                     <td
                                       style="padding: 10px; border-bottom: 1px solid #ededed; color: #455056;"
                                     >
@@ -183,7 +183,7 @@
                                     <td
                                       style="padding: 10px; border-bottom: 1px solid #ededed; border-right: 1px solid #ededed; width: 35%; font-weight:500; color:rgba(0,0,0,.64)"
                                     >
-                                      Service:</td>
+                                      {{service}}</td>
                                     <td
                                       style="padding: 10px; border-bottom: 1px solid #ededed; color: #455056;"
                                     >
@@ -193,18 +193,18 @@
                                     <td
                                       style="padding: 10px; border-bottom: 1px solid #ededed; border-right: 1px solid #ededed; width: 35%; font-weight:500; color:rgba(0,0,0,.64)"
                                     >
-                                      Service duration:</td>
+                                      {{service_duration}}</td>
                                     <td
                                       style="padding: 10px; border-bottom: 1px solid #ededed; color: #455056;"
                                     >
                                       {{time_duration}}
-                                      min</td>
+                                      {{min}}</td>
                                   </tr>
                                   <tr>
                                     <td
                                       style="padding: 10px; border-bottom: 1px solid #ededed; border-right: 1px solid #ededed; width: 35%; font-weight:500; color:rgba(0,0,0,.64)"
                                     >
-                                      Service price:</td>
+                                      {{service_price}}</td>
                                     <td
                                       style="padding: 10px; border-bottom: 1px solid #ededed; color: #455056;"
                                     >
@@ -215,7 +215,7 @@
                                     <td
                                       style="padding: 10px; border-bottom: 1px solid #ededed; border-right: 1px solid #ededed; width: 35%; font-weight:500; color:rgba(0,0,0,.64)"
                                     >
-                                      Payment:</td>
+                                      {{payment}}</td>
                                     <td
                                       style="padding: 10px; border-bottom: 1px solid #ededed; color: #455056;"
                                     >
@@ -246,14 +246,14 @@
                                 </tbody>
                               </table>
                               <p style="margin: 0 0 16px;">
-                                Not sure why you received this email? Please
+                                {{notSureWhyReceived}}
                                 <a
                                   href="mailto:support@termmy.com"
                                   class="hover-underline"
                                   style="--text-opacity: 1; color: #7367f0 !important; color: rgba(115, 103, 240, var(--text-opacity)); text-decoration: none;"
-                                >let us know</a>.
+                                >{{letUsKnow}}</a>.
                               </p>
-                              <p style="margin: 0 0 16px;">Thanks,
+                              <p style="margin: 0 0 16px;">{{thanks}},
                                 <br />{{company_name}}
                                 <br />{{company_address}}
                                 <br />{{company_telephone}}
@@ -294,18 +294,18 @@
                               <p
                                 style="--text-opacity: 1; color: #263238; color: rgba(38, 50, 56, var(--text-opacity));"
                               >
-                                Use of our service and website is subject to our
+                                {{acceptService}}
                                 <a
                                   href="https://termmy.com/terms"
                                   class="hover-underline"
                                   style="--text-opacity: 1; color: #7367f0 !important; color: rgba(115, 103, 240, var(--text-opacity)); text-decoration: none;"
-                                >Terms of Use</a>
-                                and
+                                >{{terms}}</a>
+                                {{and}}
                                 <a
                                   href="https://termmy.com/privacy-policy"
                                   class="hover-underline"
                                   style="--text-opacity: 1; color: #7367f0 !important; color: rgba(115, 103, 240, var(--text-opacity)); text-decoration: none;"
-                                >Privacy Policy</a>.
+                                >{{privacyPolicy}}</a>.
                               </p>
                             </td>
                           </tr>

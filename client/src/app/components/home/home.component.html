@@ -1,9 +1,15 @@
-<div class="d-flex-center vh-100">
+<div class="selected-language">
+    <app-select-language></app-select-language>
+</div>
+
+<div class="d-flex-center vh-100" *ngIf="loader">
     <div class="text-center">
         <img class="home-icon" src="assets/images/icons/home-icon.png">
         <div class="text-description">
             <h3>{{'home.title' | translate}}</h3>
             <h4>{{'home.text' | translate}}</h4>
+            <br />
+            <a href="https://termmy.com" class="btn btn-primary">{{'home.moreAboutTermmy' | translate}}</a>
         </div>
     </div>
 </div>

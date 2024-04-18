@@ -24,6 +24,8 @@ import { ScheduledComponent } from './scheduled/scheduled.component';
 import { CommonCustomModule } from 'src/app/common/common-custom.module';
 import { NotFoundComponent } from './common/not-found/not-found.component';
 import { SelectLanguageComponent } from './common/select-language/select-language.component';
+import { CustomCommonModule } from './common/custom-common.module';
+import { ToastrComponent } from 'src/app/common/toastr/toastr.component';
 
 const routes = [
   {
@@ -52,7 +54,6 @@ const routes = [
     LoaderSmallComponent,
     ScheduledComponent,
     NotFoundComponent,
-    SelectLanguageComponent,
   ],
   imports: [
     CommonModule,
@@ -64,9 +65,9 @@ const routes = [
     NgxIntlTelInputModule,
     StripeModule.forRoot(environment.STRIPE_KEY),
     NgxStripeModule.forRoot(environment.STRIPE_KEY),
-    CommonCustomModule,
+    CustomCommonModule
   ],
-  providers: [],
+  providers: [ToastrComponent],
   bootstrap: [],
   exports: [],
 })

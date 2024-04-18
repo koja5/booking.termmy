@@ -3,75 +3,90 @@
         "poweredBy": "Powered by"
     },
     "calendarTime": {
-        "noFreeTimeReservation": "No free time reservation!",
-        "selectDateAndTime": "Select a date & time"
+        "noFreeTimeReservation": "Nema slobodnih termina za rezervaciju!",
+        "selectDateAndTime": "Odaberite datum i vreme"
     },
     "service": {
-        "selectService": "Select a service",
-        "select": "Select",
-        "min": "Min"
+        "selectService": "Odaberite uslugu",
+        "select": "Izaberi",
+        "min": "Minuta"
     },
     "clientData": {
-        "enterYourInformation": "Enter details",
-        "firstname": "Firstname *",
+        "enterYourInformation": "Unesi podatke",
+        "firstname": "Ime *",
         "firstnamePlaceholder": "",
-        "lastname": "Lastname *",
-        "gender": "Gender *",
-        "birthday": "Birthday *",
+        "lastname": "Prezime *",
+        "gender": "Pol *",
+        "birthday": "Datum rođenja *",
         "lastnamePlaceholder": "",
         "email": "Email *",
         "emailPlaceholder": "",
-        "telephone": "Phone *",
-        "description": "Please share anything that will help prepare for our meeting.",
+        "telephone": "Telefon *",
+        "description": "Unesite dodatno komentar ukoliko ga imate...",
         "descriptionPlaceholder": "",
-        "fillFirstname": "Please fill your firstname",
-        "fillLastname": "Please fill your lastname",
-        "fillGender": "Please fill gender",
-        "fillEmail": "Please fill your email",
-        "fillPhone": "Please fill your phone",
-        "goToPayment": "Next",
-        "bookedFreeTermineDirectly": "Book now for free",
-        "man": "Man",
-        "woman": "Woman"
+        "fillFirstname": "Molimo vas unesite vaše ime",
+        "fillLastname": "Molimo vas unesite vaše prezime",
+        "fillGender": "Molimo vas unesite vaš pol",
+        "fillEmail": "Molimo vas unesite vašu email adresu",
+        "fillPhone": "Molimo vas unesite vaš telefon",
+        "goToPayment": "Sledeći",
+        "bookedFreeTermineDirectly": "Rezervišite sada besplatno",
+        "man": "Muškarac",
+        "woman": "Žena"
     },
     "payment": {
-        "title": "Payment",
-        "payByCreditCard": "Pay by credit card",
-        "payOnArrival": "Pay on arrival",
-        "payOnArrivalText": "Reserve your appointment now, and pay upon arrival, after the completed treatment.",
-        "fillCreditCardInformation": "Fill credit card information",
-        "acceptTermsAndPrivacyPolicy": "By submitting this order, you accept the General Terms and Conditions of Termmy and confirm that you have read and understood the data protection regulations of Termmy and acknowledge the right of cancellation.",
-        "needAcceptTermsAndPrivacyPolicy": "Please accept terms and privacy policy",
-        "payAndBooked": "Pay {amount} € and booked",
-        "payOnArrivalAndBooked": "Book now and pay on arrival",
-        "selectFullAmount": "I want to pay the full amount of the service, in the amount of {amount} €",
-        "selectPartOfAmount": "I want to pay a part of the service amount, in the amount of {amount} €, and the rest after the completed treatment.",
-        "paidDirectly": "Paid for service {amount} €",
-        "paidUponArrival": "Payment upon arrival",
-        "freeAppointment": "Free appointment",
-        "appointmentIsClosed": "In the meantime, this appointment is taken. Please see our other available appointments!",
-        "needToConfigureCardOrAllowForNewClient": "Need to configure card in settings or allow payment on arrival for new client!"
+        "title": "Plaćanje",
+        "payByCreditCard": "Plati karticom",
+        "payOnArrival": "Plati prilikom dolaska",
+        "payOnArrivalText": "Rezervišite vaš termin sada, a platite prilikom dolaska, nakon završenog tretmana.",
+        "fillCreditCardInformation": "Unesite informacije o kartici",
+        "acceptTermsAndPrivacyPolicy": "Plaćanjem prihvatam opšte uslove i pravila privatnosti i potvrđujem da sam pročitala i razumela odredbe aplikacije Termmy.",
+        "acceptTermsAndPrivacyPolicyOne": "Plaćanjem prihvatam ",
+        "acceptTermsAndPrivacyPolicyTerms": "opšte uslove",
+        "acceptTermsAndPrivacyPolicyTermsAnd": "i",
+        "acceptTermsAndPrivacyPolicyPrivacyPolicy": "pravila privatnosti",
+        "acceptTermsAndPrivacyPolicyTwo": " i potvrđujem da sam pročitao/la i razumeo/la odredbe o zaštiti podataka kompanije Termmy.",
+        "needAcceptTermsAndPrivacyPolicy": "Molimo vas prihvatite opšte uslove i pravila privatnosti!",
+        "payAndBooked": "Plati iznos od {amount} € i rezerviši",
+        "payOnArrivalAndBooked": "Rezerviši sada, a plati prilikom dolaska",
+        "selectFullAmount": "Želim da sada platim pun iznos usluge. Konačna cena usluge je {amount} €",
+        "selectPartOfAmount": "Želim da platim jedan deo usluge sada(depozit) u iznosu od {amount} €, a ostatak ću platiti prilikom dolaska.",
+        "paidDirectly": "Plati za uslugu iznos od {amount} €",
+        "paidUponArrival": "Plati prilikom dolaska",
+        "freeAppointment": "Besplatan termin",
+        "appointmentIsClosed": "U međuvremenu je neko zauzeo vaš termin. Molimo vas pogledajte ostale slobodne termine.",
+        "needToConfigureCardOrAllowForNewClient": "Potrebno je da omogućite online plaćanje dodavanjem kartice ili da omogućite plaćanje po dolasku za nove klijente!"
     },
     "previewBookingInformation": {
-        "yourPersonalData": "Your personal data",
-        "bookingInfo": "Booking info"
+        "yourPersonalData": "Vaši lični podaci",
+        "bookingInfo": "Podaci o rezervaciji"
     },
     "scheduled": {
-        "title": "You are scheduled!",
-        "copyrightTitle": "Schedule your own meetings with Termmy for free",
-        "copyrightText": "Eliminate the back-and-forth emails for finding time.",
-        "chosenPaymentUponArrival": "You have chosen the payment option upon arrival!",
-        "paidFullAmount": "Thank you for paying the full amount ({amount} €) of the service.",
-        "paidPartOfAmount": "Thank you for paying the part of full amount ({amount} €) of the service. You will pay the rest up to the full amount upon arrival.",
-        "copyrightButton": "Sign up for free",
-        "bookAnotherTermine": "Book another termine"
+        "title": "Zakazali ste termin!",
+        "copyrightTitle": "Zakazujete svoje sastanke pomoću Termmy-a potpuno besplatno!",
+        "copyrightText": "Optimizujte zakazivanje slobodnih termina i eliminišite dugotrajne razgovore i pisanja, kako bi klijentu zakazali termin.",
+        "chosenPaymentUponArrival": "Odabrali ste opciju plaćanja po dolasku!",
+        "paidFullAmount": "Hvala vam što ste platili pun iznos usluge. Cena usluge koju ste platili je ({amount} €).",
+        "paidPartOfAmount": "Hvala vam što ste platili deo iznosa(depozit) za uslugu koju ste platili. Iznos koji ste uplatili je ({amount} €). Ostalo plaćate nakon završenog termina.",
+        "copyrightButton": "Kreirajte nalog potpuno besplatno",
+        "bookAnotherTermine": "Rezervišite novi termin"
     },
     "notFound": {
-        "title": "We can't find the data",
-        "text": "The link you opened is not valid. Please try again or contact your service provider."
+        "title": "Ne možemo da pronađemo podatke",
+        "text": "Stranica koju ste otvorili nije važeća. Molimo vas da pokušate ponovo ili da kontaktirate firmu/osobu kod koje želite da rezervišete termin kako bi dobili tačan link kalendara."
     },
     "home": {
-        "title": "Welcome to the Termmy booking system",
-        "text": "Please use a valid link to book an appointment with the desired service provider."
+        "title": "Dobrodošli na Termmy",
+        "text": "Molimo vas da pokušate ponovo ili da kontaktirate firmu/osobu kod koje želite da rezervišete termin kako bi dobili tačan link do kalendara.",
+        "moreAboutTermmy": "Više o Termmy-u"
+    },
+    "daysInWeek": {
+        "1": "Ponedeljak",
+        "2": "Utorak",
+        "3": "Sreda",
+        "4": "Četvrtak",
+        "5": "Petak",
+        "6": "Subota",
+        "7": "Nedelja"
     }
 }

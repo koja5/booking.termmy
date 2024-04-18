@@ -36,6 +36,8 @@ router.post("/appointmentConfirmation", function (req, res, next) {
                   )
                 );
 
+                // get language
+                client = client[req.body.lang];
                 client = packInformationForMail(client, rows[0]);
                 client["email"] = rows[0].client_email;
                 client["payment_message"] = req.body.payment_message;
@@ -49,6 +51,8 @@ router.post("/appointmentConfirmation", function (req, res, next) {
                     "utf-8"
                   )
                 );
+                // get language
+                employee = employee[req.body.lang];
                 employee = packInformationForMail(employee, rows[0]);
                 employee["email"] = rows[0].employee_email;
                 employee["payment_message"] = req.body.payment_message;

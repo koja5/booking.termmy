@@ -105,18 +105,26 @@ export class SelectPaymentComponent {
         )
         .subscribe((data: any) => {
           if (data.length) {
-            this.appointment.service = data[0];
-            this.amount = this.appointment.service.price;
-            this.createPaymentIntent(this.amount);
-            this._storageService.setAppointmentToCookie(
-              'service',
-              this.appointment.service
-            );
+            if (data[0].hide_price) {
+              this.allowPayOnArrival();
+            } else {
+              this.appointment.service = data[0];
+              this.amount = this.appointment.service.price;
+              this.createPaymentIntent(this.amount);
+              this._storageService.setAppointmentToCookie(
+                'service',
+                this.appointment.service
+              );
+            }
           }
         });
     } else {
-      this.amount = this.appointment.service.price;
-      this.createPaymentIntent(this.amount);
+      if (this.appointment.service.hide_price) {
+        this.allowPayOnArrival();
+      } else {
+        this.amount = this.appointment.service.price;
+        this.createPaymentIntent(this.amount);
+      }
     }
 
     if (!this.appointment || !this.appointment.employee) {
@@ -135,6 +143,18 @@ export class SelectPaymentComponent {
           }
         });
     }
+  }
+
+  allowPayOnline() {
+    this.config.allow_pay_online = true;
+    this.isCollapsePayOnArrival = true;
+    this.isCollapsePayByCreditCard = false;
+  }
+
+  allowPayOnArrival() {
+    this.config.allow_pay_online = false;
+    this.isCollapsePayOnArrival = false;
+    this.isCollapsePayByCreditCard = true;
   }
 
   getConfig() {
@@ -177,6 +197,7 @@ export class SelectPaymentComponent {
       .callGetMethod('/api/booking/getPaymentConfiguration', this.id)
       .subscribe((data: any) => {
         if (data && data.length) {
+          this.allowPayOnline();
           this._service
             .callPostMethod('/api/payment/createPaymentIntent', {
               stripe: data[0].stripe,
@@ -186,9 +207,7 @@ export class SelectPaymentComponent {
               this.elementsOptions.clientSecret = data as string;
             });
         } else {
-          this.config.allow_pay_online = false;
-          this.isCollapsePayOnArrival = false;
-          this.isCollapsePayByCreditCard = true;
+          this.allowPayOnArrival();
         }
       });
   }
@@ -466,6 +485,9 @@ export class SelectPaymentComponent {
       .callPostMethod('/api/mail-server/appointmentConfirmation', {
         appointment_id: data,
         payment_message: this.generatePaymentMessage(),
+        lang: this._storageService.getLocalStorage('language')
+          ? this._storageService.getLocalStorage('language')
+          : 'en',
       })
       .subscribe((data) => {
         console.log(data);
