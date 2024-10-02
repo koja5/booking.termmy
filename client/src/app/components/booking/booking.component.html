@@ -6,7 +6,7 @@
     <div class="m-auto" *ngIf="!config || !id">
         <app-not-found></app-not-found>
     </div>
-    <div class="profile-card js-profile-card" *ngIf="config">
+    <div class="profile-card js-profile-card mt-5 mb-5" *ngIf="config">
 
         <a href="https://termmy.com" target="_blank"
             class="copyright VJL48qbQzWENTFAh1Knk e9TS9yoMqqIN2PqBo1QG _i6SG2jlTfccH2ZZblil">
@@ -21,6 +21,9 @@
         </a>
 
         <div class="booking-container" *ngIf="!_helpService.isObjectEmpty(view)">
+            <div class="language-container">
+                <app-select-language></app-select-language>
+            </div>
             <app-profile-company [config]="config"></app-profile-company>
             <app-select-service *ngIf="!_helpService.isObjectEmpty(view)"></app-select-service>
         </div>

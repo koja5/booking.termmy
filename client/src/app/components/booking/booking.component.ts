@@ -45,9 +45,9 @@ export class BookingComponent {
 
     this._activatedRouter.queryParams.subscribe((data) => {
       this.view = data;
+      console.log(this._helpService.isObjectEmpty(data));
     });
   }
-
 
   initialize() {
     this.id = this._activatedRouter.snapshot.params.id;
@@ -56,7 +56,7 @@ export class BookingComponent {
       .subscribe((data: any) => {
         if (data && data.length) {
           this.config = data[0];
-          this._storageService.setCookie('conifig', this.config);
+          this._storageService.setCookie('config', this.config);
           this._title.setTitle(this.config.company_name);
           this.setBusinessColor();
           this.loader = false;
@@ -109,5 +109,4 @@ export class BookingComponent {
       );
     }
   }
-
 }

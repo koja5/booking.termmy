@@ -77,7 +77,8 @@
     },
     "home": {
         "title": "Welcome to the Termmy booking system",
-        "text": "Please use a valid link to book an appointment with the desired service provider."
+        "text": "Please use a valid link to book an appointment with the desired service provider.",
+        "moreAboutTermmy": "More about Termmy"
     },
     "daysInWeek": {
         "1": "Monday",

@@ -77,7 +77,8 @@
     },
     "home": {
         "title": "Willkommen im Termmy-Buchungssystem",
-        "text": "Bitte buchen Sie über einen gültigen Link einen Termin beim gewünschten Dienstleister."
+        "text": "Bitte buchen Sie über einen gültigen Link einen Termin beim gewünschten Dienstleister.",
+        "moreAboutTermmy": "Mehr über Termmy"
     },
     "daysInWeek": {
         "1": "Montag",

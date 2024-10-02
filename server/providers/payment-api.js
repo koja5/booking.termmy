@@ -51,3 +51,7 @@ router.get("/getSecretKey", async (req, res, next) => {
   //   }
   // );
 });
+
+router.get("/checkVoucherCode", (req, res, next) => {
+  console.log("TEST");
+});

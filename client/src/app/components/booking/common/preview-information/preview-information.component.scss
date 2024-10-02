@@ -16,4 +16,8 @@
 
 .service-name {
   font-weight: bolder;
+  margin: auto;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding-bottom: 10px;
 }

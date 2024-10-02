@@ -11,6 +11,11 @@
 
 .service-name {
   font-weight: bolder;
+  width: 80%;
+  margin: auto;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding-bottom: 10px;
 }
 
 .description-info {

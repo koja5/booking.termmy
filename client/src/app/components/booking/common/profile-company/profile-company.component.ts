@@ -1,6 +1,5 @@
 import { Component, ElementRef, Input } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { CallApiService } from 'src/app/services/call-api.service';
+import { environment } from '../../../../../environments/environment.prod';
 
 @Component({
   selector: 'app-profile-company',
@@ -9,6 +8,7 @@ import { CallApiService } from 'src/app/services/call-api.service';
 })
 export class ProfileCompanyComponent {
   @Input() config: any;
+  public dashboardLink = environment.DASHBOARD_LINK;
 
   generateWebsiteLink(website: string) {
     window.open('https://' + website);

@@ -81,7 +81,7 @@
                       <a href="https://termmy.com">
                         <img
                           src="https://app.termmy.com/assets/images/logo/logo.png"
-                          width="95"
+                          width="56"
                           alt="Termmy"
                           style="border: 0; max-width: 100%; line-height: 100%; vertical-align: middle;"
                         />
@@ -103,7 +103,7 @@
                         <tbody>
                           <tr>
                             <td
-                              style="--bg-opacity: 1; background-color: #ffffff; background-color: rgba(255, 255, 255, var(--bg-opacity)); border-radius: 4px; font-family: Montserrat, -apple-system, &#39;Segoe UI&#39;, sans-serif; font-size: 14px; line-height: 24px; padding: 48px; text-align: left; --text-opacity: 1; color: #626262; color: rgba(98, 98, 98, var(--text-opacity));"
+                              style="--bg-opacity: 1; background-color: #ffffff; background-color: rgba(255, 255, 255, var(--bg-opacity)); border-radius: 4px; font-family: Montserrat, -apple-system, &#39;Segoe UI&#39;, sans-serif; font-size: 14px; line-height: 24px; padding: 24px; text-align: left; --text-opacity: 1; color: #626262; color: rgba(98, 98, 98, var(--text-opacity));"
                               bgcolor="rgba(255, 255, 255, var(--bg-opacity))"
                               align="left"
                             >
@@ -248,7 +248,7 @@
                               <p style="margin: 0 0 16px;">
                                 {{notSureWhyReceived}}
                                 <a
-                                  href="mailto:support@termmy.com"
+                                  href="mailto:info@termmy.com"
                                   class="hover-underline"
                                   style="--text-opacity: 1; color: #7367f0 !important; color: rgba(115, 103, 240, var(--text-opacity)); text-decoration: none;"
                                 >{{letUsKnow}}</a>.

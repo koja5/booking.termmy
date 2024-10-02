@@ -6,25 +6,35 @@
         <app-loader></app-loader>
     </div>
     <div *ngIf="!loader" class="{{loader ? 'loader-opacity' : ''}}">
-        <div *ngFor="let item of days; let k = index">
-            <div class="calendar2-container row">
-                <div class="{{item.today ? 'today' : ''}} col-md-2 col-xs-12 calendar2-days">
-                    {{item.name}}
-                    {{item.day}}.{{item.month}}.{{item.year}}
+        <div *ngIf="!days || !days.length">
+            <div class="d-flex-center no-free-time">
+                <div class="text-center">
+                    <img src="assets/images/icons/not-found.png">
+                    <h4>{{'calendarTime.noFreeTimeReservation' | translate}}</h4>
                 </div>
-                <div *ngIf="!allAppointments[item.index] || allAppointments[item.index].length === 0;"
-                    class="calendar2-times col-md-10 col-xs-12 row">
-                    <span class="no-free-time">{{'calendarTime.noFreeTimeReservation' | translate}}</span>
+            </div>
+        </div>
+        <div *ngIf="days.length">
+            <div *ngFor="let item of days; let k = index">
+                <div class="calendar2-container row">
+                    <div class="{{item.today ? 'today' : ''}} col-md-2 col-xs-12 calendar2-days">
+                        {{item.name}}
+                        {{item.day}}.{{item.month}}.{{item.year}}
+                    </div>
+                    <div *ngIf="!allAppointments[item.index] || allAppointments[item.index].length === 0;"
+                        class="calendar2-times col-md-10 col-xs-12 row">
+                        <span class="no-free-time">{{'calendarTime.noFreeTimeReservation' | translate}}</span>
 
-                </div>
-                <div *ngIf="allAppointments[item.index] && allAppointments[item.index].length > 0;"
-                    class="calendar2-times col-md-10 col-xs-12 row">
-                    <span *ngFor="let appointment of allAppointments[item.index].sort(); let i = index"
-                        class="col-lg-2 col-md-2 col-sm-2 col-5"
-                        (click)="selectTime(appointment.time, appointment.employee_id)">
-                        {{appointment.time | date:
-                        'HH:mm'}}
-                    </span>
+                    </div>
+                    <div *ngIf="allAppointments[item.index] && allAppointments[item.index].length > 0;"
+                        class="calendar2-times col-md-10 col-xs-12 row">
+                        <span *ngFor="let appointment of allAppointments[item.index].sort(); let i = index"
+                            class="col-lg-2 col-md-2 col-sm-2 col-5"
+                            (click)="selectTime(appointment.time, appointment.employee_id)">
+                            {{appointment.time | date:
+                            'HH:mm'}}
+                        </span>
+                    </div>
                 </div>
             </div>
         </div>

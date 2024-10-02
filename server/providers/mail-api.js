@@ -20,7 +20,7 @@ router.post("/appointmentConfirmation", function (req, res, next) {
         res.json(err);
       } else {
         conn.query(
-          "select u.firstname as 'employee_firstname', u.lastname as 'employee_lastname', u.email as 'employee_email', c.firstname as 'client_firstname', c.lastname as 'client_lastname', c.email as 'client_email', s.name as 'service_name', s.time_duration, s.price, a.StartTime, a.EndTime, b.company_name, b.company_address, b.telephone as 'company_telephone', b.email as 'company_email' from appointments a join users u on a.employee_id = u.id join clients c on a.client_id = c.id join services s on a.service_id = s.id join booking_config b on a.admin_id = b.admin_id where a.id = ?",
+          "select u.firstname as 'employee_firstname', u.lastname as 'employee_lastname', u.email as 'employee_email', c.firstname as 'client_firstname', c.lastname as 'client_lastname', c.email as 'client_email', s.name as 'service_name', s.time_duration, s.price, a.StartTime, a.EndTimeTherapy, b.company_name, b.company_address, b.telephone as 'company_telephone', b.email as 'company_email' from appointments a join users u on a.employee_id = u.id join clients c on a.client_id = c.id join services s on a.service_id = s.id join booking_config b on a.admin_id = b.admin_id where a.id = ?",
           [req.body.appointment_id],
           function (err, rows, fields) {
             conn.release();

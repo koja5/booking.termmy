@@ -36,12 +36,38 @@ export class SelectTimeComponent {
     private _storageService: StorageService
   ) {}
 
-  ngOnInit() {
+  async ngOnInit() {
+    if (!this.config) {
+      this.config = this._storageService.getCookie('config');
+    }
     this.id = this._activatedRouter.snapshot.params.id;
     this.numberOfWeeks = this.config.numberOfWeeks
       ? this.config.numberOfWeeks
       : this.numberOfWeeks;
-    this.appointment = this._service.getSelectedAppointmentValue();
+
+    this.appointment = await this._service.getSelectedAppointmentValue();
+    if (this.appointment && this.appointment.service) {
+      this.initialize();
+    } else {
+      this._service
+        .callGetMethod(
+          '/api/booking/getService',
+          this._activatedRouter.snapshot.queryParams.service
+        )
+        .subscribe((data: any) => {
+          if (data.length) {
+            this.appointment.service = data[0];
+            this._storageService.setAppointmentToCookie(
+              'service',
+              this.appointment.service
+            );
+            this.initialize();
+          }
+        });
+    }
+  }
+
+  initialize() {
     this.getWorkTime();
     this.initializeCalendar();
     this.getAvailableEmployees();
@@ -245,9 +271,30 @@ export class SelectTimeComponent {
       this._service
         .callPostMethod('/api/google/getAllScheduledTermines', data)
         .subscribe((data: any) => {
+          data = this.removeAllDayScheduledTermineFromAvailableSlot(data);
           this.removeScheduledTermineFromAvailableSlot(data);
         });
     }
+  }
+
+  removeAllDayScheduledTermineFromAvailableSlot(data: any) {
+    data = data.sort((a: any, b: any) => {
+      return b.allDay - a.allDay;
+    });
+    for (let i = 0; i < data.length; i++) {
+      if (data[i].allDay) {
+        let start = data[i].start;
+        let end = data[i].end;
+        while (moment(start) < moment(end)) {
+          const date = moment(start).format(this.formatDate);
+          this.allAppointments[date] = [];
+          start = moment(start).add('day', 1);
+        }
+        data.splice(i, 1);
+        i--;
+      }
+    }
+    return data;
   }
 
   removeScheduledTermineFromAvailableSlot(data: any) {
@@ -256,22 +303,18 @@ export class SelectTimeComponent {
         this.formatDate
       );
       if (this.allAppointments[date]) {
-        if (
-          (data[i].start ?? data[i].StartTime) ==
-            (data[i].end ?? data[i].EndTime) &&
-          date ==
-            moment(data[i].start ?? data[i].StartTime).format(this.formatDate)
-        ) {
-          this.allAppointments[date] = [];
-          break;
-        }
-
         for (let j = 0; j < this.allAppointments[date].length; j++) {
           if (
-            moment(this.allAppointments[date][j].time).toISOString() >=
+            (moment(this.allAppointments[date][j].time).toISOString() >=
               moment(data[i].start ?? data[i].StartTime).toISOString() &&
-            moment(this.allAppointments[date][j].time).toISOString() <
-              moment(data[i].end ?? data[i].EndTime).toISOString()
+              moment(this.allAppointments[date][j].time).toISOString() <
+                moment(data[i].end ?? data[i].EndTime).toISOString()) ||
+            (moment(this.allAppointments[date][j].time).hour() ===
+              moment(data[i].start ?? data[i].StartTime).hour() &&
+              moment(this.allAppointments[date][j].time)
+                .add('minutes', this.appointment.service.time_blocked)
+                .toISOString() >
+                moment(data[i].start ?? data[i].StartTime).toISOString())
           ) {
             this.allAppointments[date].splice(j, 1);
             j--;
@@ -293,8 +336,8 @@ export class SelectTimeComponent {
             data[0].code
           );
           this.deleteAvailableAppointmentsDueToHolidays(holidays);
-          this.checkBookingConfigurationForAppointmens();
         }
+        this.checkBookingConfigurationForAppointmens();
       });
   }
 

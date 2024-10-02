@@ -25,7 +25,7 @@ router.post("/appointmentConfirmation", function (req, res, next) {
 
 function sendConfirmationViaSms(conn, body) {
   conn.query(
-    "select sc.count, s.config, u.telephone, u.company from booking_config b join users u on b.admin_id = u.admin_id join sms_count sc on b.admin_id = sc.admin_id join sms_reminder_config s on b.admin_id = s.admin_id where b.booking_link = ? and s.active = 1 and sc.count > 0",
+    "select sc.count, s.config, u.telephone, u.company, u.address from booking_config b join users u on b.admin_id = u.admin_id join sms_count sc on b.admin_id = sc.admin_id join sms_reminder_config s on b.admin_id = s.admin_id where b.booking_link = ? and s.active = 1 and sc.count > 0",
     [body.business_link],
     async function (err, rows, fields) {
       if (rows.length) {
@@ -35,6 +35,7 @@ function sendConfirmationViaSms(conn, body) {
           date: body.date,
           time: body.time,
           company: rows.company,
+          address: rows.address,
           count: rows.count,
         };
 
@@ -55,6 +56,7 @@ function sendViaSms(config, client_telephone, employee_telephone, conn, item) {
         .replace("#date", item.date)
         .replace("#time", item.time)
         .replace("#company", item.company)
+        .replace("#address", item.address)
     );
     conn.query(
       "update sms_count set count = count - 1 where admin_id = ?",
@@ -70,6 +72,7 @@ function sendViaSms(config, client_telephone, employee_telephone, conn, item) {
           .replace("#date", item.date)
           .replace("#time", item.time)
           .replace("#company", item.company)
+          .replace("#address", item.address)
       );
       conn.query(
         "update sms_count set count = count - 1 where admin_id = ?",

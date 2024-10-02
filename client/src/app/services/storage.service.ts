@@ -111,6 +111,13 @@ export class StorageService {
     return false;
   }
 
+  getAdminId() {
+    if (this.getToken()) {
+      return this.helper.decodeToken(this.getToken()!).user.admin_id;
+    }
+    return false;
+  }
+
   encrypt(value: any) {
     return CryptoJS.AES.encrypt(
       JSON.stringify(value),

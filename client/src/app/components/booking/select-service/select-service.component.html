@@ -2,7 +2,7 @@
     <div class="row">
         <div *ngFor="let item of services" class="col-md-4 mb-4 col-12">
             <div class=" text-center service-card  position-relative">
-                <h3 class="service-name">{{item.name}}</h3>
+                <h5 class="service-name" title="{{item.name}}">{{item.name}}</h5>
                 <span *ngIf="item.description" class="fa fa-info description-info" ngbTooltip="{{item.description}}"
                     triggers="click:blur"></span>
                 <div class="d-flex justify-content-around text-center">

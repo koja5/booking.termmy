@@ -29,17 +29,16 @@ async function sendSMS(telephone, message) {
   if (to) {
     var mailOptions = {
       from: '"Termmy"' + process.env.smtp_user,
-      to: process.env.SMS_GATEWAY,
-      subject: telephone,
+      to: to,
+      subject: telephone.startsWith("+381")
+        ? telephone.replace("+381", "0").replaceAll(" ", "")
+        : telephone.replaceAll(" ", ""),
       text: message,
     };
     smtpTransport.sendMail(mailOptions, function (error, response) {
-      console.log(response);
       if (error) {
-        res.send(false);
-        logger.log("error", `${req.body.email}: ${error}`);
+        logger.log("error", `${telephone}: ${error}`);
       } else {
-        res.send(true);
         logger.log("info", `Sent SMS to: ${telephone}`);
       }
     });

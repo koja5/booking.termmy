@@ -304,13 +304,17 @@ export class SelectPaymentComponent {
                     this.saveAppointment(response.guuid);
                   });
               } else {
+                (this.clientData as FormGroup).addControl(
+                  'admin_id',
+                  new FormControl(this._storageService.getAdminId())
+                );
                 this._service
                   .callPostMethod(
-                    '/api/booking/createClient',
-                    this.clientData.value
+                    '/api/booking/createClientWithoutGoogle',
+                    data
                   )
-                  .subscribe((data) => {
-                    this.saveAppointment(response.guuid);
+                  .subscribe((data: any) => {
+                    this.saveAppointment(data.uuid);
                   });
               }
             });
@@ -399,6 +403,9 @@ export class SelectPaymentComponent {
       StartTime: moment(this.queryParams.appointment).utc(),
       EndTime: moment(this.queryParams.appointment)
         .add(this.appointment.service.time_blocked, 'minutes')
+        .utc(),
+      EndTimeTherapy: moment(this.queryParams.appointment)
+        .add(this.appointment.service.time_duration, 'minutes')
         .utc(),
       description: this.clientData?.get('description')?.value,
       is_online: !this.isCollapsePayByCreditCard,

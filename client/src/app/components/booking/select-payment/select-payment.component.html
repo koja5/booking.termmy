@@ -6,7 +6,7 @@
         <h3>{{'payment.title' | translate}}</h3>
     </div>
     <div class="container-right-content">
-        <div *ngIf="(config.allow_pay_on_arrival_new_customer&&!isExistsClient) || isExistsClient"
+        <div *ngIf="(config.allow_pay_on_arrival_new_customer&&!isExistsClient) || isExistsClient || (!config.allow_pay_online && !isExistsClient)"
             class="panel panel-default" (click)="isCollapsePayOnArrival = false; isCollapsePayByCreditCard = true"
             [attr.aria-expanded]="!isCollapsePayOnArrival" aria-controls="collapseExample">
             <div class="panel-heading" role="tab" id="headingOne">

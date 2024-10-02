@@ -181,7 +181,7 @@ router.post("/getExternalCalendarConnections", async (req, res, next) => {
         );
 
         conn.query(
-          "select user_id, google from external_accounts where google is not null && " +
+          "select user_id, google, google_additional_calendars from external_accounts where google is not null && " +
             condition,
           function (err, rows, fields) {
             conn.release();
@@ -319,6 +319,9 @@ router.post("/createAppointment", async (req, res, next) => {
                 res.json(false);
               } else {
                 delete req.body.copy;
+                if (!req.body.id) {
+                  req.body.id = uuid.v4();
+                }
                 conn.query(
                   "insert into appointments SET ?",
                   [req.body],
@@ -443,42 +446,87 @@ router.post("/getClient", async (req, res, next) => {
   }
 });
 
-router.post("/getClient", async (req, res, next) => {
-  try {
-    connection.getConnection(function (err, conn) {
-      if (err) {
-        logger.log("error", err.sql + ". " + err.sqlMessage);
-        res.json(err);
-      } else {
+// router.post("/getClient", async (req, res, next) => {
+//   try {
+//     connection.getConnection(function (err, conn) {
+//       if (err) {
+//         logger.log("error", err.sql + ". " + err.sqlMessage);
+//         res.json(err);
+//       } else {
+//         delete req.body.client.description;
+//         req.body.client.telephone = req.body.client.telephone
+//           .internationalNumber
+//           ? req.body.client.telephone.internationalNumber
+//           : req.body.client.telephone;
+//         conn.query(
+//           "select c.* from clients c join booking_config b on c.admin_id = b.admin_id where (c.email = ? or c.telephone = ?) and b.booking_link = ?",
+//           [
+//             req.body.client.email,
+//             req.body.client.telephone,
+//             req.body.booking_link,
+//           ],
+//           function (err, rows, fields) {
+//             if (err) {
+//               conn.release();
+//               logger.log("error", err.sql + ". " + err.sqlMessage);
+//               res.json(err);
+//             } else {
+//               if (rows.length) {
+//                 res.json(rows[0].id);
+//               } else {
+//                 res.json(false);
+//               }
+//             }
+//           }
+//         );
+//       }
+//     });
+//   } catch (ex) {}
+// });
+
+router.post("/createClientWithoutGoogle", function (req, res) {
+  connection.getConnection(function (err, conn) {
+    if (err) {
+      logger.log("error", err.sql + ". " + err.sqlMessage);
+      res.json(err);
+    }
+
+    conn.query(
+      "select admin_id from booking_config b where b.booking_link = ?",
+      [req.body.booking_link],
+      function (err, rows) {
+        if (err) {
+          logger.log("error", err.sql + ". " + err.sqlMessage);
+          res.json(err);
+        }
+
+        if (!req.body.id) {
+          req.body.client.id = uuid.v4();
+        }
+
         delete req.body.client.description;
         req.body.client.telephone = req.body.client.telephone
           .internationalNumber
           ? req.body.client.telephone.internationalNumber
           : req.body.client.telephone;
+        req.body.client.admin_id = rows[0].admin_id;
+
         conn.query(
-          "select c.* from clients c join booking_config b on c.admin_id = b.admin_id where (c.email = ? or c.telephone = ?) and b.booking_link = ?",
-          [
-            req.body.client.email,
-            req.body.client.telephone,
-            req.body.booking_link,
-          ],
-          function (err, rows, fields) {
-            if (err) {
-              conn.release();
-              logger.log("error", err.sql + ". " + err.sqlMessage);
-              res.json(err);
+          "insert into clients SET ?",
+          [req.body.client],
+          function (err, rows) {
+            conn.release();
+            if (!err) {
+              res.json({ uuid: req.body.client.id });
             } else {
-              if (rows.length) {
-                res.json(rows[0].id);
-              } else {
-                res.json(false);
-              }
+              logger.log("error", err.sql + ". " + err.sqlMessage);
+              res.json(false);
             }
           }
         );
       }
-    });
-  } catch (ex) {}
+    );
+  });
 });
 
 router.post("/createClient", function (req, res) {
@@ -496,7 +544,7 @@ router.post("/createClient", function (req, res) {
     conn.query("insert into clients SET ?", [req.body], function (err, rows) {
       conn.release();
       if (!err) {
-        res.json(true);
+        res.json({ uuid: req.body.id });
       } else {
         logger.log("error", err.sql + ". " + err.sqlMessage);
         res.json(false);
