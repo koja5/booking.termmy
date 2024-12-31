@@ -147,8 +147,14 @@ export class HelpService {
 
   getHolidaysForSelectedCountry(code: string) {
     if (code) {
+      // get holidays for current and next year
       let holidays = new Holidays(code);
-      return holidays.getHolidays(new Date().getFullYear());
+      let holidaysForTwoYears: any = [];
+      holidaysForTwoYears = holidaysForTwoYears.concat(
+        holidays.getHolidays(new Date().getFullYear()),
+        holidays.getHolidays(new Date().getFullYear() + 1)
+      );
+      return holidaysForTwoYears;
     }
     return [];
   }

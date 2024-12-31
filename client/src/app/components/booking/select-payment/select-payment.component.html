@@ -189,7 +189,8 @@
                             </div>
                             <div *ngIf="elementsOptions.clientSecret" style="margin-bottom: 10px">
 
-                                <ngx-stripe-elements [stripe]="stripe" [elementsOptions]="elementsOptions">
+                                <ngx-stripe-elements [stripe]="stripe" [elementsOptions]="elementsOptions"
+                                    (change)="handleStripeElements($event)">
                                     <ngx-stripe-payment [appearance]="appearance" />
                                 </ngx-stripe-elements>
                             </div>

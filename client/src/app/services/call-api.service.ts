@@ -2,7 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { HelpService } from './help.service';
 import { loadStripe } from '@stripe/stripe-js';
-import { environment } from '../../environments/environment.prod';
+import { environment } from '../../environments/environment';
 import { StorageService } from './storage.service';
 import { ActivatedRoute } from '@angular/router';
 

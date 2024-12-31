@@ -4,7 +4,7 @@ import { StripePaymentElementComponent, injectStripe } from 'ngx-stripe';
 import { CallApiService } from 'src/app/services/call-api.service';
 import { StripeCard } from 'stripe-angular';
 import * as moment from 'moment';
-import { environment } from '../../../../environments/environment.prod';
+import { environment } from '../../../../environments/environment';
 import {
   FormBuilder,
   FormControl,
@@ -151,6 +151,13 @@ export class SelectPaymentComponent {
     this.isCollapsePayByCreditCard = false;
   }
 
+  disablePayOnline() {
+    this.config.allow_pay_online = false;
+    this.config.config.allow_pay_on_arrival_new_customer = false;
+    this.isCollapsePayOnArrival = false;
+    this.isCollapsePayByCreditCard = true;
+  }
+
   allowPayOnArrival() {
     this.config.allow_pay_online = false;
     this.isCollapsePayOnArrival = false;
@@ -204,7 +211,11 @@ export class SelectPaymentComponent {
               amount: this.amount,
             })
             .subscribe((data) => {
-              this.elementsOptions.clientSecret = data as string;
+              if (data) {
+                this.elementsOptions.clientSecret = data as string;
+              } else {
+                this.allowPayOnArrival();
+              }
             });
         } else {
           this.allowPayOnArrival();
@@ -544,5 +555,9 @@ export class SelectPaymentComponent {
 
   replaceButtonText(text: string) {
     return text.replace('{amount}', this.amount);
+  }
+
+  handleStripeElements(event: any) {
+    console.log(event);
   }
 }

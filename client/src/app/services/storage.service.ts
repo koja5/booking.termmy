@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { CookieService } from 'ngx-cookie';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import * as CryptoJS from 'crypto-js';
-import { environment } from '../../environments/environment.prod';
+import { environment } from '../../environments/environment';
 import { CalendarSettings } from '../models/calendar-settings';
 import { CallApiService } from './call-api.service';
 import { ActivatedRoute, Router } from '@angular/router';

@@ -11,14 +11,18 @@ router.post("/createPaymentIntent", async (req, res, next) => {
   //     stripeAccount: "acct_1OhSOVPwkZNY6HKT",
   //   });
 
-  const paymentIntent = await require("stripe")(process.env.STRIPE_KEY, {
-    stripeAccount: "acct_1OhSOVPwkZNY6HKT",
-  }).paymentIntents.create({
-    amount: req.body.amount * 100,
-    currency: "eur",
-  });
+  try {
+    const paymentIntent = await require("stripe")(process.env.STRIPE_KEY, {
+      stripeAccount: "acct_1OhSOVPwkZNY6HKT",
+    }).paymentIntents.create({
+      amount: req.body.amount * 100,
+      currency: "eur",
+    });
 
-  res.json(paymentIntent.client_secret);
+    res.json(paymentIntent.client_secret);
+  } catch (error) {
+    res.json(false);
+  }
 });
 
 router.get("/getSecretKey", async (req, res, next) => {

@@ -16,7 +16,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SelectPaymentComponent } from './select-payment/select-payment.component';
 import { PreviewBookingInformationComponent } from './common/preview-booking-information/preview-booking-information.component';
 import { StripeModule } from 'stripe-angular';
-import { environment } from '../../../environments/environment.prod';
+import { environment } from '../../../environments/environment';
 import { LoaderComponent } from './common/loader/loader.component';
 import { NgxStripeModule, provideNgxStripe } from 'ngx-stripe';
 import { LoaderSmallComponent } from './common/loader-small/loader-small.component';
