@@ -69,15 +69,25 @@ export class SelectTimeComponent {
 
   initialize() {
     this.getWorkTime();
-    this.initializeCalendar();
     this.getAvailableEmployees();
   }
 
   initializeCalendar() {
     // this.selectedTime =
     //   this._storageService.getAppointmentFromCookie().time ?? null;
-    const fromDate = moment();
-    const toDate = moment().add(this.numberOfWeeks, 'weeks');
+    let fromDate = moment();
+    let validFromInd = 0;
+    if (
+      this.worktime &&
+      this.worktime.valid_from &&
+      moment(this.worktime.valid_from) > fromDate
+    ) {
+      fromDate = moment(this.worktime.valid_from);
+      validFromInd = 1;
+    }
+    const toDate = validFromInd
+      ? moment(this.worktime.valid_from).add(this.numberOfWeeks, 'weeks')
+      : moment().add(this.numberOfWeeks, 'weeks');
 
     var now = fromDate;
     this.days = [];
@@ -116,8 +126,9 @@ export class SelectTimeComponent {
       )
       .subscribe((data: any) => {
         this.worktime = data;
-        if (data && data.length) {
-          this.packWorkTimePerDays(data[0]);
+        if (data) {
+          this.initializeCalendar();
+          this.packWorkTimePerDays(this.worktime);
           this.removeOldTimeForToday();
         }
       });
@@ -305,16 +316,14 @@ export class SelectTimeComponent {
       if (this.allAppointments[date]) {
         for (let j = 0; j < this.allAppointments[date].length; j++) {
           if (
-            (moment(this.allAppointments[date][j].time).toISOString() >=
+            (moment(this.allAppointments[date][j].time).toISOString() >
               moment(data[i].start ?? data[i].StartTime).toISOString() &&
               moment(this.allAppointments[date][j].time).toISOString() <
                 moment(data[i].end ?? data[i].EndTime).toISOString()) ||
             (moment(this.allAppointments[date][j].time).hour() ===
               moment(data[i].start ?? data[i].StartTime).hour() &&
-              moment(this.allAppointments[date][j].time)
-                .add('minutes', this.appointment.service.time_blocked)
-                .toISOString() >
-                moment(data[i].start ?? data[i].StartTime).toISOString())
+              moment(this.allAppointments[date][j].time).toISOString() <
+                moment(data[i].end ?? data[i].EndTime).toISOString())
           ) {
             this.allAppointments[date].splice(j, 1);
             j--;
@@ -437,7 +446,7 @@ export class SelectTimeComponent {
             allAvailableEmployees[j].id !=
             employeesWithExternalCalendar[i].user_id
           ) {
-            userWithoutExternalCalendar.push(allAvailableEmployees[j].id);
+            userWithoutExternalCalendar.push(allAvailableEmployees[j]);
             allAvailableEmployees.splice(j, 1);
           }
         }

@@ -180,15 +180,19 @@ router.post("/getExternalCalendarConnections", async (req, res, next) => {
           "or"
         );
 
+        console.log(condition);
+
         conn.query(
-          "select user_id, google, google_additional_calendars from external_accounts where google is not null && " +
-            condition,
+          "select user_id, google, google_additional_calendars from external_accounts where google IS NOT NULL and (" +
+            condition +
+            ")",
           function (err, rows, fields) {
             conn.release();
             if (err) {
               logger.log("error", err.sql + ". " + err.sqlMessage);
               res.json(err);
             } else {
+              console.log(rows);
               res.json(rows);
             }
           }
@@ -209,7 +213,7 @@ router.get("/getWorkTime/:id", async (req, res, next) => {
         res.json(err);
       } else {
         conn.query(
-          "select w.* from booking_config b join worktimes w on b.admin_id = w.user_id where b.booking_link = ?",
+          "select w.* from booking_config b join worktimes w on b.admin_id = w.user_id where b.booking_link = ? and w.active = 1",
           [req.params.id],
           function (err, rows, fields) {
             conn.release();
@@ -217,7 +221,7 @@ router.get("/getWorkTime/:id", async (req, res, next) => {
               logger.log("error", err.sql + ". " + err.sqlMessage);
               res.json(err);
             } else {
-              res.json(rows);
+              res.json(rows.length ? rows[0] : {});
             }
           }
         );
@@ -275,9 +279,11 @@ router.post("/getAllScheduledTermines", async (req, res, next) => {
           "or"
         );
 
+        console.log(condition);
+
         conn.query(
-          "select * from appointments where StartTime >= CURRENT_DATE() and " +
-            condition,
+          "select * from appointments where StartTime >= CURRENT_DATE() and (" +
+            condition + ")",
           function (err, rows, fields) {
             conn.release();
             if (err) {
