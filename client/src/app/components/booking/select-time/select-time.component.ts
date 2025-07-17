@@ -68,7 +68,7 @@ export class SelectTimeComponent {
   }
 
   initialize() {
-    this.getWorkTime();
+    // this.getWorkTime();
     this.getAvailableEmployees();
   }
 
@@ -117,21 +117,20 @@ export class SelectTimeComponent {
     }
   }
 
-  getWorkTime() {
+  getWorkTime(data: any) {
     this.loader = true;
-    this._service
-      .callGetMethod(
-        '/api/booking/getWorkTime',
-        this._activatedRouter.snapshot.params.id
-      )
-      .subscribe((data: any) => {
-        this.worktime = data;
-        if (data) {
-          this.initializeCalendar();
-          this.packWorkTimePerDays(this.worktime);
-          this.removeOldTimeForToday();
-        }
-      });
+    for (let i = 0; i < data.length; i++) {
+      this._service
+        .callGetMethod('/api/booking/getWorkTime', data[i].id)
+        .subscribe((data: any) => {
+          this.worktime = data;
+          if (data) {
+            this.initializeCalendar();
+            this.packWorkTimePerDays(this.worktime);
+            this.removeOldTimeForToday();
+          }
+        });
+    }
   }
 
   packWorkTimePerDays(data: any) {
@@ -179,6 +178,9 @@ export class SelectTimeComponent {
               this.allAppointments[date] = [];
             }
           }
+          this.allAppointments[date] = this.allAppointments[date].sort(
+            (a: any, b: any) => a.time - b.time
+          );
           calendarDate = moment(calendarDate).add(1, 'day');
         }
       }
@@ -243,6 +245,7 @@ export class SelectTimeComponent {
       })
       .subscribe((data) => {
         this.availableEmployees = data;
+        this.getWorkTime(data);
         this.getScheduledTermines(data);
       });
   }
@@ -309,28 +312,33 @@ export class SelectTimeComponent {
   }
 
   removeScheduledTermineFromAvailableSlot(data: any) {
-    for (let i = 0; i < data.length; i++) {
-      const date = moment(data[i].start ?? data[i].StartTime).format(
-        this.formatDate
+    const formatDate = this.formatDate;
+
+    data.forEach((scheduledItem: any) => {
+      const scheduledStart = moment(
+        scheduledItem.start ?? scheduledItem.StartTime
       );
-      if (this.allAppointments[date]) {
-        for (let j = 0; j < this.allAppointments[date].length; j++) {
-          if (
-            (moment(this.allAppointments[date][j].time).toISOString() >
-              moment(data[i].start ?? data[i].StartTime).toISOString() &&
-              moment(this.allAppointments[date][j].time).toISOString() <
-                moment(data[i].end ?? data[i].EndTime).toISOString()) ||
-            (moment(this.allAppointments[date][j].time).hour() ===
-              moment(data[i].start ?? data[i].StartTime).hour() &&
-              moment(this.allAppointments[date][j].time).toISOString() <
-                moment(data[i].end ?? data[i].EndTime).toISOString())
-          ) {
-            this.allAppointments[date].splice(j, 1);
-            j--;
-          }
+      const scheduledEnd = moment(scheduledItem.end ?? scheduledItem.EndTime);
+      const dateKey = scheduledStart.format(formatDate);
+      const employeeId = scheduledItem.employee_id;
+
+      if (!this.allAppointments[dateKey]) return;
+
+      this.allAppointments[dateKey] = this.allAppointments[dateKey].filter(
+        (slot: any) => {
+          const slotStart = moment(slot.time);
+          const slotEnd = slotStart.clone().add(this.appointment.service.time_blocked, 'minutes'); // Pretpostavimo 15min slot
+
+          const overlaps =
+            slotStart.isBefore(scheduledEnd) && slotEnd.isAfter(scheduledStart);
+
+          const sameEmployee = !employeeId || slot.employee_id === employeeId;
+
+          // Ako se preklapa i za istog zaposlenog – uklanjamo
+          return !(overlaps && sameEmployee);
         }
-      }
-    }
+      );
+    });
 
     this.getHolidays();
   }
@@ -448,6 +456,7 @@ export class SelectTimeComponent {
           ) {
             userWithoutExternalCalendar.push(allAvailableEmployees[j]);
             allAvailableEmployees.splice(j, 1);
+            j--;
           }
         }
       }

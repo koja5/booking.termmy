@@ -67,7 +67,9 @@ router.post("/getAllScheduledTermines", async (req, res) => {
           }
         }
         if (events && events.data) {
+          console.log("------------------------");
           const times = events.data.items.map((i) => {
+            console.log(i);
             let start = null;
             let end = null;
             let allDay = false;
@@ -92,8 +94,8 @@ router.post("/getAllScheduledTermines", async (req, res) => {
             }
             return {
               allDay: allDay,
-              start: moment(start),
-              end: moment(end),
+              start: start,
+              end: end,
             };
           });
           // scheduledTermines = scheduledTermines.concat(events.data.items);

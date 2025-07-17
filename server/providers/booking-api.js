@@ -146,7 +146,7 @@ router.post("/getAvailableEmployees", async (req, res, next) => {
         res.json(err);
       } else {
         conn.query(
-          "select u.* from booking_config b join users u on b.admin_id = u.id or b.admin_id = u.admin_id where b.booking_link like ? and (u.location_id = ? or u.location_id is NULL)",
+          "select u.* from booking_config b join users u on b.admin_id = u.id or b.admin_id = u.admin_id where b.booking_link like ? and (u.location_id = ? or u.location_id is NULL) and u.active = 1",
           [req.body.booking_link, req.body.location_id],
           function (err, rows, fields) {
             conn.release();
@@ -213,7 +213,7 @@ router.get("/getWorkTime/:id", async (req, res, next) => {
         res.json(err);
       } else {
         conn.query(
-          "select w.* from booking_config b join worktimes w on b.admin_id = w.user_id where b.booking_link = ? and w.active = 1",
+          "select * from worktimes where user_id like ?",
           [req.params.id],
           function (err, rows, fields) {
             conn.release();
@@ -221,7 +221,25 @@ router.get("/getWorkTime/:id", async (req, res, next) => {
               logger.log("error", err.sql + ". " + err.sqlMessage);
               res.json(err);
             } else {
-              res.json(rows.length ? rows[0] : {});
+              console.log(rows);
+              if (rows.length) {
+                if (rows.length === 1) {
+                  res.json(rows[0]);
+                } else {
+                  let ind = 1;
+                  for (let i = 0; i < rows.length; i++) {
+                    if (rows[i].active) {
+                      ind = 0;
+                      res.json(rows[i]);
+                    }
+                  }
+                  if (ind) {
+                    res.json({});
+                  }
+                }
+              } else {
+                res.json({});
+              }
             }
           }
         );
@@ -283,7 +301,8 @@ router.post("/getAllScheduledTermines", async (req, res, next) => {
 
         conn.query(
           "select * from appointments where StartTime >= CURRENT_DATE() and (" +
-            condition + ")",
+            condition +
+            ")",
           function (err, rows, fields) {
             conn.release();
             if (err) {
