@@ -50,7 +50,7 @@ async function sendSMS(telephone, message) {
 function checkCountryPrefix(telephone) {
   for (let i = 0; i < gatewayCountryPrefix.length; i++) {
     if (
-      telephone.startsWith(gatewayCountryPrefix[i].prefix) &&
+      telephone && telephone.startsWith(gatewayCountryPrefix[i].prefix) &&
       gatewayCountryPrefix[i].active
     ) {
       return gatewayCountryPrefix[i].email;
